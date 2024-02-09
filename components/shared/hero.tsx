@@ -29,7 +29,7 @@ const Hero = () => {
           alt="hero image"
           width="2000"
           height="100"
-          className="rounded-sm h-[500px]"
+          className="rounded-lg h-[500px] shadow-md shadow-accent"
         />
       </div>
     </section>
