@@ -9,6 +9,7 @@ export default authMiddleware({
     "/onboard",
     "/onboard/user-onboard",
     "/onboard/mentor-onboard",
+    "/user-dashboard",
   ],
 });
 

@@ -1,0 +1,45 @@
+.body {
+  display: grid;
+  grid-template-columns: 15rem 1fr;
+  gap: 2rem;
+  min-height: 100vh;
+}
+
+.sidebar {
+  position: sticky;
+  top: 0;
+  /* max-height: 100vh; */
+}
+
+.sidebar .link_radius {
+  border-radius: 100vw 0 0 100vw;
+}
+
+.active {
+  background: #0a070c !important;
+  color: white;
+  position: relative;
+}
+
+.active::before,
+.active::after {
+  --border-radius: 1rem;
+
+  content: "";
+  position: absolute;
+  width: var(--border-radius);
+  height: var(--border-radius);
+  right: 0;
+  /* background: red; */
+}
+
+.active::before {
+  top: calc(var(--border-radius) * -1);
+  border-radius: 0 0 100vw 0;
+  box-shadow: 5px 5px 0 5px #0a070c;
+}
+.active::after {
+  bottom: calc(var(--border-radius) * -1);
+  border-radius: 0 100vw 0 0;
+  box-shadow: 5px -5px 0 5px #0a070c;
+}
