@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -18,6 +18,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Step } from "@/utils/types";
+import { studentOnboardAction } from "@/lib/actions/onboard";
+import { cn } from "@/lib/utils";
+import { toast } from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import { Loader2 } from "lucide-react";
+import { User } from "@clerk/nextjs/server";
+import Image from "next/image";
 
 interface UserOnboardProps {
   currentStep: number;
@@ -34,6 +41,7 @@ const UserOnboardForm = ({
   prev,
   next,
 }: UserOnboardProps) => {
+  const router = useRouter();
   const form = useForm<z.infer<typeof userOnboardSchema>>({
     resolver: zodResolver(userOnboardSchema),
     defaultValues: {
@@ -55,8 +63,16 @@ const UserOnboardForm = ({
   } = form;
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof userOnboardSchema>) {
+  async function onSubmit(values: z.infer<typeof userOnboardSchema>) {
     console.log(values);
+    const res = await studentOnboardAction(values);
+    if (res.message) {
+      toast.success("Onboard success!");
+      router.push("/");
+    }
+    if (res.error) {
+      toast.error(`${res.error}`);
+    }
   }
   return (
     <div className="py-24">
@@ -305,9 +321,15 @@ const UserOnboardForm = ({
           {/** Step 5 */}
 
           {currentStep === 5 && (
-            <div>
-              <h2 className="text-2xl font-semibold leading-7 text-primary-foreground">
-                Your Summery
+            <div className="flex flex-col items-center justify-center py-10 gap-14">
+              <Image
+                src="/svg/icon-thank-you.svg"
+                alt="Thank You"
+                width={100}
+                height={100}
+              />
+              <h2 className="text-4xl font-semibold leading-7 text-primary-foreground font-rubik">
+                Thank you for respond
               </h2>
 
               {/** ToDO! */}
@@ -340,18 +362,29 @@ const UserOnboardForm = ({
               </Button>
               {currentStep === steps.length - 1 ? (
                 <>
-                  <Button size="lg" className="rounded-full px-8" type="submit">
+                  <Button
+                    size="lg"
+                    className="rounded-full px-8 flex items-center gap-1.5"
+                    type="submit"
+                  >
+                    {isSubmitting && (
+                      <div>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                      </div>
+                    )}
                     Submit
                   </Button>
                 </>
               ) : (
                 <>
-                  <Button
-                    type="button"
+                  <span
                     onClick={next}
-                    disabled={currentStep === steps.length - 1}
-                    size="lg"
-                    className="rounded-full px-8"
+                    // disabled={currentStep === steps.length - 1}
+                    // size="lg"
+                    className={cn(
+                      buttonVariants({ size: "lg" }),
+                      "rounded-full px-8 cursor-pointer"
+                    )}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -367,7 +400,7 @@ const UserOnboardForm = ({
                         d="M8.25 4.5l7.5 7.5-7.5 7.5"
                       />
                     </svg>
-                  </Button>
+                  </span>
                 </>
               )}
             </div>

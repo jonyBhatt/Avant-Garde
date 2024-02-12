@@ -1,8 +1,14 @@
 "use client";
 import LeftSideBarUserOnboard from "@/components/shared/onboard/user-onboard/left-sidebar";
-import { useState } from "react";
+import { use, useState } from "react";
 import UserOnboardForm from "./user-onboard-form";
 import { Step } from "@/utils/types";
+import { User } from "@clerk/nextjs/server";
+
+interface UserProps {
+  user: User;
+}
+
 const UserOnboard = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [previousStep, setPreviousStep] = useState(0);
@@ -49,7 +55,7 @@ const UserOnboard = () => {
     {
       id: "Step 6",
       stepNumber: 6,
-      name: "Summary",
+      name: "Thanks",
     },
   ];
   return (
@@ -82,6 +88,7 @@ const UserOnboard = () => {
           steps={steps}
           prev={prev}
           next={next}
+          // user={user}
         />
       </div>
     </div>

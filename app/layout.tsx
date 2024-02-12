@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { cn } from "@/lib/utils";
 import { ClerkProvider } from "@clerk/nextjs";
 import { shadesOfPurple } from "@clerk/themes";
+import { Toaster } from "react-hot-toast";
 
 const inter = Inter({ subsets: ["latin"], variable: "--inter" });
 const rubik = Rubik({ subsets: ["latin"], variable: "--rubik" });
@@ -34,6 +35,7 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             {children}
+            <Toaster position="top-right" reverseOrder={false} />
           </ThemeProvider>
         </ClerkProvider>
       </body>
