@@ -9,36 +9,36 @@
        URL: https://gradient.page */
 
     /* CSS: .bg-gradient { background: var(--gradient) } */
-    --gradient: #6441a5;
+    --gradient: #1fa2ff;
 
-    --background: 277 28.6% 3.6%;
-    --foreground: 277 4.4% 97.25%;
+    --background: 218 65% 4.48%;
+    --foreground: 218 10% 97.8%;
 
-    --muted: 277 22% 13.5%;
-    --muted-foreground: 277 4.4% 54.5%;
+    --muted: 218 50% 16.8%;
+    --muted-foreground: 218 10% 55.6%;
 
-    --popover: 277 56.2% 5.8500000000000005%;
-    --popover-foreground: 277 4.4% 97.25%;
+    --popover: 218 45% 7.280000000000001%;
+    --popover-foreground: 218 10% 97.8%;
 
-    --card: 277 56.2% 5.8500000000000005%;
-    --card-foreground: 277 4.4% 97.25%;
+    --card: 218 45% 7.280000000000001%;
+    --card-foreground: 218 10% 97.8%;
 
-    --border: 277 22% 13.5%;
-    --input: 277 22% 13.5%;
+    --border: 218 50% 16.8%;
+    --input: 218 50% 16.8%;
 
-    --primary: 277 44% 45%;
-    --primary-foreground: 277 4.4% 97.25%;
+    --primary: 218 100% 56%;
+    --primary-foreground: 218 10% 5.6000000000000005%;
 
-    --secondary: 277 22% 13.5%;
-    --secondary-foreground: 277 4.4% 97.25%;
+    --secondary: 218 50% 16.8%;
+    --secondary-foreground: 218 10% 97.8%;
 
-    --accent: 277 22% 13.5%;
-    --accent-foreground: 277 4.4% 97.25%;
+    --accent: 218 50% 16.8%;
+    --accent-foreground: 218 10% 97.8%;
 
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 277 4.4% 97.25%;
+    --destructive-foreground: 218 10% 97.8%;
 
-    --ring: 277 44% 45%;
+    --ring: 218 100% 56%;
   }
 }
 @layer base {
@@ -47,5 +47,29 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .css-invert {
+    @apply invert-[50%] brightness-200;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+    border-radius: 2px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    @apply bg-secondary;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-primary rounded-[2px];
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #7878a3;
   }
 }

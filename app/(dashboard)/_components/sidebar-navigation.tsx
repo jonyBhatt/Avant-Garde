@@ -11,7 +11,7 @@ export const SidebarNavigation = () => {
     <>
       {userSideBar.map((item, index) => (
         <li key={index} className="flex flex-col gap-6">
-          <span className="font-rubik font-semibold text-2xl px-6">
+          <span className="font-rubik font-semibold text-lg px-6">
             {item.title}
           </span>
           {item.list.map((side, i) => (
@@ -24,13 +24,13 @@ export const SidebarNavigation = () => {
                     pathname === side.url
                       ? `${style.active}`
                       : "text-muted-foreground"
-                  } flex items-center text-xl font-inter py-4 px-8 gap-1 hover:${
+                  } flex items-center text-lg font-inter py-4 px-8 gap-1 hover:${
                     style.active
                   } duration-200 transition-colors   w-full`
                 )}
               >
                 {side.icon}
-                {side.title}
+                <span className="hidden md:block">{side.title}</span>
               </Link>
             </div>
           ))}

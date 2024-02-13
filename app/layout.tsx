@@ -11,8 +11,11 @@ const inter = Inter({ subsets: ["latin"], variable: "--inter" });
 const rubik = Rubik({ subsets: ["latin"], variable: "--rubik" });
 
 export const metadata: Metadata = {
-  title: "Avant Garde ",
-  description: "This is a website for new to tech people",
+  title: {
+    default: "Avant-Garde Mentorship hub",
+    template: "%s | Avant-Garde",
+  },
+  description: "Become a pro programmer",
 };
 
 export default function RootLayout({

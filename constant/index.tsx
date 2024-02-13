@@ -19,14 +19,14 @@ export const userSideBar = [
         icon: <MdSpaceDashboard size={25} />,
       },
       {
-        title: "Events",
-        url: "/user-dashboard/event",
-        icon: <MdEvent size={25} />,
+        title: "Request",
+        url: "/u-dashboard/post",
+        icon: <BsFillPostcardHeartFill size={25} />,
       },
       {
-        title: "Posts",
-        url: "/user-dashboard/post",
-        icon: <BsFillPostcardHeartFill size={25} />,
+        title: "Events",
+        url: "/u-dashboard/event",
+        icon: <MdEvent size={25} />,
       },
     ],
   },
@@ -35,17 +35,17 @@ export const userSideBar = [
     list: [
       {
         title: "Market",
-        url: "/user-dashboard/jobs",
+        url: "/u-dashboard/jobs",
         icon: <MdOutlineAddHomeWork size={25} />,
       },
       {
         title: "Forem Store",
-        url: "/user-dashboard/store",
+        url: "/u-dashboard/store",
         icon: <FaStore size={25} />,
       },
       {
         title: "Teams",
-        url: "/user-dashboard/teams",
+        url: "/u-dashboard/teams",
         icon: <RiTeamFill size={25} />,
       },
     ],
