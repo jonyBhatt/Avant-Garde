@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import { userSideBar } from "@/constant";
 import { cn } from "@/lib/utils";
 import style from "./css/layout.module.css";
+import { UserButton } from "@clerk/nextjs";
 
 export const SidebarNavigation = () => {
   const pathname = usePathname();
@@ -36,6 +37,9 @@ export const SidebarNavigation = () => {
           ))}
         </li>
       ))}
+      <li className="flex justify-center items-center gap-2">
+        <UserButton afterSignOutUrl="/" showName />
+      </li>
     </>
   );
 };

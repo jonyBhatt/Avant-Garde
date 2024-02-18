@@ -331,8 +331,6 @@ const UserOnboardForm = ({
               <h2 className="text-4xl font-semibold leading-7 text-primary-foreground font-rubik">
                 Thank you for respond
               </h2>
-
-              {/** ToDO! */}
             </div>
           )}
 

@@ -21,3 +21,15 @@ export const userOnboardSchema = z.object({
     .min(1, { message: "Your current technical skills required!" }),
   s_technical: z.string().optional(),
 });
+
+/**
+ * * User 1:1 live session post
+ */
+
+export const liveHelpSchema = z.object({
+  helpType: z.enum(["1:1 help", "long-term"]),
+  title: z.string().min(1, { message: "This is required" }).max(25),
+  description: z.string().min(1).max(5000),
+  sessionLength: z.string(),
+  budget: z.string(),
+});

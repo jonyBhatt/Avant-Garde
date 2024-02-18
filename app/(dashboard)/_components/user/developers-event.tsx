@@ -5,7 +5,7 @@ import { RiTeamFill } from "react-icons/ri";
 const DeveloperEvent = () => {
   return (
     <div className="my-4 flex flex-col gap-6 ">
-      <div className=" border border-primary p-4 rounded-xl">
+      <div className=" border border-white/[.1] p-4 rounded-[8px] bg-[radial-gradient(164.75%_100%_at_50%_0%,#334155_0%,#0F172A_48.73%)]">
         <div className="flex flex-col items-start ">
           <h3 className="font-bold font-rubik">
             AI Safety for Biz: Guide to Responsible Tech Use
@@ -44,7 +44,7 @@ const DeveloperEvent = () => {
         </div>
       </div>
 
-      <div className=" border border-primary p-4 rounded-xl">
+      <div className=" border border-white/[.1] p-4 rounded-[8px] bg-[radial-gradient(164.75%_100%_at_50%_0%,#334155_0%,#0F172A_48.73%)] ">
         <div className="flex flex-col items-start ">
           <h3 className="font-bold font-rubik">
             AI Safety for Biz: Guide to Responsible Tech Use

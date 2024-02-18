@@ -1,13 +1,17 @@
 import Image from "next/image";
 import FindMentor from "../_components/user/find-mentor";
 import DeveloperEvent from "../_components/user/developers-event";
+import Link from "next/link";
 
 const UserDashboard = () => {
   return (
     <div className="py-10">
       <h2 className="font-bold font-rubik text-xl">Get started</h2>
       <div className="py-4 grid grid-cols-1 md:grid-cols-3 gap-6 pr-4">
-        <div className="p-4 shadow-sm shadow-primary rounded-md flex flex-col gap-2 items-center">
+        <Link
+          href={"/user-dashboard/request"}
+          className="p-4 border border-white/[.1]  rounded-[8px] bg-[radial-gradient(164.75%_100%_at_50%_0%,#334155_0%,#0F172A_48.73%)] flex flex-col gap-2 items-center"
+        >
           <Image
             src="/svg/get-live-help.svg"
             alt="get live"
@@ -18,9 +22,12 @@ const UserDashboard = () => {
           <span className="text-muted-foreground text-center font-light text-xs lg:text-base font-rubik">
             1:1 mentorship session
           </span>
-        </div>
+        </Link>
 
-        <div className="p-4 shadow-sm shadow-primary rounded-md flex flex-col gap-2 items-center">
+        <Link
+          href={"/user-dashboard/freelance-help"}
+          className="p-4 border border-white/[.1]  rounded-[8px] bg-[radial-gradient(164.75%_100%_at_50%_0%,#334155_0%,#0F172A_48.73%)] flex flex-col gap-2 items-center"
+        >
           <Image
             src="/svg/small-task.svg"
             alt="get live"
@@ -31,9 +38,12 @@ const UserDashboard = () => {
           <span className="text-muted-foreground font-light text-sm font-rubik">
             Pay with escrow
           </span>
-        </div>
+        </Link>
 
-        <div className="p-4 shadow-sm shadow-primary rounded-md flex flex-col gap-2 items-center">
+        <Link
+          href={"/user-dashboard/code-review"}
+          className="p-4 border border-white/[.1]  rounded-[8px] bg-[radial-gradient(164.75%_100%_at_50%_0%,#334155_0%,#0F172A_48.73%)] flex flex-col gap-2 items-center"
+        >
           <Image
             src="/images/code-review.png"
             alt="get live"
@@ -44,7 +54,7 @@ const UserDashboard = () => {
           <span className="text-muted-foreground font-light text-sm font-rubik">
             Pay with escrow
           </span>
-        </div>
+        </Link>
       </div>
       <div className="py-4">
         <h2 className="font-bold font-rubik text-xl">Find Mentors</h2>
