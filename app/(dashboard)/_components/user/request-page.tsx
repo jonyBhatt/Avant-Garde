@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { boolean, z } from "zod";
 import { useState } from "react";
 import { Info, Loader2, MoveUp } from "lucide-react";
+import { motion } from "framer-motion";
 
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
@@ -91,12 +92,17 @@ const RequestPage = () => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-8 w-full py-16 "
         >
-          <span className="font-rubik  text-xl ">
-            {`Step ${currentStep + 1} out of ${steps.length}
-                `}{" "}
-          </span>
           {currentStep === 0 && (
-            <div className="flex flex-col items-start gap-3">
+            <motion.div
+              initial={{ opacity: 0, y: -200 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1 }}
+              className="flex flex-col items-start gap-3"
+            >
+              <span className="font-rubik  text-xl ">
+                {`Step ${currentStep + 1} out of ${steps.length}
+                `}{" "}
+              </span>
               <h2 className="font-rubik font-bold text-3xl my-6">
                 {steps[currentStep].title}
               </h2>
@@ -144,11 +150,20 @@ const RequestPage = () => {
                   </FormItem>
                 )}
               />
-            </div>
+            </motion.div>
           )}
 
           {currentStep === 1 && (
-            <div className="flex flex-col items-start gap-8">
+            <motion.div
+              initial={{ opacity: 0.5, y: 200 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1 }}
+              className="flex flex-col items-start gap-8"
+            >
+              <span className="font-rubik  text-xl ">
+                {`Step ${currentStep + 1} out of ${steps.length}
+                `}{" "}
+              </span>
               <h2 className="font-rubik font-bold text-3xl my-6">
                 {steps[currentStep].title}
               </h2>
@@ -267,24 +282,30 @@ const RequestPage = () => {
                   </FormItem>
                 )}
               />
-            </div>
+            </motion.div>
           )}
 
           <div className="mt-8 py-5">
             <div className="flex justify-between">
               {currentStep > 0 && currentStep <= steps.length && (
-                <Button
-                  type="button"
-                  onClick={prev}
-                  disabled={currentStep === 0}
-                  size="lg"
-                  className="rounded-full px-8 flex items-center gap-4 bg-transparent absolute top-0 p-0 m-0 hover:bg-transparent"
+                <motion.div
+                  initial={{ opacity: 0, y: 200 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
                 >
-                  <MoveUp className="w-6 h-6 text-dark-white" />
-                  <span className="font-rubik text-lg text-secondary-foreground">
-                    Previous
-                  </span>
-                </Button>
+                  <Button
+                    type="button"
+                    onClick={prev}
+                    disabled={currentStep === 0}
+                    size="lg"
+                    className="rounded-full px-8 flex items-center gap-4 bg-transparent absolute top-0 p-0 m-0 hover:bg-transparent"
+                  >
+                    <MoveUp className="w-6 h-6 text-dark-white" />
+                    <span className="font-rubik text-lg text-secondary-foreground">
+                      Previous
+                    </span>
+                  </Button>
+                </motion.div>
               )}
               {currentStep === steps.length - 1 ? (
                 <>
@@ -303,7 +324,10 @@ const RequestPage = () => {
                 </>
               ) : (
                 <>
-                  <span
+                  <motion.span
+                    initial={{ opacity: 0, y: -200 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 1 }}
                     onClick={next}
                     // disabled={currentStep === steps.length - 1}
                     // size="lg"
@@ -313,11 +337,28 @@ const RequestPage = () => {
                     )}
                   >
                     Next
-                  </span>
+                  </motion.span>
                 </>
               )}
             </div>
           </div>
+
+          {currentStep === 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: -200 }}
+              animate={{ opacity: 0.3, y: 0 }}
+              transition={{ duration: 1 }}
+              className="mt-8 opacity-5"
+            >
+              <span className="font-rubik  text-xl ">
+                {`Step 2 out of 2
+              `}{" "}
+              </span>
+              <h2 className="font-rubik font-bold text-3xl my-6">
+                How you would like to get help
+              </h2>
+            </motion.div>
+          )}
         </form>
       </Form>
     </div>
