@@ -9,7 +9,8 @@ export const studentOnboardAction = async (
 ) => {
   // console.log(values);
 
-  //   const user = await currentUser();
+  const user = await currentUser();
+  if (!user) return null;
   const {
     c_technical,
     career,
@@ -43,6 +44,8 @@ export const studentOnboardAction = async (
         lastName,
         email,
         onboard: true,
+        username: user?.username!,
+        clerkId: user?.id,
       },
       update: {
         onboard: true,
