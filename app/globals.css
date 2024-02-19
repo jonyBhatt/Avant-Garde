@@ -72,4 +72,13 @@
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
     background: #7878a3;
   }
+  .button {
+    @apply py-4 px-6  gap-3 rounded-full font-semibold text-[16px] leading-[140%] focus-visible:ring-offset-0 focus-visible:ring-transparent !important;
+  }
+  .submit-button {
+    @apply bg-purple-gradient bg-cover rounded-full py-1 px-8  font-semibold text-[16px] leading-[140%] h-[50px]  md:h-[54px];
+  }
+  .gradient-text {
+    @apply bg-purple-gradient bg-cover bg-clip-text text-transparent;
+  }
 }

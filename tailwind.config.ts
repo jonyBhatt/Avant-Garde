@@ -101,6 +101,9 @@ const config = {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
     },
+    backgroundImage: {
+      "purple-gradient": "url('/svg/gradient-bg.svg')",
+    },
   },
   plugins: [require("tailwindcss-animate")],
 } satisfies Config;

@@ -311,7 +311,7 @@ const RequestPage = () => {
                 <>
                   <Button
                     size="lg"
-                    className="rounded-full px-8 flex items-center gap-1.5"
+                    className="rounded-full px-8 flex items-center gap-1.5 submit-button"
                     type="submit"
                   >
                     {isSubmitting && (
@@ -333,7 +333,7 @@ const RequestPage = () => {
                     // size="lg"
                     className={cn(
                       buttonVariants({ size: "lg" }),
-                      "rounded-full px-8 cursor-pointer font-bold text-lg"
+                      " cursor-pointer   submit-button"
                     )}
                   >
                     Next

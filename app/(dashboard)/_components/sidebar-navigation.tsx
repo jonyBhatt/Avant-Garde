@@ -18,7 +18,7 @@ export const SidebarNavigation = () => {
           {item.list.map((side, i) => (
             <div key={i} className="ml-4  ">
               <Link
-                href={`/${side.url}`}
+                href={`${side.url}`}
                 className={cn(
                   style.link_radius,
                   `${
