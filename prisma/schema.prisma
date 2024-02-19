@@ -10,6 +10,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  MENTOR
+  STUDENT
+  ADMIN
+}
+
 model User {
   id        String @id @default(auto()) @map("_id") @db.ObjectId
   firstName String
@@ -20,6 +26,8 @@ model User {
 
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
+
+  role Role @default(STUDENT)
 
   student Student[]
 }
@@ -37,4 +45,19 @@ model Student {
 
   userEmail String
   users     User   @relation(fields: [userEmail], references: [email])
+
+  helps HelpPost[]
+}
+
+model HelpPost {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  helpType      String
+  title         String
+  description   String
+  sessionLength String
+  budget        String
+
+  studentId String  @db.ObjectId
+  student   Student @relation(fields: [studentId], references: [id])
 }
