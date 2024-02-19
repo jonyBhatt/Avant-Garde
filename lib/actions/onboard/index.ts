@@ -34,42 +34,42 @@ export const studentOnboardAction = async (
   )
     return { error: "Fields are required" };
 
-  try {
-    const createUser = await prisma.user.upsert({
-      where: {
-        email,
-      },
-      create: {
-        firstName,
-        lastName,
-        email,
-        onboard: true,
-        username: user?.username!,
-        clerkId: user?.id,
-      },
-      update: {
-        onboard: true,
-      },
-    });
+  // try {
+  //   const createUser = await prisma.user.upsert({
+  //     where: {
+  //       email,
+  //     },
+  //     create: {
+  //       firstName,
+  //       lastName,
+  //       email,
+  //       onboard: true,
+  //       username: user?.username!,
+  //       clerkId: user?.id,
+  //     },
+  //     update: {
+  //       onboard: true,
+  //     },
+  //   });
 
-    const student = await prisma.student.create({
-      data: {
-        c_technical,
-        career,
-        major,
-        time,
-        institution,
-        s_technical,
-        s_time,
-        userEmail: createUser.email,
-      },
-    });
-    return {
-      message: "success",
-    };
-  } catch (error) {
-    return { error };
-  }
+  //   const student = await prisma.student.create({
+  //     data: {
+  //       c_technical,
+  //       career,
+  //       major,
+  //       time,
+  //       institution,
+  //       s_technical,
+  //       s_time,
+  //       userEmail: createUser.email,
+  //     },
+  //   });
+  //   return {
+  //     message: "success",
+  //   };
+  // } catch (error) {
+  //   return { error };
+  // }
   return {
     message: "true",
   };
