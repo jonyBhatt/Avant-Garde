@@ -20,6 +20,7 @@ export const userOnboardSchema = z.object({
     .string()
     .min(1, { message: "Your current technical skills required!" }),
   s_technical: z.string().optional(),
+  username: z.string().optional(),
 });
 
 /**
