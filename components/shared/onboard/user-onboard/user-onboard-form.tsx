@@ -66,12 +66,12 @@ const UserOnboardForm = ({
   async function onSubmit(values: z.infer<typeof userOnboardSchema>) {
     console.log(values);
     const res = await studentOnboardAction(values);
-    if (res.message) {
+    if (res?.message) {
       toast.success("Onboard success!");
       router.push("/");
     }
-    if (res.error) {
-      toast.error(`${res.error}`);
+    if (res?.error) {
+      toast.error(`${res?.error}`);
     }
   }
   return (
