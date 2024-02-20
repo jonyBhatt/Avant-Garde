@@ -23,7 +23,6 @@ import { cn } from "@/lib/utils";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
-import { User } from "@clerk/nextjs/server";
 import Image from "next/image";
 import { UserProps } from "./main-section";
 

@@ -9,6 +9,7 @@ import { FaStore } from "react-icons/fa";
 import { RiTeamFill } from "react-icons/ri";
 import { LuSettings2 } from "react-icons/lu";
 import { IoMdHelpCircleOutline } from "react-icons/io";
+import { MdPostAdd } from "react-icons/md";
 export const userSideBar = [
   {
     title: "Featured",
@@ -19,9 +20,14 @@ export const userSideBar = [
         icon: <MdSpaceDashboard size={25} />,
       },
       {
-        title: "My Requests",
+        title: "My Posts",
         url: "/user-dashboard/post",
         icon: <BsFillPostcardHeartFill size={25} />,
+      },
+      {
+        title: "Request Help",
+        url: "/user-dashboard/request",
+        icon: <MdPostAdd size={25} />,
       },
       {
         title: "Events",
