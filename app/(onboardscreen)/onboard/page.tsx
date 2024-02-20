@@ -1,7 +1,22 @@
 import Mentor from "@/components/shared/onboard/mentor";
 import NormalUser from "@/components/shared/onboard/normal-user";
+import { getUserById } from "@/lib/actions/user/user-crud-action";
+import { auth } from "@clerk/nextjs";
+import { redirect } from "next/navigation";
 
-const Onboard = () => {
+const Onboard = async () => {
+  const { userId } = auth();
+
+  const user = await getUserById(userId!);
+
+  if (user.user?.onboard) {
+    user.user.role === "STUDENT"
+      ? redirect("/user-dashboard")
+      : user.user.role === "MENTOR"
+      ? redirect("/mentor-dashboard")
+      : redirect("/admin-dashboard");
+  }
+
   return (
     <div className="container mx-auto p-8 font-rubik">
       <h1 className="text-4xl font-bold mb-8">Welcome to Avant Garde</h1>

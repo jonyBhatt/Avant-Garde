@@ -28,8 +28,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { liveHelpSchema } from "@/utils/validation";
 import { Textarea } from "@/components/ui/textarea";
-import { cn } from "@/lib/utils";
+import { cn, handleError } from "@/lib/utils";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { createHelpPost } from "@/lib/actions/user/help-post-action";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 interface Steps {
   stepNumber: number;
@@ -46,6 +49,7 @@ const steps = [
   },
 ];
 const RequestPage = () => {
+  const router = useRouter();
   const [currentStep, setCurrentStep] = useState(0);
   const [previousStep, setPreviousStep] = useState(0);
 
@@ -79,10 +83,23 @@ const RequestPage = () => {
   } = form;
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof liveHelpSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
+  async function onSubmit(values: z.infer<typeof liveHelpSchema>) {
     console.log(values);
+
+    try {
+      const post = await createHelpPost(values);
+      form.reset();
+      if (post?.message) {
+        toast.success(post.message);
+        router.push("/user-dashboard/post");
+      }
+      if (post?.error) {
+        toast.error("some thing wrong");
+        console.log(post.error);
+      }
+    } catch (error) {
+      handleError(error);
+    }
   }
 
   return (

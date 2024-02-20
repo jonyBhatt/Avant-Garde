@@ -42,6 +42,11 @@ export const studentOnboardAction = async (
     },
   });
 
+  if (!user)
+    return {
+      error: "User does not exist",
+    };
+
   try {
     await prisma.student.create({
       data: {
@@ -50,11 +55,22 @@ export const studentOnboardAction = async (
         major,
         institution,
         time,
+        email: user.email,
+        photo: user.photo,
         users: {
           connect: {
-            id: user?.id,
+            id: user.id,
           },
         },
+      },
+    });
+
+    await prisma.user.update({
+      where: {
+        clerkId: userId,
+      },
+      data: {
+        onboard: true,
       },
     });
   } catch (error) {
