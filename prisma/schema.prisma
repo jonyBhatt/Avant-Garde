@@ -41,7 +41,8 @@ model User {
 }
 
 model Student {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  email String @unique
 
   institution String?
   major       String

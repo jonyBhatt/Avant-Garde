@@ -5,37 +5,50 @@ import prisma from "@/lib/prisma";
 import { liveHelpSchema } from "@/utils/validation";
 import { handleError } from "@/lib/utils";
 import { auth } from "@clerk/nextjs";
+import { getStudentById, getUserById } from "./user-crud-action";
 
 type CreateHelpPostProps = z.infer<typeof liveHelpSchema>;
 
 export async function createHelpPost(values: CreateHelpPostProps) {
   const { userId } = auth();
-  if (!userId) return null;
-  const validInputs = liveHelpSchema.safeParse(values);
 
-  if (validInputs.success) {
-    const { title, description, budget, helpType, sessionLength } =
-      validInputs.data;
+  if (!userId) {
+    return {
+      error: "User does not exist",
+    };
+  }
 
-    try {
-      await prisma.helpPost.create({
-        data: {
-          title,
-          budget,
-          description,
-          helpType,
-          sessionLength,
-          student: {
-            connect: {
-              id: userId,
-            },
+  const studentDetails = await getStudentById(userId);
+
+  const { student, error } = studentDetails;
+
+  if (!student)
+    return {
+      error: "User does not exist",
+    };
+
+  console.log(student.id);
+
+  const { budget, description, helpType, sessionLength, title } = values;
+
+  try {
+    await prisma.helpPost.create({
+      data: {
+        ...values,
+        student: {
+          connect: {
+            id: student.id,
           },
         },
-      });
-    } catch (error) {
-      return {
-        error: handleError(error),
-      };
-    }
+      },
+    });
+    return {
+      message: "Request successful",
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      error: handleError(error),
+    };
   }
 }

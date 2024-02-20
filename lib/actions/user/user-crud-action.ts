@@ -1,87 +1,46 @@
-// import { use } from "react";
-// ("use server");
-// import prisma from "@/lib/prisma";
-// import { handleError } from "@/lib/utils";
-// import { CreateUserProps, UpdateUserProps } from "@/utils/types";
+"use server";
+import prisma from "@/lib/prisma";
+import { handleError } from "@/lib/utils";
 
-// export async function createUser(user: CreateUserProps) {
-//   try {
-//     const newUser = await prisma.user.create({
-//       data: {
-//         clerkId: user.clerkId,
-//         firstName: user.firstName,
-//         lastName: user.lastName,
-//         email: user.email,
-//         photo: user.photo,
-//         username: user.username,
-//       },
-//     });
-//     console.log(newUser);
+export async function getUserById(clerkId: string) {
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        clerkId,
+      },
+    });
+    console.log(user);
 
-//     return {
-//       newUser,
-//     };
-//   } catch (error) {
-//     return {
-//       error: handleError(error),
-//     };
-//   }
-// }
+    return { user };
+  } catch (error) {
+    return {
+      error: handleError(error),
+    };
+  }
+}
 
-// /**
-//  * * Read user by id
-//  */
+export async function getStudentById(clerkId: string) {
+  try {
+    const user = await getUserById(clerkId);
+    console.log(user);
 
-// export async function getUserById(userId: string) {
-//   try {
-//     const user = await prisma.user.findUnique({
-//       where: {
-//         clerkId: userId,
-//       },
-//     });
-//     return {
-//       user,
-//     };
-//   } catch (error) {
-//     return {
-//       error: handleError(error),
-//     };
-//   }
-// }
+    if (!user.user)
+      return {
+        error: "User does not exists",
+      };
+    const student = await prisma.student.findUnique({
+      where: {
+        email: user.user.email,
+      },
+    });
+    // console.log(student);
 
-// /**
-//  * * Update user
-//  */
-
-// export async function updateUser(clerkId: string, user: UpdateUserProps) {
-//   try {
-//     await prisma.user.update({
-//       where: {
-//         clerkId,
-//       },
-//       data: user,
-//     });
-//   } catch (error) {
-//     return {
-//       error: handleError(error),
-//     };
-//   }
-// }
-
-// /**
-//  * * Delete user
-//  */
-
-// export async function deleteUser(clerkId: string) {
-//   try {
-//     await prisma.user.delete({
-//       where: {
-//         clerkId,
-//       },
-//     });
-//   } catch (error) {
-//     return {
-//       error: handleError(error),
-//     };
-//   }
-// }
+    return {
+      student,
+    };
+  } catch (error) {
+    return {
+      error: handleError(error),
+    };
+  }
+}
