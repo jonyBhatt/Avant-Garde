@@ -1,7 +1,32 @@
+"use client";
 import { TabsContent } from "@/components/ui/tabs";
 import Image from "next/image";
+import { useQuery } from "@tanstack/react-query";
+import prisma from "@/lib/prisma";
+import { getAllPost } from "@/lib/actions/user/help-post-action";
+import { Loader2 } from "lucide-react";
 
 const OpenContent = () => {
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["helppost"],
+    queryFn: async () => await getAllPost(),
+  });
+  console.log(data?.post);
+  if (isLoading)
+    return (
+      <div className="container mx-auto my-28 flex justify-center items-center">
+        <Loader2 className="animate-spin w-6 h-6" />
+      </div>
+    );
+  if (error) return "Error" + error;
+
+  if (data?.post && data?.post.length <= 0)
+    return (
+      <div className="container mx-auto my-16">
+        <h3>No post yet!</h3>
+        <span>Make request for getting a better mentor</span>
+      </div>
+    );
   return (
     <>
       <TabsContent

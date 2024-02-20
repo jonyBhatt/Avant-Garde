@@ -56,11 +56,21 @@ export const studentOnboardAction = async (
         institution,
         time,
         email: user.email,
+        photo: user.photo,
         users: {
           connect: {
             id: user.id,
           },
         },
+      },
+    });
+
+    await prisma.user.update({
+      where: {
+        clerkId: userId,
+      },
+      data: {
+        onboard: true,
       },
     });
   } catch (error) {

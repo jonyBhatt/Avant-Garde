@@ -52,3 +52,20 @@ export async function createHelpPost(values: CreateHelpPostProps) {
     };
   }
 }
+
+export async function getAllPost() {
+  try {
+    const post = await prisma.helpPost.findMany({
+      include: {
+        student: true,
+      },
+    });
+    return {
+      post,
+    };
+  } catch (error) {
+    return {
+      error: handleError(error),
+    };
+  }
+}

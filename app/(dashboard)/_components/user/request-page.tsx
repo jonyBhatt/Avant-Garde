@@ -32,6 +32,7 @@ import { cn, handleError } from "@/lib/utils";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { createHelpPost } from "@/lib/actions/user/help-post-action";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 interface Steps {
   stepNumber: number;
@@ -48,6 +49,7 @@ const steps = [
   },
 ];
 const RequestPage = () => {
+  const router = useRouter();
   const [currentStep, setCurrentStep] = useState(0);
   const [previousStep, setPreviousStep] = useState(0);
 
@@ -86,9 +88,10 @@ const RequestPage = () => {
 
     try {
       const post = await createHelpPost(values);
+      form.reset();
       if (post?.message) {
         toast.success(post.message);
-        form.reset();
+        router.push("/user-dashboard/post");
       }
       if (post?.error) {
         toast.error("some thing wrong");
