@@ -2,15 +2,17 @@
 import prisma from "@/lib/prisma";
 import { userOnboardSchema } from "@/utils/validation";
 import { z } from "zod";
-import { currentUser } from "@clerk/nextjs";
+import { auth, currentUser } from "@clerk/nextjs";
+import { handleError } from "@/lib/utils";
 
 export const studentOnboardAction = async (
   values: z.infer<typeof userOnboardSchema>
 ) => {
   // console.log(values);
+  const { userId } = auth();
 
-  const user = await currentUser();
-  if (!user) return null;
+  if (!userId) return null;
+
   const {
     c_technical,
     career,
@@ -34,42 +36,32 @@ export const studentOnboardAction = async (
   )
     return { error: "Fields are required" };
 
-  // try {
-  //   const createUser = await prisma.user.upsert({
-  //     where: {
-  //       email,
-  //     },
-  //     create: {
-  //       firstName,
-  //       lastName,
-  //       email,
-  //       onboard: true,
-  //       username: user?.username!,
-  //       clerkId: user?.id,
-  //     },
-  //     update: {
-  //       onboard: true,
-  //     },
-  //   });
+  const user = await prisma.user.findUnique({
+    where: {
+      clerkId: userId,
+    },
+  });
 
-  //   const student = await prisma.student.create({
-  //     data: {
-  //       c_technical,
-  //       career,
-  //       major,
-  //       time,
-  //       institution,
-  //       s_technical,
-  //       s_time,
-  //       userEmail: createUser.email,
-  //     },
-  //   });
-  //   return {
-  //     message: "success",
-  //   };
-  // } catch (error) {
-  //   return { error };
-  // }
+  try {
+    await prisma.student.create({
+      data: {
+        c_technical,
+        career,
+        major,
+        institution,
+        time,
+        users: {
+          connect: {
+            id: user?.id,
+          },
+        },
+      },
+    });
+  } catch (error) {
+    return {
+      error: handleError(error),
+    };
+  }
   return {
     message: "true",
   };

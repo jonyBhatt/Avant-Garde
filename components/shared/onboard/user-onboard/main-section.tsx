@@ -5,11 +5,15 @@ import UserOnboardForm from "./user-onboard-form";
 import { Step } from "@/utils/types";
 import { User } from "@clerk/nextjs/server";
 
-interface UserProps {
-  user: User;
+export interface UserProps {
+  user: {
+    firstName: string;
+    lastName: string;
+    email: string;
+  };
 }
 
-const UserOnboard = () => {
+const UserOnboard = (user: UserProps) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [previousStep, setPreviousStep] = useState(0);
 
@@ -88,6 +92,7 @@ const UserOnboard = () => {
           steps={steps}
           prev={prev}
           next={next}
+          user={user}
           // user={user}
         />
       </div>

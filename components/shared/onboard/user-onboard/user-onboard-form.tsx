@@ -25,6 +25,7 @@ import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import { User } from "@clerk/nextjs/server";
 import Image from "next/image";
+import { UserProps } from "./main-section";
 
 interface UserOnboardProps {
   currentStep: number;
@@ -32,6 +33,7 @@ interface UserOnboardProps {
   steps: Step[];
   prev: () => void;
   next: () => void;
+  user: UserProps;
 }
 
 const UserOnboardForm = ({
@@ -40,14 +42,15 @@ const UserOnboardForm = ({
   steps,
   prev,
   next,
+  user,
 }: UserOnboardProps) => {
   const router = useRouter();
   const form = useForm<z.infer<typeof userOnboardSchema>>({
     resolver: zodResolver(userOnboardSchema),
     defaultValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
+      firstName: user.user.firstName || "",
+      lastName: user.user.lastName || "",
+      email: user.user.email || "",
       c_technical: "",
       career: "",
       institution: "",
@@ -68,7 +71,7 @@ const UserOnboardForm = ({
     const res = await studentOnboardAction(values);
     if (res?.message) {
       toast.success("Onboard success!");
-      router.push("/");
+      router.push("/user-dashboard");
     }
     if (res?.error) {
       toast.error(`${res?.error}`);
