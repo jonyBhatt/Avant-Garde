@@ -82,3 +82,17 @@
     @apply bg-purple-gradient bg-cover bg-clip-text text-transparent;
   }
 }
+
+/** =====  CLERK OVERRIDES */
+.cl-userButtonBox {
+  display: flex;
+  flex-flow: row-reverse;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+}
+
+.cl-userButtonOuterIdentifier {
+  font-size: 16px;
+  font-weight: 600;
+}

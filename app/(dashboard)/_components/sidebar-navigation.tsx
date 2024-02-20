@@ -37,7 +37,7 @@ export const SidebarNavigation = () => {
           ))}
         </li>
       ))}
-      <li className="flex justify-center items-center gap-2">
+      <li className="flex justify-start px-6">
         <UserButton afterSignOutUrl="/" showName />
       </li>
     </>

@@ -16,6 +16,11 @@ enum Role {
   ADMIN
 }
 
+enum HelpPostStatus {
+  OPEN
+  CLOSED
+}
+
 model User {
   id        String  @id @default(auto()) @map("_id") @db.ObjectId
   clerkId   String  @unique
@@ -60,6 +65,8 @@ model HelpPost {
   description   String
   sessionLength String
   budget        String
+
+  status HelpPostStatus @default(OPEN)
 
   studentId String  @db.ObjectId
   student   Student @relation(fields: [studentId], references: [id])
