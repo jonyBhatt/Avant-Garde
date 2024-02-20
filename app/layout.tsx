@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { ClerkProvider } from "@clerk/nextjs";
 import { shadesOfPurple } from "@clerk/themes";
 import { Toaster } from "react-hot-toast";
+import QueryClientWrapper from "@/lib/query-client";
 
 const inter = Inter({ subsets: ["latin"], variable: "--inter" });
 const rubik = Rubik({ subsets: ["latin"], variable: "--rubik" });
@@ -31,15 +32,17 @@ export default function RootLayout({
             baseTheme: shadesOfPurple,
           }}
         >
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="dark"
-            enableSystem
-            disableTransitionOnChange
-          >
-            {children}
-            <Toaster position="top-right" reverseOrder={false} />
-          </ThemeProvider>
+          <QueryClientWrapper>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="dark"
+              enableSystem
+              disableTransitionOnChange
+            >
+              {children}
+              <Toaster position="top-right" reverseOrder={false} />
+            </ThemeProvider>
+          </QueryClientWrapper>
         </ClerkProvider>
       </body>
     </html>
