@@ -72,4 +72,6 @@ model HelpPost {
 
   studentId String  @db.ObjectId
   student   Student @relation(fields: [studentId], references: [id])
+
+  createAt DateTime @default(now())
 }

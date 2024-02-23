@@ -29,7 +29,7 @@ export const userOnboardSchema = z.object({
 
 export const liveHelpSchema = z.object({
   helpType: z.enum(["1:1 help", "long-term"]),
-  title: z.string().min(1, { message: "This is required" }).max(25),
+  title: z.string().min(1, { message: "This is required" }).max(1000),
   description: z.string().min(1).max(5000),
   sessionLength: z.string(),
   budget: z.string(),

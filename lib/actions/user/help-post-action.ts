@@ -6,11 +6,12 @@ import { liveHelpSchema } from "@/utils/validation";
 import { handleError } from "@/lib/utils";
 import { auth } from "@clerk/nextjs";
 import { getStudentById, getUserById } from "./user-crud-action";
+import { redirect } from "next/navigation";
 
 type CreateHelpPostProps = z.infer<typeof liveHelpSchema>;
 
 export async function createHelpPost(values: CreateHelpPostProps) {
-  const { userId } = auth();
+  const { userId, user } = auth();
 
   if (!userId) {
     return {
@@ -28,8 +29,6 @@ export async function createHelpPost(values: CreateHelpPostProps) {
     };
 
   console.log(student.id);
-
-  const { budget, description, helpType, sessionLength, title } = values;
 
   try {
     await prisma.helpPost.create({
@@ -55,7 +54,32 @@ export async function createHelpPost(values: CreateHelpPostProps) {
 
 export async function getAllPost() {
   try {
+    const post = await prisma.helpPost.findMany({});
+    return {
+      post,
+    };
+  } catch (error) {
+    return {
+      error: handleError(error),
+    };
+  }
+}
+
+export async function getOpenPostByStudent() {
+  const { userId, user } = auth();
+
+  if (!userId) return { error: "User does not exist" };
+  const student = await getStudentById(userId);
+
+  if (!student) return null;
+  // console.log(student);
+
+  try {
     const post = await prisma.helpPost.findMany({
+      where: {
+        studentId: student.student?.id,
+        status: "OPEN",
+      },
       include: {
         student: true,
       },
