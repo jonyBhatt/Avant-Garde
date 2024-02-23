@@ -1,9 +1,17 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import prisma from "@/lib/prisma";
+import { auth } from "@clerk/nextjs";
+import { updateRole } from "@/lib/actions/user/user-crud-action";
 
 const Mentor = () => {
   const router = useRouter();
+
+  const updateRoleMentor = async () => {
+    await updateRole();
+    router.push("/mentor-dashboard");
+  };
   return (
     <div>
       <div className="text-3xl font-bold mb-4">🤝 Empower, Guide, Impact:</div>
@@ -24,12 +32,7 @@ const Mentor = () => {
         extends beyond knowledge-sharing &U+2013; it&apos;s about nurturing
         potential and fostering a culture of growth.
       </p>
-      <Button
-        className="rounded-full px-6 my-8"
-        onClick={() => {
-          router.push("/onboard/user-onboard");
-        }}
-      >
+      <Button className="rounded-full px-6 my-8" onClick={updateRoleMentor}>
         Apply to mentor
       </Button>
     </div>

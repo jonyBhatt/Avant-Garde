@@ -1,6 +1,25 @@
 "use server";
 import prisma from "@/lib/prisma";
 import { handleError } from "@/lib/utils";
+import { auth } from "@clerk/nextjs";
+
+export async function updateRole() {
+  const { userId } = auth();
+  if (!userId) return null;
+  await prisma.user.update({
+    where: {
+      clerkId: userId,
+    },
+    data: {
+      onboard: true,
+      role: "MENTOR",
+    },
+  });
+
+  return {
+    messgae: "Success",
+  };
+}
 
 export async function getUserById(clerkId: string) {
   try {
