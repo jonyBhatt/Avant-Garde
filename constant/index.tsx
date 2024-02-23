@@ -10,6 +10,18 @@ import { RiTeamFill } from "react-icons/ri";
 import { LuSettings2 } from "react-icons/lu";
 import { IoMdHelpCircleOutline } from "react-icons/io";
 import { MdPostAdd } from "react-icons/md";
+import {
+  BarChart2,
+  BookOpen,
+  Cog,
+  CupSoda,
+  HelpCircle,
+  LayoutDashboard,
+  MessageSquareDashed,
+  Store,
+  User,
+  Users,
+} from "lucide-react";
 export const userSideBar = [
   {
     title: "Featured",
@@ -68,6 +80,122 @@ export const userSideBar = [
         title: "Help",
         url: "/dashboard/help",
         icon: <IoMdHelpCircleOutline size={25} />,
+      },
+    ],
+  },
+];
+
+export const mentorSideBar = [
+  {
+    title: "Featured",
+    list: [
+      {
+        title: "Dashboard",
+        url: "/mentor-dashboard",
+        icon: <LayoutDashboard />,
+      },
+      {
+        title: "Event",
+        url: "/mentor-dashboard/event",
+        icon: <CupSoda />,
+      },
+      {
+        title: "Post",
+        url: "/mentor-dashboard/post",
+        icon: <MdOutlinePostAdd size={25} />,
+      },
+    ],
+  },
+  {
+    title: "Resource",
+    list: [
+      {
+        title: "Jobs",
+        url: "/mentor-dashboard/jobs",
+        icon: <MdOutlineAddHomeWork size={25} />,
+      },
+      {
+        title: "Forem Store",
+        url: "/mentor-dashboard/forem-store",
+        icon: <Store />,
+      },
+      {
+        title: "Teams",
+        url: "/mentor-dashboard/teams",
+        icon: <Users />,
+      },
+    ],
+  },
+  {
+    title: "User",
+    list: [
+      {
+        title: "Settings",
+        url: "/dashboard/settings",
+        icon: <Cog />,
+      },
+      {
+        title: "Help",
+        url: "/dashboard/help",
+        icon: <HelpCircle />,
+      },
+    ],
+  },
+];
+
+export const adminSideBar = [
+  {
+    title: "Pages",
+    list: [
+      {
+        title: "Dashboard",
+        url: "/admin-dashboard",
+        icon: <LayoutDashboard />,
+      },
+      {
+        title: "Users",
+        url: "/admin-dashboard/users",
+        icon: <User />,
+      },
+      {
+        title: "Post",
+        url: "/admin-dashboard/posts",
+        icon: <MessageSquareDashed />,
+      },
+    ],
+  },
+  {
+    title: "Analytics",
+    list: [
+      {
+        title: "Revenue",
+        url: "/dashboard/revenue",
+        icon: <BarChart2 />,
+      },
+      {
+        title: "Reports",
+        url: "/dashboard/reports",
+        icon: <BookOpen />,
+      },
+      {
+        title: "Teams",
+        url: "/dashboard/teams",
+        icon: <Users />,
+      },
+    ],
+  },
+  {
+    title: "User",
+    list: [
+      {
+        title: "Settings",
+        url: "/dashboard/settings",
+        icon: <Cog />,
+      },
+      {
+        title: "Help",
+        url: "/dashboard/help",
+        icon: <HelpCircle />,
       },
     ],
   },
