@@ -81,6 +81,9 @@
   .gradient-text {
     @apply bg-purple-gradient bg-cover bg-clip-text text-transparent;
   }
+  .search-field {
+    @apply border bg-transparent  w-full  h-[50px] font-medium text-[16px] leading-[140%] focus-visible:ring-offset-0 p-3 focus-visible:ring-transparent !important;
+  }
 }
 
 /** =====  CLERK OVERRIDES */

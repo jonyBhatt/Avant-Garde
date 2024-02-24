@@ -52,9 +52,20 @@ export async function createHelpPost(values: CreateHelpPostProps) {
   }
 }
 
-export async function getAllPost() {
+export async function getAllPost(query?: string) {
   try {
-    const post = await prisma.helpPost.findMany({});
+    const post = await prisma.helpPost.findMany({
+      where: {
+        OR: [
+          {
+            title: {
+              contains: query,
+              mode: "insensitive",
+            },
+          },
+        ],
+      },
+    });
     return {
       post,
     };
