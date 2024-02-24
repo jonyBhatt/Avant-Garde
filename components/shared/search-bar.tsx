@@ -30,7 +30,7 @@ const SearchBar = () => {
         </label>
         <input
           type="text"
-          className="peer block w-full md:w-3/4 rounded-[16px]  py-2.5 px-10 text-sm outline-0 placeholder:text-gray-500 bg-muted "
+          className="peer block w-full  rounded-[16px]  py-2.5 px-10 text-sm outline-0 placeholder:text-gray-500 bg-muted "
           placeholder="search..."
           defaultValue={searchParams.get("query")?.toString()}
           onChange={(e) => {
