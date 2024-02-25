@@ -11,6 +11,8 @@ import { getAllPost } from "@/lib/actions/user/help-post-action";
 import { increaseTimeBySeconds } from "@/lib/updateTime";
 import { useQuery } from "@tanstack/react-query";
 import LoadingSkeleton from "@/components/shared/LoadingSkeleton";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+import CustomDialogContent from "@/components/shared/dialog-content";
 const StudentPost = ({ query }: { query: string }) => {
   const { data, error, isLoading } = useQuery({
     queryKey: ["studentposts"],
@@ -21,6 +23,7 @@ const StudentPost = ({ query }: { query: string }) => {
   if (error) return "Error: " + error;
 
   console.log(data);
+  if (!data?.post) return <p>No post yet</p>;
 
   return (
     <div className="flex flex-col gap-8">
@@ -32,7 +35,7 @@ const StudentPost = ({ query }: { query: string }) => {
         >
           <div className="flex items-center gap-4">
             <Image
-              src="/images/user.jpg"
+              src={p.student.photo || "/images/user.jpg"}
               alt="user profile pictures"
               width={50}
               height={50}
@@ -63,8 +66,15 @@ const StudentPost = ({ query }: { query: string }) => {
                 <span className="text-xs text-muted-foreground">Comments</span>
               </div>
               <div className="flex items-center gap-1 cursor-pointer">
-                <MessagesSquare className="w-4 h-4 text-primary" />
-                <span className="text-xs text-muted-foreground">Message</span>
+                <Dialog>
+                  <DialogTrigger className="flex items-center gap-1">
+                    <MessagesSquare className="w-4 h-4 text-primary" />
+                    <span className="text-xs text-muted-foreground">
+                      Message
+                    </span>
+                  </DialogTrigger>
+                  <CustomDialogContent />
+                </Dialog>
               </div>
             </div>
           </div>

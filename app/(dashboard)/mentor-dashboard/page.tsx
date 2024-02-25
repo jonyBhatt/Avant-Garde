@@ -1,9 +1,16 @@
 import SearchBar from "@/components/shared/search-bar";
 import StudentPost from "../_components/mentor/student-post";
 import { Suspense } from "react";
-import Await from "@/lib/await-promise";
-import { getAllPost } from "@/lib/actions/user/help-post-action";
-import { randomUUID } from "crypto";
+import { IoChatbubblesSharp } from "react-icons/io5";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import CustomDialogContent from "@/components/shared/dialog-content";
 
 const MentorDashBoard = ({
   searchParams,
@@ -15,7 +22,7 @@ const MentorDashBoard = ({
   const query = searchParams?.query || "";
 
   return (
-    <div className="py-6 px-4">
+    <div className="py-6 px-4 relative">
       <div className="">
         <SearchBar />
       </div>
@@ -24,6 +31,16 @@ const MentorDashBoard = ({
           <StudentPost query={query} />
         </div>
       </Suspense>
+      <div className="sticky bottom-0 ml-auto max-w-max">
+        <Dialog>
+          <DialogTrigger>
+            <div className="p-4 rounded-full bg-primary">
+              <IoChatbubblesSharp size={30} />
+            </div>
+          </DialogTrigger>
+          <CustomDialogContent />
+        </Dialog>
+      </div>
     </div>
   );
 };

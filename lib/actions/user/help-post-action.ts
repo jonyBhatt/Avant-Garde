@@ -65,6 +65,9 @@ export async function getAllPost(query?: string) {
           },
         ],
       },
+      include: {
+        student: true,
+      },
     });
     return {
       post,
