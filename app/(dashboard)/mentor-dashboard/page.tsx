@@ -11,8 +11,9 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import CustomDialogContent from "@/components/shared/dialog-content";
+import { auth } from "@clerk/nextjs";
 
-const MentorDashBoard = ({
+const MentorDashBoard = async ({
   searchParams,
 }: {
   searchParams?: {
@@ -20,6 +21,9 @@ const MentorDashBoard = ({
   };
 }) => {
   const query = searchParams?.query || "";
+  const { userId } = auth();
+
+  if (!userId) return null;
 
   return (
     <div className="py-6 px-4 relative">
@@ -28,7 +32,7 @@ const MentorDashBoard = ({
       </div>
       <Suspense fallback="Loading..">
         <div className="py-10 container mx-auto justify-center flex">
-          <StudentPost query={query} />
+          <StudentPost query={query} userId={userId} />
         </div>
       </Suspense>
       <div className="sticky bottom-0 ml-auto max-w-max">

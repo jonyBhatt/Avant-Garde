@@ -18,3 +18,9 @@ export type UpdateUserProps = {
   lastName: string;
   photo: string;
 };
+
+export type CommentProps = {
+  content: string;
+  postId: string;
+  userId: string;
+};

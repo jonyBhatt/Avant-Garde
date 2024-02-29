@@ -7,16 +7,14 @@ import { increaseTimeBySeconds } from "@/lib/updateTime";
 import { useQuery } from "@tanstack/react-query";
 import LoadingSkeleton from "@/components/shared/LoadingSkeleton";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import prisma from "@/lib/prisma";
 
 import CustomDialogContent from "@/components/shared/dialog-content";
 import Likes from "./likes";
 import { CustomComment } from "./custom-comment";
-const StudentPost = ({ query }: { query: string }) => {
+import { auth } from "@clerk/nextjs";
+import { useState } from "react";
+const StudentPost = ({ query, userId }: { query: string; userId: string }) => {
   const { data, error, isLoading } = useQuery({
     queryKey: ["studentposts"],
     queryFn: async () => await getAllPost(query),
@@ -30,7 +28,7 @@ const StudentPost = ({ query }: { query: string }) => {
 
   return (
     <div className="flex flex-col gap-8">
-      {/** // TODO: Make ui for all posts */}
+      {/*// TODO: Make ui for all posts  */}
       {data?.post.map((p) => (
         <div
           key={p.id}
@@ -66,7 +64,7 @@ const StudentPost = ({ query }: { query: string }) => {
                     </span>
                   </div>
                 </DialogTrigger>
-                <CustomComment />
+                <CustomComment postId={p.id} userId={userId} />
               </Dialog>
               <div className="flex items-center gap-1 cursor-pointer">
                 <Dialog>

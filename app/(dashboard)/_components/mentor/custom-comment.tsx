@@ -1,3 +1,11 @@
+"use client";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { Reply } from "lucide-react";
+import Image from "next/image";
+
 import { Button } from "@/components/ui/button";
 import { DialogContent } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -6,26 +14,84 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Reply } from "lucide-react";
-import Image from "next/image";
-import { CommentReply } from "./reply";
 
-export const CustomComment = () => {
+import { CommentReply } from "./reply";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { createComment } from "@/lib/actions/mentor/comment-action";
+
+const formSchema = z.object({
+  content: z.string().optional(),
+});
+
+export const CustomComment = ({
+  postId,
+  userId,
+}: {
+  postId: string;
+  userId: string;
+}) => {
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      content: "",
+    },
+  });
+
+  // 2. Define a submit handler.
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log(values, postId, userId);
+    const res = await createComment({
+      content: values.content as string,
+      postId,
+      userId,
+    });
+
+    console.log(res.comments?.content);
+  }
   return (
     <div>
-      <DialogContent className="">
+      <DialogContent className=" ">
         <div className="flex flex-col gap-4">
-          <div className="flex items-center gap-2 pr-4">
-            <Input
-              type="text"
-              placeholder="Comment..."
-              className="rounded-[16px]"
-            />
-            <Button size={"sm"} variant={"outline"} className="rounded-full">
-              Comment
-            </Button>
-          </div>
-          <div className="flex flex-col  gap-1">
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-4 z-10"
+            >
+              <FormField
+                control={form.control}
+                name="content"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Comment</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="comment..."
+                        {...field}
+                        className="rounded-[8px]"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button
+                type="submit"
+                size={"sm"}
+                className="rounded-[8px] text-white"
+              >
+                Comment
+              </Button>
+            </form>
+          </Form>
+          <div className="flex flex-col  gap-1 mt-4 overflow-y-scroll custom-scrollbar h-52">
             <div>
               <div className="flex items-center gap-2">
                 <Image
@@ -91,3 +157,5 @@ export const CustomComment = () => {
     </div>
   );
 };
+
+// 01732964013
