@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/popover";
 import { Reply } from "lucide-react";
 import Image from "next/image";
+import { CommentReply } from "./reply";
 
 export const CustomComment = () => {
   return (
@@ -46,11 +47,11 @@ export const CustomComment = () => {
               </div>
               <div className="flex items-center gap-1.5 mt-1.5 text-muted-foreground">
                 <Popover>
-                  <PopoverTrigger>
+                  <PopoverTrigger className="flex items-center gap-1.5 mt-1.5 text-muted-foreground">
                     <Reply />
                     <span className="text-sm">Reply</span>
                   </PopoverTrigger>
-                  <PopoverContent>Hllo</PopoverContent>
+                  <CommentReply />
                 </Popover>
               </div>
             </div>
@@ -76,11 +77,11 @@ export const CustomComment = () => {
               </div>
               <div className="flex items-center gap-1.5 mt-1.5 text-muted-foreground">
                 <Popover>
-                  <PopoverTrigger>
+                  <PopoverTrigger className="flex items-center gap-1.5 mt-1.5 text-muted-foreground">
                     <Reply />
                     <span className="text-sm">Reply</span>
                   </PopoverTrigger>
-                  <PopoverContent>Hllo</PopoverContent>
+                  <CommentReply />
                 </Popover>
               </div>
             </div>
