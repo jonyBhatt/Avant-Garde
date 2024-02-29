@@ -50,6 +50,8 @@ export const studentOnboardAction = async (
   try {
     await prisma.student.create({
       data: {
+        firstName: user.firstName,
+        lastName: user.lastName,
         c_technical,
         career,
         major,

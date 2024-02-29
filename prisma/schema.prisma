@@ -37,13 +37,17 @@ model User {
 
   role Role @default(STUDENT)
 
-  student Student[]
+  student  Student[]
+  comments Comment[]
+  likes    Like[]
 }
 
 model Student {
-  id    String  @id @default(auto()) @map("_id") @db.ObjectId
-  email String  @unique
-  photo String?
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  firstName String?
+  lastName  String?
+  email     String  @unique
+  photo     String?
 
   institution String?
   major       String
@@ -74,4 +78,30 @@ model HelpPost {
   student   Student @relation(fields: [studentId], references: [id])
 
   createAt DateTime @default(now())
+
+  comments Comment[]
+  likes    Like[]
+}
+
+model Comment {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  content  String
+  createAt DateTime @default(now())
+
+  userId String @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id])
+
+  postId String   @db.ObjectId
+  post   HelpPost @relation(fields: [postId], references: [id])
+}
+
+model Like {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  userId String @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id])
+
+  postId String   @db.ObjectId
+  post   HelpPost @relation(fields: [postId], references: [id])
 }
