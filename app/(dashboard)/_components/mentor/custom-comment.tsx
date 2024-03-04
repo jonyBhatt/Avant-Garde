@@ -69,7 +69,7 @@ export const CustomComment = ({
 }: {
   postId: string;
   userId: string;
-  comments: CommentType;
+  comments: any;
 }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -125,7 +125,7 @@ export const CustomComment = ({
               </Button>
             </form>
           </Form>
-          {comments.map((comment) => (
+          {comments.map((comment: any) => (
             <div
               className="flex flex-col  gap-1 mt-4 overflow-y-scroll custom-scrollbar h-52"
               key={comment.id}

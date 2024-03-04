@@ -69,6 +69,7 @@ const StudentPost = ({ query, userId }: { query: string; userId: string }) => {
                   postId={p.id}
                   userId={userId}
                   comments={p.comments}
+                  // user={p.comments.}
                 />
               </Dialog>
               <div className="flex items-center gap-1 cursor-pointer">
