@@ -58,7 +58,7 @@ model Student {
   s_technical String?
 
   userEmail String
-  users     User   @relation(fields: [userEmail], references: [email])
+  users     User   @relation(fields: [userEmail], references: [email], onDelete: Cascade)
 
   helps HelpPost[]
 }
@@ -75,7 +75,7 @@ model HelpPost {
   status HelpPostStatus @default(OPEN)
 
   studentId String  @db.ObjectId
-  student   Student @relation(fields: [studentId], references: [id])
+  student   Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
 
   createAt DateTime @default(now())
 
@@ -97,18 +97,18 @@ model Comment {
   updateAt DateTime @default(now())
 
   userId String @db.ObjectId
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   postId String   @db.ObjectId
-  post   HelpPost @relation(fields: [postId], references: [id])
+  post   HelpPost @relation(fields: [postId], references: [id], onDelete: Cascade)
 }
 
 model Like {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
   userId String @db.ObjectId
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   postId String   @db.ObjectId
-  post   HelpPost @relation(fields: [postId], references: [id])
+  post   HelpPost @relation(fields: [postId], references: [id], onDelete: Cascade)
 }

@@ -13,7 +13,7 @@ import CustomDialogContent from "@/components/shared/dialog-content";
 import Likes from "./likes";
 import { CustomComment } from "./custom-comment";
 import { auth } from "@clerk/nextjs";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 const StudentPost = ({ query, userId }: { query: string; userId: string }) => {
   const { data, error, isLoading } = useQuery({
     queryKey: ["studentposts"],
@@ -24,6 +24,7 @@ const StudentPost = ({ query, userId }: { query: string; userId: string }) => {
   if (error) return "Error: " + error;
 
   console.log(data);
+
   if (!data?.post) return <p>No post yet</p>;
 
   return (
@@ -64,7 +65,11 @@ const StudentPost = ({ query, userId }: { query: string; userId: string }) => {
                     </span>
                   </div>
                 </DialogTrigger>
-                <CustomComment postId={p.id} userId={userId} />
+                <CustomComment
+                  postId={p.id}
+                  userId={userId}
+                  comments={p.comments}
+                />
               </Dialog>
               <div className="flex items-center gap-1 cursor-pointer">
                 <Dialog>
@@ -84,6 +89,7 @@ const StudentPost = ({ query, userId }: { query: string; userId: string }) => {
     </div>
   );
 };
+
 export default StudentPost;
 
 //{ posts }: { posts: Document[] | undefined }

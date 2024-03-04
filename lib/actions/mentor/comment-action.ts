@@ -18,8 +18,34 @@ export const createComment = async (values: CommentProps) => {
         postId,
         userId: user?.id as string,
       },
+      include: {
+        user: true,
+      },
     });
     return { comments };
+  } catch (error) {
+    return {
+      error: handleError(error),
+    };
+  }
+};
+
+export const getAllComment = async (postId: string) => {
+  try {
+    const comments = await prisma.comment.findMany({
+      where: {
+        postId,
+      },
+      include: {
+        user: true,
+        parentComment: true,
+        children: true,
+      },
+    });
+
+    return {
+      comments,
+    };
   } catch (error) {
     return {
       error: handleError(error),

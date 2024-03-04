@@ -67,6 +67,24 @@ export async function getAllPost(query?: string) {
       },
       include: {
         student: true,
+        comments: {
+          select: {
+            content: true,
+            id: true,
+            createAt: true,
+            parentComment: true,
+            parentId: true,
+            children: true,
+            user: {
+              select: {
+                firstName: true,
+                lastName: true,
+                id: true,
+                photo: true,
+              },
+            },
+          },
+        },
       },
     });
     return {
@@ -85,17 +103,51 @@ export async function getOpenPostByStudent() {
   if (!userId) return { error: "User does not exist" };
   const student = await getStudentById(userId);
 
-  if (!student) return null;
+  if (!student.student) return null;
   // console.log(student);
 
   try {
     const post = await prisma.helpPost.findMany({
       where: {
-        studentId: student.student?.id,
+        studentId: student.student.id,
         status: "OPEN",
       },
-      include: {
-        student: true,
+      select: {
+        title: true,
+        budget: true,
+        createAt: true,
+        id: true,
+        description: true,
+        helpType: true,
+        likes: true,
+        sessionLength: true,
+
+        student: {
+          select: {
+            id: true,
+            photo: true,
+            firstName: true,
+            lastName: true,
+            c_technical: true,
+          },
+        },
+        comments: {
+          orderBy: {
+            createAt: "desc",
+          },
+          select: {
+            id: true,
+            content: true,
+            parentId: true,
+            user: {
+              select: {
+                id: true,
+                firstName: true,
+                lastName: true,
+              },
+            },
+          },
+        },
       },
     });
     return {
