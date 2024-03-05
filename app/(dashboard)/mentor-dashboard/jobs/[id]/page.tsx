@@ -4,21 +4,30 @@ import Image from "next/image";
 import Link from "next/link";
 
 const JobDescriptionPage = ({ params }: { params: { id: string } }) => {
-  console.log(params.id);
+  const findJob = JobData.find(({ id }) => String(id) === params.id);
 
+  if (!findJob) return "Job Not Found";
   return (
     <div className="py-6 pr-2">
       <div className="grid  lg:grid-cols-[1fr_20rem] gap-8">
         <div className="flex flex-col gap-12 items-start p-4">
           {/** Logo company */}
           <div className="flex items-center gap-2">
-            <Image src="/svg/wapp.svg" alt="wapp" width={80} height={80} />
+            <Image
+              src={findJob.company_logo}
+              alt={findJob.company_name}
+              width={80}
+              height={80}
+            />
             <div className="flex flex-col gap-1">
               <h3 className="font-inter font-bold text-lg capitalize">
-                System Analyst
+                {findJob.job_position}
               </h3>
-              <Link href={"#"} className="font-inter font-light text-primary">
-                Whatsapp Corporation
+              <Link
+                href={findJob.company_website}
+                className="font-inter font-light text-primary"
+              >
+                {findJob.company_name}
               </Link>
               <span className="text-xs font-inter font-light text-muted-foreground">
                 a few seconds ago
@@ -27,17 +36,17 @@ const JobDescriptionPage = ({ params }: { params: { id: string } }) => {
           </div>
           {/** Cards */}
           <div className="flex flex-col md:flex-row w-full items-center  gap-4 ">
-            <div className="py-4 px-8 max-w-[250px] w-full bg-secondary rounded-[8px] text-center flex flex-col">
-              <p className="sm:text-sm md:text-base">Salary</p>
-              <h3 className="font-bold sm:text-sm md:text-lg font-inter">
-                $ 1200
+            <div className="py-4 px-8 max-w-[280px] w-full bg-secondary text-center rounded-[8px]  flex flex-col">
+              <p className="sm:text-sm md:text-base text-center">Salary</p>
+              <h3 className=" text-sm font-inter font-bold">
+                {findJob.salary}
               </h3>
             </div>
 
             <div className="py-4 px-8 max-w-[250px] w-full bg-rose-500 rounded-[8px] text-center flex flex-col">
               <p className="sm:text-sm md:text-base">Job Type</p>
               <h3 className="font-bold sm:text-sm md:text-lg font-inter">
-                Full Time
+                {findJob.job_type}
               </h3>
             </div>
 
@@ -55,7 +64,10 @@ const JobDescriptionPage = ({ params }: { params: { id: string } }) => {
           </div>
           {/** Job and company description */}
           <div>
-            <JobCompanyDescription />
+            <JobCompanyDescription
+              desc={findJob.job_description}
+              req={findJob.requirements}
+            />
           </div>
         </div>
         <div className="flex flex-col gap-4">
