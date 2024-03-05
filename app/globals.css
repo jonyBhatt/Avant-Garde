@@ -51,6 +51,9 @@
 }
 
 @layer utilities {
+  .custom-card-background {
+    @apply border border-white/[.1]  rounded-[8px] bg-[radial-gradient(164.75%_100%_at_50%_0%,#334155_0%,#0F172A_48.73%)];
+  }
   .css-invert {
     @apply invert-[50%] brightness-200;
   }

@@ -11,7 +11,10 @@ const JobSideBar = () => {
   return (
     <div className="flex sm:flex-row md:flex-col gap-4 sm:justify-between sm:items-center md:items-start">
       <h3 className="font-rubik text-lg md:text-2xl ">Filter Jobs</h3>
-      <Accordion className="" type="multiple">
+      <Accordion
+        className="flex sm:flex-row md:flex-col gap-4 sm:justify-between sm:items-center md:items-start"
+        type="multiple"
+      >
         <AccordionItem className="border-b-0 mb-4" value="type">
           <div className="flex flex-col gap-2.5">
             <AccordionTrigger className="gap-4 pb-0">
