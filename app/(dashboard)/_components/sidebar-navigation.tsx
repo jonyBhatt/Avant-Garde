@@ -15,7 +15,8 @@ export const SidebarNavigation = () => {
   }, []);
 
   const pathname = usePathname();
-  // console.log(pathname);
+
+  // console.log(pathname.slice(0, 24));
 
   return (
     <>

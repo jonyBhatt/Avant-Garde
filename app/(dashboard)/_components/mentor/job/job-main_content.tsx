@@ -4,6 +4,7 @@ import Link from "next/link";
 import { JobData } from "@/utils/data/job-data";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import MyJobPost from "./job-my_post";
 const JobMainContent = () => {
   const [togglePosts, setTogglePosts] = useState("allpost");
   return (
@@ -94,7 +95,9 @@ const JobMainContent = () => {
 
       {togglePosts === "mypost" && (
         <>
-          <div>Hello</div>
+          <div className="py-4 w-full">
+            <MyJobPost />
+          </div>
         </>
       )}
     </div>

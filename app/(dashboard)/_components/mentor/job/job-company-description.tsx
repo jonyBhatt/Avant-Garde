@@ -50,6 +50,13 @@ const JobCompanyDescription = ({
               <h2 className="font-bold md:text-2xl font-inter">Requirements</h2>
               <span className="text-sm  font-inter">{req}</span>
             </div>
+            <Button
+              size={"lg"}
+              onClick={() => setDescription("job")}
+              className={"rounded-full w-full text-lg text-white font-bold"}
+            >
+              Apply
+            </Button>
           </div>
         </>
       )}

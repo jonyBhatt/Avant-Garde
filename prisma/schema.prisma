@@ -37,9 +37,11 @@ model User {
 
   role Role @default(STUDENT)
 
-  student  Student[]
-  comments Comment[]
-  likes    Like[]
+  student   Student[]
+  comments  Comment[]
+  likes     Like[]
+  companies Company[]
+  job       Job[]
 }
 
 model Student {
@@ -61,6 +63,7 @@ model Student {
   users     User   @relation(fields: [userEmail], references: [email], onDelete: Cascade)
 
   helps HelpPost[]
+  job   Job[]
 }
 
 model HelpPost {
@@ -111,4 +114,49 @@ model Like {
 
   postId String   @db.ObjectId
   post   HelpPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+}
+
+model Company {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  name  String @unique
+  email String @unique
+
+  company_logo String?
+  about        String
+  location     String
+
+  userId String @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
+}
+
+enum JobType {
+  FULL_TIME
+  PART_TIME
+  REMOTE
+  CONTRACT
+}
+
+model Job {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  title       String
+  type        JobType @default(FULL_TIME)
+  location    String?
+  salary      String
+  vaccancies  Int
+  exprience   String
+  description String
+
+  applicationEmail String?
+  applications     Student? @relation(fields: [applicationEmail], references: [email], onDelete: Cascade)
+
+  userId String @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
 }
