@@ -147,9 +147,10 @@ model Job {
   type        JobType @default(FULL_TIME)
   location    String?
   salary      String
-  vaccancies  Int
-  exprience   String
+  vacancies   Int
+  experience  String
   description String
+  postion     String
 
   applicationEmail String?
   applications     Student? @relation(fields: [applicationEmail], references: [email], onDelete: Cascade)

@@ -34,3 +34,17 @@ export const liveHelpSchema = z.object({
   sessionLength: z.string(),
   budget: z.string(),
 });
+
+/**
+ * * Create Job Post
+ */
+
+export const jobSchema = z.object({
+  title: z.string().min(1, { message: "Title is required!" }),
+  type: z.enum(["FULL_TIME", "PART_TIME", "REMOTE", "CONTRACT"]),
+  location: z.string(),
+  vacancies: z.string(),
+  experience: z.string(),
+  description: z.string(),
+  position: z.string(),
+});

@@ -17,6 +17,7 @@ import { PlusCircle } from "lucide-react";
 
 import Image from "next/image";
 import Link from "next/link";
+import AddPostForm from "./add-post-form";
 
 const MyJobPost = () => {
   const company = false;
@@ -28,7 +29,9 @@ const MyJobPost = () => {
             <span className="text-lg font-rubik">Add Post</span>
             <PlusCircle className="w-6 h-6" />
           </DialogTrigger>
-          <DialogContent>Add job post</DialogContent>
+          <DialogContent>
+            <AddPostForm />
+          </DialogContent>
         </Dialog>
         {company && (
           <Accordion type="single" collapsible>
@@ -49,7 +52,7 @@ const MyJobPost = () => {
           </Accordion>
         )}
       </div>
-      <div className="grid grid-cols-1  lg:grid-cols-2 xl:grid-cols-4 gap-4 mt-6">
+      <div className="grid grid-cols-1  lg:grid-cols-2 xl:grid-cols-3 gap-4 mt-6">
         {JobData.map((job) => (
           <div
             key={job.id}
