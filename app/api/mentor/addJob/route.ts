@@ -4,10 +4,10 @@ import { JobSchema } from "@/utils/types";
 import { auth } from "@clerk/nextjs";
 import { handleError } from "@/lib/utils";
 
-export async function POST(req: NextRequest) {
+export async function POST(req: NextRequest): Promise<any> {
   const body = await req.json();
   const { userId } = auth();
-  if (!userId) return null;
+  if (!userId) return { error: "user does not exists" };
   console.log(body);
   const {
     title,
