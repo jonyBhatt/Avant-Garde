@@ -1,3 +1,5 @@
+import { ZodEnum } from "zod";
+
 export interface Step {
   id: string;
   stepNumber: number;
@@ -23,4 +25,15 @@ export type CommentProps = {
   content: string;
   postId: string;
   userId: string;
+};
+
+export type JobSchema = {
+  title: string;
+  type: string;
+  location: string;
+  vacancies: string;
+  experience: string;
+  description: string;
+  position: string;
+  salary: string;
 };

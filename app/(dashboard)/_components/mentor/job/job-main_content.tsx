@@ -5,6 +5,7 @@ import { JobData } from "@/utils/data/job-data";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import MyJobPost from "./job-my_post";
+import FetchJobs from "./fetch-jobs";
 const JobMainContent = () => {
   const [togglePosts, setTogglePosts] = useState("allpost");
   return (
@@ -89,6 +90,7 @@ const JobMainContent = () => {
                 </div>
               </div>
             ))}
+            <FetchJobs />
           </div>
         </>
       )}

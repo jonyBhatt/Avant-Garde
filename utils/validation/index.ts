@@ -47,4 +47,5 @@ export const jobSchema = z.object({
   experience: z.string(),
   description: z.string(),
   position: z.string(),
+  salary: z.string(),
 });

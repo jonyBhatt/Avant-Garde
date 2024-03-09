@@ -24,8 +24,30 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useMutation } from "@tanstack/react-query";
+import { JobSchema } from "@/utils/types";
+import { Loader2 } from "lucide-react";
+import toast from "react-hot-toast";
 
 const AddPostForm = () => {
+  const mutation = useMutation({
+    mutationFn: async (values: JobSchema) => {
+      return await fetch("/api/mentor/addJob", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: JSON.stringify(values),
+      });
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+    onSuccess: () => {
+      toast.success("Job Created");
+    },
+  });
   const form = useForm<z.infer<typeof jobSchema>>({
     resolver: zodResolver(jobSchema),
     defaultValues: {
@@ -36,14 +58,24 @@ const AddPostForm = () => {
       type: "FULL_TIME",
       vacancies: "1",
       position: "",
+      salary: "",
     },
   });
 
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof jobSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
     console.log(values);
+
+    mutation.mutate(values);
+    form.reset({
+      description: "",
+      experience: "",
+      location: "",
+      position: "",
+      title: "",
+      type: "FULL_TIME",
+      vacancies: "1",
+    });
   }
 
   return (
@@ -210,7 +242,7 @@ const AddPostForm = () => {
               name="vacancies"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Location</FormLabel>
+                  <FormLabel>Vacancies</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
@@ -223,6 +255,25 @@ const AddPostForm = () => {
                 </FormItem>
               )}
             />
+
+            <FormField
+              control={form.control}
+              name="salary"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Salary</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="80k - 100k per year"
+                      {...field}
+                      className="rounded-[8px]"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             <div className="col-span-2">
               <FormField
                 control={form.control}
@@ -246,10 +297,17 @@ const AddPostForm = () => {
           </div>
           <Button
             type="submit"
-            className="rounded-[8px] text-secondary-foreground font-rubik"
+            className="rounded-[8px] text-secondary-foreground font-rubik flex items-center gap-2"
             size={"lg"}
           >
-            Post
+            {mutation.isPending ? (
+              <div className="flex items-center gap-2">
+                <Loader2 className="w-4 h-4 animate-spin" />
+                <span>Posting</span>
+              </div>
+            ) : (
+              <>Post</>
+            )}
           </Button>
         </form>
       </Form>
