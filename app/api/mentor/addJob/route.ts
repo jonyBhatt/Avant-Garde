@@ -41,7 +41,6 @@ export async function POST(req: NextRequest) {
       },
     });
   } catch (error) {
-    handleError(error);
     return new Response("Internal Error", {
       status: 500,
     });

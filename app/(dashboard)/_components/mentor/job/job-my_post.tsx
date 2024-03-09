@@ -1,3 +1,4 @@
+"use client";
 import {
   Accordion,
   AccordionContent,
@@ -18,8 +19,23 @@ import { PlusCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import AddPostForm from "./add-post-form";
+import { useQuery } from "@tanstack/react-query";
+import { getJobBySingleMentor } from "@/lib/actions/mentor/job-action";
+import LoadingSkeleton from "@/components/shared/LoadingSkeleton";
 
 const MyJobPost = () => {
+  const {
+    data: job,
+    error,
+    isLoading,
+  } = useQuery({
+    queryKey: ["alljobposts"],
+    queryFn: async () => await getJobBySingleMentor(),
+  });
+  if (isLoading) return <LoadingSkeleton />;
+  if (error) return "Error: " + error;
+
+  if (!job?.data || job.data.length <= 0) return <p>No post yet</p>;
   const company = false;
   return (
     <div>
@@ -53,7 +69,7 @@ const MyJobPost = () => {
         )}
       </div>
       <div className="grid grid-cols-1  lg:grid-cols-2 xl:grid-cols-3 gap-4 mt-6">
-        {JobData.map((job) => (
+        {job.data.map((job) => (
           <div
             key={job.id}
             className="flex w-[300px] flex-col items-start gap-8 p-4  border border-white/[.1]  rounded-[8px] bg-[radial-gradient(164.75%_100%_at_50%_0%,#334155_0%,#0F172A_48.73%)] "
@@ -65,38 +81,43 @@ const MyJobPost = () => {
             >
               <div>
                 <Image
-                  src={job.company_logo || "/svg/twitter.svg"}
-                  alt={job.company_name}
+                  src={
+                    job.company?.company_logo ||
+                    job.user.photo ||
+                    "/svg/twitter.svg"
+                  }
+                  alt={job.company?.name || job.user.firstName}
                   width={50}
                   height={50}
+                  className="rounded-full"
                 />
               </div>
               <div>
                 <h3 className="font-inter text-lg font-bold tracking-tight">
-                  {job.job_position}
+                  {job.position}
                 </h3>
               </div>
             </Link>
             {/** Description */}
             <span className="text-sm text-muted-foreground font-inter line-clamp-3">
-              {job.job_description}
+              {job.description}
             </span>
             <div className="flex justify-between items-center w-full">
               <div className="p-2 bg-muted rounded">
                 <span
                   className={`capitalize font-rubik ${
-                    job.job_type === "Full-time"
+                    job.type === "FULL_TIME"
                       ? "text-primary"
-                      : job.job_type === "Part-Time"
+                      : job.type === "PART_TIME"
                       ? "text-pink-500"
                       : "text-orange-600"
                   }`}
                 >
-                  {job.job_type}
+                  {job.type}
                 </span>
               </div>
               <span className="text-sm text-muted-foreground font-light font-inter">
-                a few second ago
+                {job.createAt.toString().slice(0, 10)}
               </span>
             </div>
           </div>
