@@ -48,8 +48,4 @@ export async function POST(req: NextRequest) {
       status: 500,
     });
   }
-
-  return new Response("Hello, Next.js!", {
-    status: 200,
-  });
 }
