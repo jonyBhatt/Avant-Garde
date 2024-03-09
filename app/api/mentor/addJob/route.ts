@@ -40,6 +40,9 @@ export async function POST(req: NextRequest) {
         },
       },
     });
+    return new Response("Success", {
+      status: 201,
+    });
   } catch (error) {
     return new Response("Internal Error", {
       status: 500,
