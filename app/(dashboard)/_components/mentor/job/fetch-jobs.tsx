@@ -28,7 +28,7 @@ const FetchJobs = () => {
         >
           {/** Logo title */}
           <Link
-            href={"/mentor-dashboard/jobs/"}
+            href={`/mentor-dashboard/jobs/${job.id}`}
             className="flex items-center gap-4"
           >
             <div>

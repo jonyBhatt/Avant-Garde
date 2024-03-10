@@ -1,12 +1,24 @@
+"use client";
 import JobCompanyDescription from "@/app/(dashboard)/_components/mentor/job/job-company-description";
+import LoadingSkeleton from "@/components/shared/LoadingSkeleton";
+import { getJobPostById } from "@/lib/actions/mentor/job-action";
 import { JobData } from "@/utils/data/job-data";
+import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
 
 const JobDescriptionPage = ({ params }: { params: { id: string } }) => {
-  const findJob = JobData.find(({ id }) => String(id) === params.id);
+  const { data, error, isLoading } = useQuery({
+    queryKey: ["agetjobbyid"],
+    queryFn: async () => await getJobPostById(params.id),
+  });
+  if (isLoading) return <LoadingSkeleton />;
+  if (error) return "Error: " + error;
+  if (!data?.job) return "Job Not Found";
 
-  if (!findJob) return "Job Not Found";
+  // const findJob = JobData.find(({ id }) => String(id) === params.id);
+
+  // if (!findJob) return "Job Not Found";
   return (
     <div className="py-6 pr-2">
       <div className="grid  lg:grid-cols-[1fr_20rem] gap-8">
@@ -14,23 +26,29 @@ const JobDescriptionPage = ({ params }: { params: { id: string } }) => {
           {/** Logo company */}
           <div className="flex items-center gap-2">
             <Image
-              src={findJob.company_logo}
-              alt={findJob.company_name}
+              src={
+                data.job.company?.company_logo ||
+                data.job.user.photo ||
+                "/svg/twitter.svg"
+              }
+              alt={data.job.company?.name || data.job.user.firstName}
               width={80}
               height={80}
             />
             <div className="flex flex-col gap-1">
               <h3 className="font-inter font-bold text-lg capitalize">
-                {findJob.job_position}
+                {/* {findJob.job_position} */}
+                {data.job.position}
               </h3>
               <Link
-                href={findJob.company_website}
+                href={data.job.company?.email || "https://www.wikipedia.org/"}
                 className="font-inter font-light text-primary"
               >
-                {findJob.company_name}
+                {/* {findJob.company_name} */}
+                {data.job.company?.name || data.job.user.firstName}
               </Link>
               <span className="text-xs font-inter font-light text-muted-foreground">
-                a few seconds ago
+                {data.job.createAt.toString().slice(0, 10)}
               </span>
             </div>
           </div>
@@ -39,34 +57,37 @@ const JobDescriptionPage = ({ params }: { params: { id: string } }) => {
             <div className="py-4 px-8 max-w-[280px] w-full bg-secondary text-center rounded-[8px]  flex flex-col">
               <p className="sm:text-sm md:text-base text-center">Salary</p>
               <h3 className=" text-sm font-inter font-bold">
-                {findJob.salary}
+                {/* {findJob.salary} */}
+                {data.job.salary}
               </h3>
             </div>
 
             <div className="py-4 px-8 max-w-[250px] w-full bg-rose-500 rounded-[8px] text-center flex flex-col">
               <p className="sm:text-sm md:text-base">Job Type</p>
-              <h3 className="font-bold sm:text-sm md:text-lg font-inter">
-                {findJob.job_type}
+              <h3 className="font-bold text-sm font-inter">
+                {/* {findJob.job_type} */}
+                {data.job.type}
               </h3>
             </div>
 
             <div className="py-4 px-8 max-w-[250px] w-full bg-dark-pastel-blue rounded-[8px] text-center flex flex-col">
               <p className="sm:text-sm md:text-base">No of Applicants</p>
-              <h3 className="font-bold sm:text-sm md:text-lg font-inter">
-                120
-              </h3>
+              <h3 className="font-bold text-sm font-inter">120</h3>
             </div>
 
             <div className="py-4 px-8 max-w-[250px] w-full bg-emerald-500 rounded-[8px] text-center flex flex-col">
               <p className="sm:text-sm md:text-base">No of vacancies</p>
-              <h3 className="font-bold sm:text-sm md:text-lg font-inter">10</h3>
+              <h3 className="font-bold text-sm font-inter">
+                {data.job.vacancies}
+              </h3>
             </div>
           </div>
           {/** Job and company description */}
           <div>
             <JobCompanyDescription
-              desc={findJob.job_description}
-              req={findJob.requirements}
+              job_desc={data.job.description}
+              com_desc={data.job.company?.about}
+              id={data.job.id}
             />
           </div>
         </div>
