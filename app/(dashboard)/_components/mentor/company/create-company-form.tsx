@@ -18,8 +18,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import UploadButton from "@/lib/upload-button";
+import { createCompany } from "@/lib/actions/mentor/company";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 const CreateCompanyForm = () => {
+  const router = useRouter();
   const form = useForm<z.infer<typeof companySchema>>({
     resolver: zodResolver(companySchema),
     defaultValues: {
@@ -33,8 +37,14 @@ const CreateCompanyForm = () => {
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof companySchema>) {
+  async function onSubmit(values: z.infer<typeof companySchema>) {
     console.log(values);
+    const res = await createCompany(values);
+    if (res?.message) {
+      toast.success("Company Registered!");
+      router.push(`/mentor-dashboard/company/${res.company.name}`);
+    }
+    form.reset();
   }
   return (
     <div className="w-full px-4 mt-6">
@@ -140,7 +150,7 @@ const CreateCompanyForm = () => {
             <div className="col-span-2">
               <FormField
                 control={form.control}
-                name="email"
+                name="about"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>About Company</FormLabel>
