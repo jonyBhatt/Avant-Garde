@@ -126,6 +126,8 @@ model Company {
   about        String
   location     String
 
+  company_url String
+
   userId String
   user   User   @relation(fields: [userId], references: [clerkId], onDelete: Cascade)
 

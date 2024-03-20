@@ -36,7 +36,7 @@ export const liveHelpSchema = z.object({
 });
 
 /**
- * * Create Job Post
+ * * job schema
  */
 
 export const jobSchema = z.object({
@@ -48,4 +48,17 @@ export const jobSchema = z.object({
   description: z.string(),
   position: z.string(),
   salary: z.string(),
+});
+
+/**
+ * * company schema
+ */
+
+export const companySchema = z.object({
+  name: z.string().min(1, { message: "Company name required!" }),
+  email: z.string().email({ message: "Invalid email!" }),
+  company_logo: z.string().optional(),
+  about: z.string(),
+  location: z.string(),
+  company_url: z.string().url({ message: "Please provide your website url!" }),
 });

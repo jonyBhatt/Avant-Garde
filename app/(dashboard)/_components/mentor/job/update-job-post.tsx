@@ -305,10 +305,10 @@ const UpdateJobPost = ({ id }: { id: string }) => {
             {mutation.isPending ? (
               <div className="flex items-center gap-2">
                 <Loader2 className="w-4 h-4 animate-spin" />
-                <span>Posting</span>
+                <span>Updating</span>
               </div>
             ) : (
-              <>Post</>
+              <>Update</>
             )}
           </Button>
           {/* <Button>Update</Button> */}
