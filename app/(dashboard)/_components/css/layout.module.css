@@ -16,7 +16,7 @@
 }
 
 .active {
-  background: #040913 !important;
+  background: #030204 !important;
   color: white;
   position: relative;
 }
@@ -36,12 +36,12 @@
 .active::before {
   top: calc(var(--border-radius) * -1);
   border-radius: 0 0 100vw 0;
-  box-shadow: 5px 5px 0 5px #040913;
+  box-shadow: 5px 5px 0 5px #030204;
 }
 .active::after {
   bottom: calc(var(--border-radius) * -1);
   border-radius: 0 100vw 0 0;
-  box-shadow: 5px -5px 0 5px #040913;
+  box-shadow: 5px -5px 0 5px #030204;
 }
 
 @media (max-width: 768px) {
