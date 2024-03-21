@@ -42,6 +42,7 @@ model User {
   likes     Like[]
   companies Company[]
   job       Job[]
+  reviews   Review[]
 }
 
 model Student {
@@ -62,8 +63,9 @@ model Student {
   userEmail String
   users     User   @relation(fields: [userEmail], references: [email], onDelete: Cascade)
 
-  helps HelpPost[]
-  job   Job[]
+  helps   HelpPost[]
+  job     Job[]
+  reviews Review[]
 }
 
 model HelpPost {
@@ -167,4 +169,19 @@ model Job {
 
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
+}
+
+model Review {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  rating  Int
+  content String
+
+  mentorId String
+  mentor   User   @relation(fields: [mentorId], references: [clerkId], onDelete: Cascade)
+
+  studentId String  @db.ObjectId
+  student   Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

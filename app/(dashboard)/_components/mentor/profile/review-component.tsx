@@ -1,25 +1,39 @@
 import Image from "next/image";
 
-const Reviews = () => {
+interface IReviews {
+  reviews?: {
+    id: string;
+    rating: number;
+    content: string;
+    createdAt: Date;
+    student?: {
+      id: string;
+      photo: string | null;
+      firstName: string | null;
+    };
+  };
+}
+
+const Reviews = ({ reviews }: IReviews) => {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center gap-2">
         <Image
-          src={"/images/user.jpg"}
+          src={reviews?.student?.photo || "/images/user.jpg"}
           alt="profile picture"
           width={50}
           height={50}
           className="rounded-full"
         />
-        <h2 className="font-semibold font-inter tracking-wide">Name</h2>
+        <h2 className="font-semibold font-inter tracking-wide">
+          {reviews?.student?.firstName}
+        </h2>
         <span className="text-xs font-light text-muted-foreground font-rubik">
-          10 May 2023
+          {reviews?.createdAt.toString().slice(0, 10)}
         </span>
       </div>
       <span className="text-sm font-inter ml-4 font-light">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod ducimus
-        corporis aspernatur quia eius, dolore vitae rerum veniam ut nihil.
-        Nesciunt et minus similique amet veniam hic voluptatem ea at!
+        {reviews?.content}
       </span>
     </div>
   );
