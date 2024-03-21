@@ -1,4 +1,4 @@
 const CompanyDetails = () => {
-  return <div>CompanyDetails</div>;
+  return <div className="py-6">CompanyDetails</div>;
 };
 export default CompanyDetails;

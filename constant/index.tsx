@@ -11,6 +11,7 @@ import { LuSettings2 } from "react-icons/lu";
 import { IoMdHelpCircleOutline } from "react-icons/io";
 import { MdPostAdd } from "react-icons/md";
 import {
+  Baby,
   BarChart2,
   BookOpen,
   Cog,
@@ -131,8 +132,14 @@ export const mentorSideBar = [
     list: [
       {
         title: "Settings",
-        url: "/dashboard/settings",
         icon: <Cog />,
+        subitem: [
+          {
+            title: "Profile",
+            url: "/mentor-dashboard/profile",
+            icon: <Baby />,
+          },
+        ],
       },
       {
         title: "Help",
