@@ -8,7 +8,7 @@ import { PlusCircle } from "lucide-react";
 const ProfilePage = async () => {
   const { user } = await mentorDetails();
   // console.log(user.user);
-  console.log(user);
+  // console.log(user);
 
   return (
     <div className="container mx-auto mt-8 ">

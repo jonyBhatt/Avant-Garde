@@ -9,10 +9,10 @@
        URL: https://gradient.page */
 
     /* CSS: .bg-gradient { background: var(--gradient) } */
-    --gradient: linear-gradient(to top left, #5c258d, #4389a2);
+    --gradient: linear-gradient(to top left, #671ea7, #4389a2);
 
     --background: 289 37.699999999999996% 1%;
-    --foreground: 289 5.8% 96.75%;
+    --foreground: 302, 3%, 95%;
 
     --muted: 289 28.999999999999996% 10.5%;
     --muted-foreground: 289 5.8% 53.5%;
@@ -29,7 +29,8 @@
     --primary: 289 58% 35%;
     --primary-foreground: 289 5.8% 96.75%;
 
-    --secondary: 289 28.999999999999996% 10.5%;
+    --secondary: 289 28.999999999999996% 20.5%;
+    /* --secondary: 300, 41%, 10%; */
     --secondary-foreground: 289 5.8% 96.75%;
 
     --accent: 289 28.999999999999996% 10.5%;
