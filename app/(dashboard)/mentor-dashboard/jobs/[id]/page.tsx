@@ -1,4 +1,5 @@
 "use client";
+import AllApplications from "@/app/(dashboard)/_components/mentor/job/all-applications";
 import JobCompanyDescription from "@/app/(dashboard)/_components/mentor/job/job-company-description";
 import LoadingSkeleton from "@/components/shared/LoadingSkeleton";
 import { getJobPostById } from "@/lib/actions/mentor/job-action";
@@ -15,12 +16,8 @@ const JobDescriptionPage = ({ params }: { params: { id: string } }) => {
   if (isLoading) return <LoadingSkeleton />;
   if (error) return "Error: " + error;
   if (!data?.job) return "Job Not Found";
-
-  // const findJob = JobData.find(({ id }) => String(id) === params.id);
-
-  // if (!findJob) return "Job Not Found";
   return (
-    <div className="py-6 pr-2">
+    <div className="py-6 pr-2 ">
       <div className="grid  lg:grid-cols-[1fr_20rem] gap-8">
         <div className="flex flex-col gap-12 items-start p-4">
           {/** Logo company */}
@@ -89,6 +86,11 @@ const JobDescriptionPage = ({ params }: { params: { id: string } }) => {
               com_desc={data.job.company?.about}
               id={data.job.id}
             />
+          </div>
+          {/** Applications for this job */}
+          <div className="mt-4 w-full">
+            <h2 className="font-rubik text-lg font-semibold">Applications</h2>
+            <AllApplications />
           </div>
         </div>
         <div className="flex flex-col gap-4">
