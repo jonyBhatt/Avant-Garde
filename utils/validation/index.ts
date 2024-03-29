@@ -62,3 +62,17 @@ export const companySchema = z.object({
   location: z.string(),
   company_url: z.string().url({ message: "Please provide your website url!" }),
 });
+
+/**
+ * * apply job schema
+ */
+
+export const applyJobSchema = z.object({
+  username: z.string().min(2, {
+    message: "Username must be at least 2 characters.",
+  }),
+  cv: z.string(),
+  letter: z.string().min(1, { message: "Cover letter required" }),
+});
+
+export type applyJobSchemaType = z.infer<typeof applyJobSchema>;

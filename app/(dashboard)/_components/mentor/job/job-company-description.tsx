@@ -12,6 +12,7 @@ import {
 import UpdateJobPost from "./update-job-post";
 import { usePathname, useRouter } from "next/navigation";
 import { deleteJobPost } from "@/lib/actions/mentor/job-action";
+import Link from "next/link";
 
 const JobCompanyDescription = ({
   job_desc,
@@ -70,16 +71,11 @@ const JobCompanyDescription = ({
             <div className="flex items-center gap-4 w-full">
               {modifyPath === "/user-dashboard" ? (
                 <>
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <Button size={"lg"} className="rounded-[8px] w-full">
-                        Apply for this job
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent>
-                      <UpdateJobPost id={id} />
-                    </DialogContent>
-                  </Dialog>
+                  <Link href={`/user-dashboard/jobs/apply/${id}`}>
+                    <Button size={"lg"} className="rounded-[8px] w-full">
+                      Apply for this job
+                    </Button>
+                  </Link>
                 </>
               ) : (
                 <>
@@ -117,16 +113,11 @@ const JobCompanyDescription = ({
               </h2>
               <span className="text-sm  font-inter">{com_desc}</span>
               {modifyPath === "/user-dashboard" && (
-                <Dialog>
-                  <DialogTrigger className="mt-4" asChild>
-                    <Button size={"lg"} className="rounded-[8px] w-full">
-                      Apply for this job
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent>
-                    <UpdateJobPost id={id} />
-                  </DialogContent>
-                </Dialog>
+                <Link href={`/user-dashboard/jobs/apply/${id}`}>
+                  <Button size={"lg"} className="rounded-[8px] w-full">
+                    Apply for this job
+                  </Button>
+                </Link>
               )}
             </div>
           </div>

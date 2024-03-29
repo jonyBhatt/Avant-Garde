@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import "@uploadthing/react/styles.css";
 
 interface IUploadButton {
-  endpoint: "imageUploader";
+  endpoint: "imageUploader" | "pdfUploader";
   value?: string;
   onChange: (url?: string) => void;
   className?: string;
@@ -17,9 +17,10 @@ const UploadButton = ({
   onChange,
   className,
 }: IUploadButton) => {
+  const fileType = value?.split(".").pop();
   return (
     <div>
-      {value && (
+      {value && fileType !== "pdf" && (
         <div className="relative">
           <Image
             src={value}
