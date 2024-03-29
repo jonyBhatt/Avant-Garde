@@ -10,7 +10,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import UpdateJobPost from "./update-job-post";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { deleteJobPost } from "@/lib/actions/mentor/job-action";
 
 const JobCompanyDescription = ({
@@ -22,6 +22,8 @@ const JobCompanyDescription = ({
   com_desc?: string;
   id: string;
 }) => {
+  const pathname = usePathname();
+  const modifyPath = pathname.slice(0, 15);
   const router = useRouter();
   const [description, setDescription] = useState("job");
   const handleDelete = async () => {
@@ -65,25 +67,42 @@ const JobCompanyDescription = ({
               <span className="text-sm  font-inter">{job_desc}</span>
             </div>
 
-            <div className="flex items-center gap-4">
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button size={"lg"} className="rounded-[8px]">
-                    Update
+            <div className="flex items-center gap-4 w-full">
+              {modifyPath === "/user-dashboard" ? (
+                <>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button size={"lg"} className="rounded-[8px] w-full">
+                        Apply for this job
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <UpdateJobPost id={id} />
+                    </DialogContent>
+                  </Dialog>
+                </>
+              ) : (
+                <>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button size={"lg"} className="rounded-[8px]">
+                        Update
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <UpdateJobPost id={id} />
+                    </DialogContent>
+                  </Dialog>
+                  <Button
+                    size={"lg"}
+                    variant={"destructive"}
+                    className="rounded-[8px]"
+                    onClick={handleDelete}
+                  >
+                    Delete
                   </Button>
-                </DialogTrigger>
-                <DialogContent>
-                  <UpdateJobPost id={id} />
-                </DialogContent>
-              </Dialog>
-              <Button
-                size={"lg"}
-                variant={"destructive"}
-                className="rounded-[8px]"
-                onClick={handleDelete}
-              >
-                Delete
-              </Button>
+                </>
+              )}
             </div>
           </div>
         </>
@@ -97,6 +116,18 @@ const JobCompanyDescription = ({
                 About Company
               </h2>
               <span className="text-sm  font-inter">{com_desc}</span>
+              {modifyPath === "/user-dashboard" && (
+                <Dialog>
+                  <DialogTrigger className="mt-4" asChild>
+                    <Button size={"lg"} className="rounded-[8px] w-full">
+                      Apply for this job
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <UpdateJobPost id={id} />
+                  </DialogContent>
+                </Dialog>
+              )}
             </div>
           </div>
         </>

@@ -5,7 +5,11 @@ import { useQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 const FetchJobs = () => {
+  const pathname = usePathname();
+  const modifyPath = pathname.slice(0, 15);
+
   const {
     data: job,
     error,
@@ -28,7 +32,11 @@ const FetchJobs = () => {
         >
           {/** Logo title */}
           <Link
-            href={`/mentor-dashboard/jobs/${job.id}`}
+            href={`${
+              modifyPath === "/user-dashboard"
+                ? `/user-dashboard/jobs/${job.id}`
+                : `/mentor-dashboard/jobs/${job.id}`
+            }`}
             className="flex items-center gap-4"
           >
             <div>

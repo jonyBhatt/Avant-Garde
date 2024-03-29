@@ -63,9 +63,9 @@ model Student {
   userEmail String
   users     User   @relation(fields: [userEmail], references: [email], onDelete: Cascade)
 
-  helps   HelpPost[]
-  job     Job[]
-  reviews Review[]
+  helps        HelpPost[]
+  reviews      Review[]
+  applications Application[]
 }
 
 model HelpPost {
@@ -158,17 +158,15 @@ model Job {
   description String
   position    String
 
-  applicationEmail String?
-  applications     Student? @relation(fields: [applicationEmail], references: [email], onDelete: Cascade)
-
   userId String
   user   User   @relation(fields: [userId], references: [clerkId], onDelete: Cascade)
 
   companyId String?  @db.ObjectId
   company   Company? @relation(fields: [companyId], references: [id], onDelete: Cascade)
 
-  createAt DateTime @default(now())
-  updateAt DateTime @updatedAt
+  createAt     DateTime      @default(now())
+  updateAt     DateTime      @updatedAt
+  applications Application[]
 }
 
 model Review {
@@ -181,6 +179,22 @@ model Review {
 
   studentId String  @db.ObjectId
   student   Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Application {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  cv    String
+  cover String
+
+  applicationEmail String?
+  applications     Student? @relation(fields: [applicationEmail], references: [email], onDelete: Cascade)
+
+  jobId String @db.ObjectId
+  job   Job    @relation(fields: [jobId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
