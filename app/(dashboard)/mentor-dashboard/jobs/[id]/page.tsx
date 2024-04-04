@@ -90,7 +90,7 @@ const JobDescriptionPage = ({ params }: { params: { id: string } }) => {
           {/** Applications for this job */}
           <div className="mt-4 w-full">
             <h2 className="font-rubik text-lg font-semibold">Applications</h2>
-            <AllApplications />
+            <AllApplications  id={data.job.id}/>
           </div>
         </div>
         <div className="flex flex-col gap-4">

@@ -18,18 +18,24 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { applyJobSchema } from "@/utils/validation";
 import UploadButton from "@/lib/upload-button";
+import MarkDownPreview from "@/components/shared/markdown/mark-down-preview";
+import { applyJob } from "@/lib/actions/user/apply-job-action";
+import toast from "react-hot-toast";
 
-const ApplyFormDetails = () => {
+const ApplyFormDetails = ({ id }: { id: string }) => {
   const form = useForm<z.infer<typeof applyJobSchema>>({
     resolver: zodResolver(applyJobSchema),
-    defaultValues: {
-      username: "",
-    },
+    defaultValues: {},
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof applyJobSchema>) {
+  async function onSubmit(values: z.infer<typeof applyJobSchema>) {
     console.log(values);
+    const res = await applyJob(id, values);
+    if (res?.message) {
+      form.reset();
+      toast.success(res.message);
+    }
   }
   return (
     <div className="my-8">
@@ -54,36 +60,30 @@ const ApplyFormDetails = () => {
             )}
           />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-            <FormField
-              control={form.control}
-              name="cv"
-              render={({ field }) => (
-                <FormItem className="">
-                  <FormLabel>Cover letter</FormLabel>
-                  <FormControl>
+          <FormField
+            control={form.control}
+            name="letter"
+            render={({ field }) => (
+              <FormItem className="">
+                <FormLabel>Cover letter</FormLabel>
+                <FormControl>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <Textarea rows={25} {...field} />
-                  </FormControl>
-                  <FormDescription>Please follow mdx rules</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="cv"
-              render={({ field }) => (
-                <FormItem className="">
-                  <FormLabel>Preview Cover letter</FormLabel>
-                  <FormControl>
-                    <Textarea rows={25} {...field} />
-                  </FormControl>
+                    <FormDescription>Please follow mdx rules</FormDescription>
+                    <div className="flex flex-col gap-2">
+                      <h3 className="font-rubik tracking-wide border-b">
+                        Preview
+                      </h3>
 
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
+                      <MarkDownPreview content={form.getValues().letter} />
+                    </div>
+                  </div>
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <Button type="submit">Submit</Button>
         </form>
       </Form>

@@ -1,3 +1,4 @@
+"use client";
 import {
   Table,
   TableBody,
@@ -9,8 +10,22 @@ import {
 } from "@/components/ui/table";
 import Image from "next/image";
 import Link from "next/link";
+import prisma from "@/lib/prisma";
+import { FetchApplication } from "@/lib/actions/mentor/application";
+import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 
-const AllApplications = () => {
+const AllApplications = ({id}:{id:string}) => {
+  const router = useRouter()
+  const { data, error, isLoading } = useQuery({
+    queryKey: ["application"],
+    queryFn: async () => await FetchApplication(id),
+  });
+
+  if (error) return "Error..." + error;
+
+  console.log(data);
+
   return (
     <div>
       <Table className="w-full">
@@ -18,39 +33,32 @@ const AllApplications = () => {
           <TableRow>
             <TableHead className="w-[100px]">Name</TableHead>
             <TableHead>Image</TableHead>
-            <TableHead>Cover</TableHead>
             <TableHead className="text-right">CV</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody className=" [&>*:nth-child(even)]:bg-muted">
-          <TableRow>
-            <TableCell className="font-medium">John</TableCell>
-            <TableCell>
-              <Image
-                src={"/images/user.jpg"}
-                alt="user profile"
-                width={50}
-                height={50}
-                className="rounded-full object-cover"
-              />
-            </TableCell>
-            <TableCell>
-              <Link
-                href={`/mentor-dashboard/jobs/application/${1}`}
-                className="  line-clamp-1"
-              >
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam
-                dolorem at tenetur aliquid sint, eum soluta magnam adipisci
-                veniam iste, sed odio error ullam alias sapiente ad provident
-                impedit asperiores?
-              </Link>
-            </TableCell>
-            <TableCell className="text-right">
-              <Link href={"#"} download>
-                Cv
-              </Link>
-            </TableCell>
-          </TableRow>
+          {data?.app?.map((job) => (
+            <TableRow key={job.id} onClick={()=>{router.push(`/mentor-dashboard/jobs/application/${job.id}`)}} className="cursor-pointer">
+              <TableCell className="font-medium">
+                {job.students?.firstName}
+              </TableCell>
+              <TableCell>
+                <Image
+                  src={`${job.students?.photo || "/images/user.jpg"} `}
+                  alt="user profile"
+                  width={50}
+                  height={50}
+                  className="rounded-full object-cover"
+                />
+              </TableCell>
+
+              <TableCell className="text-right">
+                <Link href={`${job.cv}`} download>
+                  Cv
+                </Link>
+              </TableCell>
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
     </div>

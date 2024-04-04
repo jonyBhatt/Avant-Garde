@@ -190,8 +190,8 @@ model Application {
   cv    String
   cover String
 
-  applicationEmail String?
-  applications     Student? @relation(fields: [applicationEmail], references: [email], onDelete: Cascade)
+  studentEmail String?
+  students     Student? @relation(fields: [studentEmail], references: [email], onDelete: Cascade)
 
   jobId String @db.ObjectId
   job   Job    @relation(fields: [jobId], references: [id], onDelete: Cascade)
