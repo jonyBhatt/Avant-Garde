@@ -18,6 +18,7 @@ import {
   CupSoda,
   HelpCircle,
   LayoutDashboard,
+  Mails,
   MessageSquareDashed,
   Store,
   User,
@@ -63,9 +64,9 @@ export const userSideBar = [
         icon: <FaStore size={25} />,
       },
       {
-        title: "Teams",
-        url: "/user-dashboard/teams",
-        icon: <RiTeamFill size={25} />,
+        title: "Chats",
+        url: "/chats",
+        icon: <Mails size={25} />,
       },
     ],
   },
@@ -121,9 +122,9 @@ export const mentorSideBar = [
         icon: <Store />,
       },
       {
-        title: "Teams",
-        url: "/mentor-dashboard/teams",
-        icon: <Users />,
+        title: "Chats",
+        url: "/chats",
+        icon: <Mails size={25} />,
       },
     ],
   },
@@ -207,3 +208,22 @@ export const adminSideBar = [
     ],
   },
 ];
+
+export const chatSidebar =[
+  {
+    title: "Pages",
+    list: [
+      {
+        title: "Dashboard",
+        url: "/",
+        icon: <LayoutDashboard />,
+      },
+      {
+        title: "Chats",
+        url: "/chats",
+        icon: <Mails size={25} />,
+      },
+    ],
+  },
+  
+]
