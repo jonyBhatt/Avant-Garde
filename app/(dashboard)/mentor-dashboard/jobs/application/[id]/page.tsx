@@ -8,6 +8,15 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+
 import { Button } from "@/components/ui/button";
 import {
   FetchApplication,
@@ -17,6 +26,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Slash } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import SendEmailForm from "@/app/(dashboard)/_components/mentor/job/send-email-form";
 
 const SingleApplication = ({ params }: { params: { id: string } }) => {
   const { id } = params;
@@ -64,9 +74,17 @@ const SingleApplication = ({ params }: { params: { id: string } }) => {
           <MarkDownPreview content={`${data?.app?.cover}`} className="mt-8" />
           
         </div>
-        <Button size={"lg"} className="rounded-[8px]">
+        <Dialog>
+          <DialogTrigger asChild>
+          <Button size={"lg"} className="rounded-[8px]">
           Send Mail
         </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <SendEmailForm />
+          </DialogContent>
+        </Dialog>
+       
       </div>
     </div>
   );

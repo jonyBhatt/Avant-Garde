@@ -73,3 +73,21 @@ export const applyJobSchema = z.object({
 });
 
 export type applyJobSchemaType = z.infer<typeof applyJobSchema>;
+
+/**
+ * * send email schema
+ */
+
+export const sendEmailSchema = z.object({
+  email: z
+    .string()
+    .email({ message: "Please give a valid email!" })
+    .min(1, { message: "Email required!" }),
+  subject: z
+    .string()
+    .min(1, { message: "Subject required!" })
+    .max(500, { message: "Subject must be in 500 words!" }),
+  message: z.string().min(1, { message: "Message required!" }),
+});
+
+export type sendEmailSchemaType = z.infer<typeof sendEmailSchema>;
