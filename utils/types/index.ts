@@ -1,3 +1,4 @@
+import { Conversation, Message, User } from "@prisma/client";
 import { ZodEnum } from "zod";
 
 export interface Step {
@@ -36,4 +37,14 @@ export type JobSchema = {
   description: string;
   position: string;
   salary: string;
+};
+
+export type FullMessageType = Message & {
+  sender: User;
+  seen: User[];
+};
+
+export type FullConversationType = Conversation & {
+  user: User[];
+  message: FullMessageType[];
 };

@@ -1,7 +1,12 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { adminSideBar, chatSidebar, mentorSideBar, userSideBar } from "@/constant";
+import {
+  adminSideBar,
+  chatSidebar,
+  mentorSideBar,
+  userSideBar,
+} from "@/constant";
 import { cn } from "@/lib/utils";
 import style from "./css/layout.module.css";
 import { UserButton } from "@clerk/nextjs";
@@ -21,15 +26,12 @@ import { getUserById } from "@/lib/actions/user/user-crud-action";
 export const SidebarNavigation = () => {
   const [isClient, setIsClient] = useState(false);
 
-  const {userId} = useAuth()
-  const {data} = useQuery({
-    queryKey:["role"],
+  const { userId } = useAuth();
+  const { data } = useQuery({
+    queryKey: ["role"],
     //@ts-ignore
-    queryFn:async ()=> await getUserById(userId)
-  })
-
-  console.log(data);
-  
+    queryFn: async () => await getUserById(userId),
+  });
 
   useEffect(() => {
     setIsClient(true);
@@ -38,7 +40,6 @@ export const SidebarNavigation = () => {
   const pathname = usePathname();
 
   // console.log(pathname.slice(0, 24));
-
 
   return (
     <>
@@ -155,7 +156,7 @@ export const SidebarNavigation = () => {
             </li>
           ))}
         </>
-      ) : pathname.startsWith("/admin-dashboard")? (
+      ) : pathname.startsWith("/admin-dashboard") ? (
         <>
           {adminSideBar.map((item, index) => (
             <li key={index} className="flex flex-col gap-6">
@@ -185,17 +186,21 @@ export const SidebarNavigation = () => {
             </li>
           ))}
         </>
-      ):<>
-      {
-        chatSidebar.map((chat,index)=>(
-          <li key={index} className="flex flex-col gap-6">
+      ) : (
+        <>
+          {chatSidebar.map((chat, index) => (
+            <li key={index} className="flex flex-col gap-6">
               <span className="font-rubik font-semibold text-lg px-6">
                 {chat.title}
               </span>
               {chat.list.map((side, i) => (
                 <div key={i} className="ml-4  ">
                   <Link
-                    href={`${data?.user?.role === "MENTOR" ? `${side.url.replace("/","/mentor-dashboard")}` :`${side.url.replace("/","/user-dashboard")}`}`}
+                    href={`${
+                      data?.user?.role === "MENTOR"
+                        ? `${side.url.replace("/", "/mentor-dashboard")}`
+                        : `${side.url.replace("/", "/user-dashboard")}`
+                    }`}
                     className={cn(
                       style.link_radius,
                       `${
@@ -213,9 +218,9 @@ export const SidebarNavigation = () => {
                 </div>
               ))}
             </li>
-        ))
-      }
-      </>}
+          ))}
+        </>
+      )}
       {isClient && (
         <li className="flex items-center px-6">
           <UserButton afterSignOutUrl="/sign-in" showName />

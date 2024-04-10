@@ -1,15 +1,17 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { MdSearch } from "react-icons/md";
+import { useDebouncedCallback } from "use-debounce";
 
-const SearchBar = () => {
+const SearchBar = ({ className }: { className?: string }) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
 
-  const handleSearch = (searchTerm: string) => {
+  const handleSearch = useDebouncedCallback((searchTerm: string) => {
     const params = new URLSearchParams(searchParams);
 
     // console.log(params);
@@ -20,7 +22,7 @@ const SearchBar = () => {
     }
 
     replace(`${pathname}?${params.toString()}`);
-  };
+  }, 200);
 
   return (
     <div className="">
@@ -30,7 +32,10 @@ const SearchBar = () => {
         </label>
         <input
           type="text"
-          className="peer block w-full  rounded-[16px]  py-2.5 px-10 text-sm outline-0 placeholder:text-gray-500 bg-muted "
+          className={cn(
+            className,
+            "peer block w-full  rounded-[16px]  py-2.5 px-10 text-sm outline-0 placeholder:text-gray-500 "
+          )}
           placeholder="search..."
           defaultValue={searchParams.get("query")?.toString()}
           onChange={(e) => {

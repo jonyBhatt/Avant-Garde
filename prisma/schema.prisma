@@ -43,6 +43,20 @@ model User {
   companies Company[]
   job       Job[]
   reviews   Review[]
+
+  conversationId String[]       @db.ObjectId
+  conversation   Conversation[] @relation(fields: [conversationId], references: [id])
+
+  seenId String[]  @db.ObjectId
+  seen   Message[] @relation("Seen", fields: [seenId], references: [id])
+
+  followedByIds String[] @db.ObjectId
+  followedBy    User[]   @relation("UserFollows", fields: [followedByIds], references: [id])
+
+  followingIds String[] @db.ObjectId
+  following    User[]   @relation("UserFollows", fields: [followingIds], references: [id])
+
+  message Message[]
 }
 
 model Student {
@@ -195,6 +209,43 @@ model Application {
 
   jobId String @db.ObjectId
   job   Job    @relation(fields: [jobId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Conversation {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  name        String?
+  description String?
+
+  messageIds String[]  @db.ObjectId
+  message    Message[]
+
+  ownerId String @db.ObjectId
+
+  userId String[] @db.ObjectId
+  users  User[]   @relation(fields: [userId], references: [id])
+
+  lastMessageAt DateTime @default(now())
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Message {
+  id    String  @id @default(auto()) @map("_id") @db.ObjectId
+  body  String?
+  image String?
+
+  seenIds String[] @db.ObjectId
+  seen    User[]   @relation("Seen", fields: [seenIds], references: [id])
+
+  conversationId String       @db.ObjectId
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  senderId String @db.ObjectId
+  sender   User   @relation(fields: [senderId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
