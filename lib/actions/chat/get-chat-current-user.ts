@@ -4,11 +4,13 @@ import { handleError } from "@/lib/utils";
 import { auth, currentUser } from "@clerk/nextjs";
 import { User as ClerkUser } from "@clerk/nextjs/server";
 import { User as PrismaUser } from "@prisma/client";
-import { unstable_noStore as noStore } from "next/cache";
+import { unstable_noStore as noStore, revalidatePath } from "next/cache";
 
 interface CurrentUser {
   currentUserClerk: ClerkUser;
-  currentUserPrisma: PrismaUser;
+  currentUserPrisma: PrismaUser & {
+    following: PrismaUser[];
+  };
 }
 
 export const getChatUser = async (): Promise<CurrentUser> => {
@@ -20,6 +22,9 @@ export const getChatUser = async (): Promise<CurrentUser> => {
   const currentUserPrisma = await prisma.user.findUnique({
     where: {
       clerkId: userId,
+    },
+    include: {
+      following: true,
     },
   });
 
@@ -95,6 +100,7 @@ export async function Contacts(value: string, id: string) {
           following: true,
         },
       });
+      revalidatePath("/chats");
 
       return user;
     } catch (error) {
@@ -121,6 +127,8 @@ export async function Contacts(value: string, id: string) {
           following: true,
         },
       });
+      revalidatePath("/chats");
+
       return user;
     } catch (error) {
       return {

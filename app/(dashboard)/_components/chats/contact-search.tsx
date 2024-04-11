@@ -1,19 +1,29 @@
 "use client";
 
 import SearchBar from "@/components/shared/search-bar";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { useQueryContext } from "@/context/useQueryContext";
-import { getSearchUser } from "@/lib/actions/chat/get-chat-current-user";
-import { useQuery } from "@tanstack/react-query";
-import Image from "next/image";
-import { FormEvent, useEffect, useState } from "react";
+import {
+  Contacts,
+  getSearchUser,
+} from "@/lib/actions/chat/get-chat-current-user";
+import { handleError } from "@/lib/utils";
 import { User } from "@prisma/client";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import ContactList from "./contact-list";
+import { Button } from "@/components/ui/button";
 
-const AddContact = () => {
+interface CurrentUserProps {
+  currentUser: User & {
+    following: User[];
+  };
+}
+
+const AddContact = ({ currentUser }: CurrentUserProps) => {
   const { query } = useQueryContext();
   const [data, setData] = useState<User[] | undefined>(undefined);
+  const [contacts, setContacts] = useState<User[]>([]);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -27,18 +37,32 @@ const AddContact = () => {
 
     fetchUser();
 
-    return () => {
-      // Cleanup function
-      // Any cleanup logic you want to perform goes here
-      // For example, if you have any subscriptions or ongoing operations that need to be cancelled, you can do it here
-    };
-  }, [query]);
+    if (currentUser?.following !== undefined) {
+      setContacts(currentUser.following);
+    }
+
+    return () => {};
+  }, [query, currentUser]);
 
   const Contact = async (value: string, id: string) => {
     console.log(value, id);
+    try {
+      await Contacts(value, id);
+      if(value === "add"){
+        toast.success("Added Contact")
+      }
+
+      if(value === "delete"){
+        toast.success("Delete Contact")
+      }
+    } catch (error) {
+      handleError(error);
+      toast.error("Something Wrong!");
+    }
   };
 
-  const contact = true;
+  console.log(currentUser);
+
   return (
     <div className="mt-4 px-4 mb-4">
       <SearchBar className="border-0 focus:border-b-2 focus:border-primary focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 bg-background" />
@@ -56,13 +80,13 @@ const AddContact = () => {
               />
               <h3 className="text-lg font-inter font-bold">{u.firstName}</h3>
             </div>
-            {/* {u.followingIds ? (
+            {contacts &&
+            contacts.filter((item) => item.id === u.id).length > 0 ? (
               <>
                 <Button
-                  type="submit"
                   variant={"destructive"}
+                  className="rounded-2xl"
                   size={"lg"}
-                  className="rounded-3xl"
                   onClick={() => Contact("delete", u.id)}
                 >
                   Delete Contact
@@ -71,27 +95,20 @@ const AddContact = () => {
             ) : (
               <>
                 <Button
-                  type="submit"
+                  className="rounded-2xl"
                   size={"lg"}
-                  className="rounded-3xl"
                   onClick={() => Contact("add", u.id)}
                 >
-                  New Contact
+                  Add Contact
                 </Button>
               </>
-            )} */}
-            <Button
-              type="submit"
-              variant={"destructive"}
-              size={"lg"}
-              className="rounded-3xl"
-              onClick={() => Contact("delete", u.id)}
-            >
-              Delete Contact
-            </Button>
+            )}
           </div>
         </div>
       ))}
+      <div>
+        <ContactList contacts={contacts} />
+      </div>
     </div>
   );
 };

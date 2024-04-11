@@ -10,8 +10,10 @@ import { FilePenLine } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import AddContact from "./contact-search";
+import { getChatUser } from "@/lib/actions/chat/get-chat-current-user";
 
-const ConversationList = () => {
+const ConversationList = async () => {
+  const { currentUserPrisma } = await getChatUser();
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-3 py-4 pr-2">
@@ -29,7 +31,7 @@ const ConversationList = () => {
                   </SheetTitle>
                 </div>
               </SheetHeader>
-              <AddContact />
+              <AddContact currentUser={currentUserPrisma} />
             </SheetContent>
           </Sheet>
         </div>
