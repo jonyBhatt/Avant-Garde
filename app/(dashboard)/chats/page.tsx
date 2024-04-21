@@ -6,6 +6,7 @@ const Chats = ({ searchParams }: { searchParams?: { query: string } }) => {
   // console.log(searchParams?.query);
   const {setQuery} = useQueryContext()
   if(searchParams !== undefined){
+    //@ts-ignore
     setQuery(searchParams.query)
   }
   
