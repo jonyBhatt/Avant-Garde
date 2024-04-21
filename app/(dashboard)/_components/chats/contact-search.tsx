@@ -1,7 +1,7 @@
 "use client";
 
 import SearchBar from "@/components/shared/search-bar";
-import { useQueryContext } from "@/context/useQueryContext";
+import { QueryContextType, useQueryContext } from "@/context/useQueryContext";
 import {
   Contacts,
   getSearchUser,
@@ -11,7 +11,6 @@ import { User } from "@prisma/client";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import ContactList from "./contact-list";
 import { Button } from "@/components/ui/button";
 
 interface CurrentUserProps {
@@ -24,11 +23,12 @@ const AddContact = ({ currentUser }: CurrentUserProps) => {
   const { query } = useQueryContext();
   const [data, setData] = useState<User[] | undefined>(undefined);
   const [contacts, setContacts] = useState<User[]>([]);
+  const { setChatOwner }: QueryContextType = useQueryContext();
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const user = await getSearchUser(query);
+        const user = await getSearchUser(query as string);
         setData(user.user);
       } catch (error) {
         console.error("Error fetching user:", error);
@@ -37,31 +37,27 @@ const AddContact = ({ currentUser }: CurrentUserProps) => {
 
     fetchUser();
 
-    if (currentUser?.following !== undefined) {
+    if (currentUser && currentUser?.following !== undefined) {
       setContacts(currentUser.following);
+      //@ts-ignore
+      setChatOwner(currentUser.following)
     }
 
     return () => {};
-  }, [query, currentUser]);
+  }, [query, currentUser, setChatOwner]);
 
   const Contact = async (value: string, id: string) => {
     console.log(value, id);
     try {
       await Contacts(value, id);
-      if(value === "add"){
-        toast.success("Added Contact")
-      }
-
-      if(value === "delete"){
-        toast.success("Delete Contact")
+      if (value === "add") {
+        toast.success("Added Contact");
       }
     } catch (error) {
       handleError(error);
       toast.error("Something Wrong!");
     }
   };
-
-  console.log(currentUser);
 
   return (
     <div className="mt-4 px-4 mb-4">
@@ -106,9 +102,6 @@ const AddContact = ({ currentUser }: CurrentUserProps) => {
           </div>
         </div>
       ))}
-      <div>
-        <ContactList contacts={contacts} />
-      </div>
     </div>
   );
 };

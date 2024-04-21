@@ -3,9 +3,11 @@ import { useQueryContext } from "@/context/useQueryContext";
 import ChatHead from "../_components/chats/chat-head";
 
 const Chats = ({ searchParams }: { searchParams?: { query: string } }) => {
-  console.log(searchParams?.query);
+  // console.log(searchParams?.query);
   const {setQuery} = useQueryContext()
-  setQuery(searchParams?.query as string)
+  if(searchParams !== undefined){
+    setQuery(searchParams.query)
+  }
   
   return (
     <div className="flex flex-col w-full">

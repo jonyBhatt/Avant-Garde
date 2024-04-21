@@ -1,8 +1,11 @@
 "use client"
+import { User } from "@prisma/client";
 import { createContext, useContext, useState } from "react";
-interface QueryContextType {
-  query: string;
-  setQuery: React.Dispatch<React.SetStateAction<string>>;
+export interface QueryContextType {
+  query?: string;
+  setQuery?: React.Dispatch<React.SetStateAction<string>>;
+  chatOwner?:User[]
+  setChatOwner?: React.Dispatch<React.SetStateAction<User[]>>;
 }
 
 export const QueryContext = createContext<QueryContextType | undefined>(undefined);
