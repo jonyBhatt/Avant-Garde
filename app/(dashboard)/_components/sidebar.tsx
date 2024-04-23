@@ -1,10 +1,8 @@
 "use client";
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 import style from "./css/layout.module.css";
-import { cn } from "@/lib/utils";
 import { SidebarNavigation } from "./sidebar-navigation";
-import { UserButton } from "@clerk/nextjs";
-import { useEffect, useState } from "react";
 const Sidebar = () => {
   return (
     <aside className={cn(style.sidebar, "bg-secondary h-full")}>
