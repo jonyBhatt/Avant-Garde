@@ -60,7 +60,7 @@ export const userSideBar = [
       },
       {
         title: "Forem Store",
-        url: "/user-dashboard/store",
+        url: "/user-dashboard/forem-store",
         icon: <FaStore size={25} />,
       },
       {
