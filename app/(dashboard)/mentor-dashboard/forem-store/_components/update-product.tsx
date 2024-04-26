@@ -19,41 +19,50 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 import UploadButton from "@/lib/upload-button";
 
 import { ForemData } from "@/utils/data/forem-data";
+import { addProductShopSchema, productShopSchema } from "@/utils/validation";
+import { Category, Product } from "@prisma/client";
+import { updateProduct } from "@/lib/actions/mentor/shop/crud-product";
+import toast from "react-hot-toast";
 
-const formSchema = z.object({
-  title: z.string().min(2, {
-    message: "title must be at least 2 characters.",
-  }),
-  description: z.string().min(1, { message: "Description Required" }),
-  price: z.string().min(1, { message: "Price required" }),
-  size: z.enum(["S", "M", "L", "XL", "XXL", "XXXL"], {
-    required_error: "You need to select a size.",
-  }),
-  category: z.string(),
-  photo: z.string().optional(),
-});
-
-export const UpdateShopProduct = ({ id }: { id: number }) => {
-  const product = ForemData.find((item) => item.id === id);
-  console.log(product);
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+export const UpdateShopProduct = ({
+  product,
+}: {
+  product: Product | undefined | null;
+}) => {
+  const form = useForm<z.infer<typeof addProductShopSchema>>({
+    resolver: zodResolver(addProductShopSchema),
     defaultValues: {
       title: product?.name || "",
-      category: product?.cat || "",
-      description: product?.desc || "",
-      photo: product?.url || "",
-      price: product?.price || "",
+      category: product?.category,
+      description: product?.description || "",
+      photo: product?.image || "",
+      price: String(product?.priceInCents) || "",
+      size: product?.size,
     },
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof addProductShopSchema>) {
+    // console.log(values);
+    try {
+      const res = await updateProduct(values, product?.id as string);
+      if (res.success) {
+        toast.success("Update product");
+      }
+    } catch (error) {
+      toast.error("Can not update product");
+    }
   }
   return (
     <ScrollArea className="h-[500px]  ">
@@ -167,20 +176,34 @@ export const UpdateShopProduct = ({ id }: { id: number }) => {
                 </FormItem>
               )}
             />
+            {/** Category */}
             <FormField
               control={form.control}
               name="category"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Product Category</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Add a category"
-                      {...field}
-                      className="bg-transparent border-2 border-muted-foreground rounded-[8px]
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger
+                        className="bg-transparent border-2 border-primary rounded-[8px]
                         ring-offset-0 focus-visible:outline-none focus-visible:ring-0  focus-visible:ring-offset-0"
-                    />
-                  </FormControl>
+                      >
+                        <SelectValue placeholder="Select a category" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value={Category.T_SHIRT}>T-Shirt</SelectItem>
+                      <SelectItem value={Category.PANTS}>PANTS</SelectItem>
+                      <SelectItem value={Category.SHOES}>SHOES</SelectItem>
+                      <SelectItem value={Category.ACCESSORIES}>
+                        ACCESSORIES
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}

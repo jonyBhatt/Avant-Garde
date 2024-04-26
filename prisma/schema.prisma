@@ -57,6 +57,8 @@ model User {
   following    User[]   @relation("UserFollows", fields: [followingIds], references: [id])
 
   message Message[]
+
+  products Product[]
 }
 
 model Student {
@@ -80,6 +82,7 @@ model Student {
   helps        HelpPost[]
   reviews      Review[]
   applications Application[]
+  orders       Order[]
 }
 
 model HelpPost {
@@ -246,6 +249,55 @@ model Message {
 
   senderId String @db.ObjectId
   sender   User   @relation(fields: [senderId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Size {
+  S
+  M
+  L
+  XL
+  XXL
+  XXXL
+}
+
+enum Category {
+  T_SHIRT
+  PANTS
+  SHOES
+  ACCESSORIES
+}
+
+model Product {
+  id                     String   @id @default(auto()) @map("_id") @db.ObjectId
+  name                   String
+  description            String
+  priceInCents           Int
+  image                  String
+  size                   Size     @default(S)
+  isAvailableForPurchase Boolean  @default(true)
+  category               Category
+  isFeatured             Boolean  @default(false)
+
+  productOwnerId String
+  productOwner   User   @relation(fields: [productOwnerId], references: [clerkId])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  orders    Order[]
+}
+
+model Order {
+  id               String @id @default(auto()) @map("_id") @db.ObjectId
+  pricePaidInCents Int
+
+  studnetId String  @db.ObjectId
+  student   Student @relation(fields: [studnetId], references: [id], onDelete: Cascade)
+
+  productId String  @db.ObjectId
+  products  Product @relation(fields: [productId], references: [id], onDelete: Restrict)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

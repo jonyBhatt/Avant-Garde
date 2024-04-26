@@ -91,3 +91,25 @@ export const sendEmailSchema = z.object({
 });
 
 export type sendEmailSchemaType = z.infer<typeof sendEmailSchema>;
+
+/**
+ * * Add product to shop
+ */
+
+export const addProductShopSchema = z.object({
+  title: z.string().min(2, {
+    message: "title must be at least 2 characters.",
+  }),
+  description: z.string().min(1, { message: "Description Required" }),
+  price: z.string().min(1, { message: "Price required" }),
+  size: z.enum(["S", "M", "L", "XL", "XXL", "XXXL"], {
+    required_error: "You need to select a size.",
+  }),
+  category: z.enum(["T_SHIRT", "PANTS", "SHOES", "ACCESSORIES"], {
+    required_error: "You need to select a size.",
+  }),
+  photo: z.string().optional(),
+  isFeatured: z.boolean().default(false).optional(),
+});
+
+export type productShopSchema = z.infer<typeof addProductShopSchema>;

@@ -18,31 +18,49 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import UploadButton from "@/lib/upload-button";
 
-const formSchema = z.object({
-  title: z.string().min(2, {
-    message: "title must be at least 2 characters.",
-  }),
-  description: z.string().min(1, { message: "Description Required" }),
-  price: z.string().min(1, { message: "Price required" }),
-  size: z.enum(["S", "M", "L", "XL", "XXL", "XXXL"], {
-    required_error: "You need to select a size.",
-  }),
-  category: z.string(),
-  photo: z.string().optional(),
-});
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+import UploadButton from "@/lib/upload-button";
+import { addProductShopSchema } from "@/utils/validation";
+import { Category } from "@prisma/client";
+import { Checkbox } from "@/components/ui/checkbox";
+import { addProduct } from "@/lib/actions/mentor/shop/crud-product";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
+
 export const AddForemForm = () => {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const router = useRouter();
+  const form = useForm<z.infer<typeof addProductShopSchema>>({
+    resolver: zodResolver(addProductShopSchema),
     defaultValues: {
       title: "",
+      description: "",
+      photo: "",
+      price: "",
+      isFeatured: false,
     },
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof addProductShopSchema>) {
+    try {
+      const product = await addProduct(values);
+      if (product?.success) {
+        toast.success("Product Added");
+        router.push("/mentor-dashboard/forem-store");
+      }
+    } catch (error) {
+      toast.error("Cannot add product!");
+
+      console.log(error);
+    }
   }
   return (
     <Form {...form}>
@@ -63,7 +81,7 @@ export const AddForemForm = () => {
                       <Input
                         placeholder="shadcn"
                         {...field}
-                        className="bg-transparent border-2 border-muted-foreground rounded-[8px]
+                        className="bg-transparent border-2 border-primary rounded-[8px]
                         ring-offset-0 focus-visible:outline-none focus-visible:ring-0  focus-visible:ring-offset-0"
                       />
                     </FormControl>
@@ -83,7 +101,7 @@ export const AddForemForm = () => {
                         rows={15}
                         placeholder="shadcn"
                         {...field}
-                        className="bg-transparent border-2 border-muted-foreground rounded-[8px]
+                        className="bg-transparent border-2 border-primary rounded-[8px]
                         ring-offset-0 focus-visible:outline-none focus-visible:ring-0  focus-visible:ring-offset-0"
                       />
                     </FormControl>
@@ -102,7 +120,7 @@ export const AddForemForm = () => {
                       <Input
                         placeholder="&#x9F3;1000"
                         {...field}
-                        className="bg-transparent border-2 border-muted-foreground rounded-[8px]
+                        className="bg-transparent border-2 border-primary rounded-[8px]
                         ring-offset-0 focus-visible:outline-none focus-visible:ring-0  focus-visible:ring-offset-0"
                       />
                     </FormControl>
@@ -174,15 +192,49 @@ export const AddForemForm = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Product Category</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Add a category"
-                      {...field}
-                      className="bg-transparent border-2 border-muted-foreground rounded-[8px]
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger
+                        className="bg-transparent border-2 border-primary rounded-[8px]
                         ring-offset-0 focus-visible:outline-none focus-visible:ring-0  focus-visible:ring-offset-0"
+                      >
+                        <SelectValue placeholder="Select a category" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value={Category.T_SHIRT}>T-Shirt</SelectItem>
+                      <SelectItem value={Category.PANTS}>PANTS</SelectItem>
+                      <SelectItem value={Category.SHOES}>SHOES</SelectItem>
+                      <SelectItem value={Category.ACCESSORIES}>
+                        ACCESSORIES
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="isFeatured"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-center space-x-3 space-y-0 rounded-md border py-6 ">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                      className="rounded-full"
                     />
                   </FormControl>
-                  <FormMessage />
+                  <div className="space-y-1 leading-none ">
+                    <FormLabel className="cursor-pointer">
+                      Featured Product
+                    </FormLabel>
+                  </div>
                 </FormItem>
               )}
             />

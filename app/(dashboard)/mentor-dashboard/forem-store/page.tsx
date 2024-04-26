@@ -12,14 +12,12 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { UpdateShopProduct } from "./_components/update-product";
+import { fetchProductByOwner } from "@/lib/actions/mentor/shop/crud-product";
 
-const ForemShop = () => {
-  // function getRandomID() {
-  //   const randomNumber = Math.floor(Math.random() * 10) + 1;
-  //   return  + randomNumber;
-  // }
+const ForemShop = async () => {
   const id = Math.floor(Math.random() * 10) + 1;
-  console.log(id);
+  const products = await fetchProductByOwner();
+  // console.log(id);
 
   return (
     <div className="py-6 relative">
@@ -33,105 +31,67 @@ const ForemShop = () => {
       {/** Fetch all product which created by login user */}
       <div className="grid grid-cols-1 md:grid-cols-2 w-full lg:grid-cols-3 gap-4 pr-4 mt-16 pb-16">
         {/** Card 1 */}
-        <div className="border-2  py-6 px-4 rounded-[8px]">
-          <span className="text-muted-foreground tracking-widest uppercase font-inter font-light text-sm">
-            {/* {item.featuredTitle} */}
-            #MUG
-          </span>
-          <div className="flex flex-col gap-4 mt-4">
-            <Image src={`/forem/e1.jpg`} alt="p1" width={300} height={300} />
-            <h2 className="font-bold font-rubik text-2xl">Mug</h2>
-            <p className="font-inter text-muted-foreground">Tk 2000 BDT</p>
-          </div>
-          <div className="flex items-center gap-4  justify-between">
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button size={"lg"} className="mt-4 w-full  rounded">
-                  Update
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="p-0">
-                <DialogHeader className="p-4">
-                  <DialogTitle>Update Product</DialogTitle>
-                </DialogHeader>
-                <div className="">
-                  <UpdateShopProduct id={id} />
+        {products.product && (
+          <>
+            {products.product.map((product) => (
+              <div
+                className="border-2  py-6 px-4 rounded-[8px]"
+                key={product.id}
+              >
+                <span className="text-muted-foreground tracking-widest uppercase font-inter font-light text-sm">
+                  {/* {item.featuredTitle} */}#{product.category}
+                </span>
+                <div className="flex flex-col gap-4 mt-4">
+                  <Image
+                    src={`${product.image}`}
+                    alt="p1"
+                    width={300}
+                    height={300}
+                  />
+                  <Link
+                    href={`/mentor-dashboard/forem-store/${product.id}`}
+                    className="font-bold font-rubik text-2xl"
+                  >
+                    {product.name}
+                  </Link>
+                  <p className="font-inter text-muted-foreground">
+                    Tk {product.priceInCents} BDT
+                  </p>
                 </div>
-              </DialogContent>
-            </Dialog>
-            <Button
-              size={"lg"}
-              variant={"destructive"}
-              className="mt-4 w-full  rounded"
-            >
-              Delete
-            </Button>
-          </div>
-        </div>
-
-        {/** Card 2 */}
-        <div className="border-2  py-6 px-4 rounded-[8px]">
-          <span className="text-muted-foreground tracking-widest uppercase font-inter font-light text-sm">
-            {/* {item.featuredTitle} */}
-            #MUG
-          </span>
-          <div className="flex flex-col gap-4 mt-4">
-            <Image src={`/forem/e1.jpg`} alt="p1" width={300} height={300} />
-            <h2 className="font-bold font-rubik text-2xl">Mug</h2>
-            <p className="font-inter text-muted-foreground">Tk 2000 BDT</p>
-          </div>
-          <Button size={"lg"} className="mt-4 w-full rounded">
-            Update
-          </Button>
-        </div>
-
-        {/** Card 3 */}
-        <div className="border-2  py-6 px-4 rounded-[8px]">
-          <span className="text-muted-foreground tracking-widest uppercase font-inter font-light text-sm">
-            {/* {item.featuredTitle} */}
-            #MUG
-          </span>
-          <div className="flex flex-col gap-4 mt-4">
-            <Image src={`/forem/e1.jpg`} alt="p1" width={300} height={300} />
-            <h2 className="font-bold font-rubik text-2xl">Mug</h2>
-            <p className="font-inter text-muted-foreground">Tk 2000 BDT</p>
-          </div>
-          <Button size={"lg"} className="mt-4 w-full rounded">
-            Update
-          </Button>
-        </div>
-
-        {/** Card 4 */}
-        <div className="border-2  py-6 px-4 rounded-[8px]">
-          <span className="text-muted-foreground tracking-widest uppercase font-inter font-light text-sm">
-            {/* {item.featuredTitle} */}
-            #MUG
-          </span>
-          <div className="flex flex-col gap-4 mt-4">
-            <Image src={`/forem/e1.jpg`} alt="p1" width={300} height={300} />
-            <h2 className="font-bold font-rubik text-2xl">Mug</h2>
-            <p className="font-inter text-muted-foreground">Tk 2000 BDT</p>
-          </div>
-          <Button size={"lg"} className="mt-4 w-full rounded">
-            Update
-          </Button>
-        </div>
-
-        {/** Card 5 */}
-        <div className="border-2  py-6 px-4 rounded-[8px]">
-          <span className="text-muted-foreground tracking-widest uppercase font-inter font-light text-sm">
-            {/* {item.featuredTitle} */}
-            #MUG
-          </span>
-          <div className="flex flex-col gap-4 mt-4">
-            <Image src={`/forem/e1.jpg`} alt="p1" width={300} height={300} />
-            <h2 className="font-bold font-rubik text-2xl">Mug</h2>
-            <p className="font-inter text-muted-foreground">Tk 2000 BDT</p>
-          </div>
-          <Button size={"lg"} className="mt-4 w-full rounded">
-            Update
-          </Button>
-        </div>
+                <div className="flex items-center gap-4  justify-between">
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button size={"lg"} className="mt-4 w-full  rounded">
+                        Update
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="p-0">
+                      <DialogHeader className="p-4">
+                        <DialogTitle>Update Product</DialogTitle>
+                      </DialogHeader>
+                      <div className="">
+                        <UpdateShopProduct product={product} />
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                  <Button
+                    size={"lg"}
+                    variant={"destructive"}
+                    className="mt-4 w-full  rounded"
+                  >
+                    Delete
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </>
+        )}
+      </div>
+      <div className="flex w-full justify-center items-center">
+        <h2 className="text-center text-4xl font-inter">
+          No product add by you yet! <br />
+          Please add product
+        </h2>
       </div>
 
       <Link
