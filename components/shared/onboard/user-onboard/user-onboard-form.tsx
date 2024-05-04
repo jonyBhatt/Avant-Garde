@@ -47,9 +47,9 @@ const UserOnboardForm = ({
   const form = useForm<z.infer<typeof userOnboardSchema>>({
     resolver: zodResolver(userOnboardSchema),
     defaultValues: {
-      firstName: user.user.firstName || "",
-      lastName: user.user.lastName || "",
-      email: user.user.email || "",
+      firstName: user.user?.firstName || "",
+      lastName: user.user?.lastName || "",
+      email: user.user?.email || "",
       c_technical: "",
       career: "",
       institution: "",

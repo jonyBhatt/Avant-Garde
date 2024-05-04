@@ -48,3 +48,10 @@ export type FullConversationType = Conversation & {
   user: User[];
   message: FullMessageType[];
 };
+
+export type ProductType = {
+  id: string;
+  name: string;
+  description: string;
+  priceInCents: number;
+};
