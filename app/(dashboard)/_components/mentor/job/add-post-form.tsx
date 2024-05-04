@@ -41,6 +41,8 @@ const AddPostForm = () => {
         body: JSON.stringify(values),
       });
     },
+
+    // subscription
     onError: (error) => {
       toast.error(error.message);
     },

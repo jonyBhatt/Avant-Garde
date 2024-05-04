@@ -2,7 +2,7 @@
 import prisma from "@/lib/prisma";
 import { handleError } from "@/lib/utils";
 
-export async function FetchApplication(id?: string) {
+export async function FetchApplication() {
   try {
     const app = await prisma.application.findMany({
       include: {
@@ -20,8 +20,8 @@ export async function FetchApplication(id?: string) {
 export async function FetchApplicationById(id: string) {
   try {
     const app = await prisma.application.findUnique({
-      where:{
-        id
+      where: {
+        id,
       },
       include: {
         students: true,

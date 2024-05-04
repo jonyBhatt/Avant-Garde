@@ -62,7 +62,11 @@ export const getJobPostById = async (id: string) => {
       include: {
         user: true,
         company: true,
-        applications:true
+        _count: {
+          select: {
+            applications: true,
+          },
+        },
       },
     });
 

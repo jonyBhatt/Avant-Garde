@@ -39,7 +39,7 @@ const JobMainContent = () => {
             <h3 className="text-lg">
               Showing <b>100</b> Jobs Available
             </h3>
-            <span>Sort By</span>
+            {/* <span>Sort By</span> */}
           </div>
           <div className="grid grid-cols-1  lg:grid-cols-2 xl:grid-cols-3 gap-4">
             {JobData.map((job) => (
@@ -91,6 +91,11 @@ const JobMainContent = () => {
               </div>
             ))}
             <FetchJobs />
+          </div>
+          <div className="w-full flex justify-center items-center my-6">
+            <Button size={"lg"} className="rounded">
+              View All
+            </Button>
           </div>
         </>
       )}

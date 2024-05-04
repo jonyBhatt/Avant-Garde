@@ -75,7 +75,6 @@ export async function fetchProductById(id: string) {
 }
 
 export async function updateProduct(values: productShopSchema, id: string) {
-  const { currentUserPrisma } = await getChatUser();
   try {
     const product = await prisma.product.update({
       where: {

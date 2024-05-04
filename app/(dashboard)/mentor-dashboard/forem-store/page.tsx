@@ -15,7 +15,6 @@ import { UpdateShopProduct } from "./_components/update-product";
 import { fetchProductByOwner } from "@/lib/actions/mentor/shop/crud-product";
 
 const ForemShop = async () => {
-  const id = Math.floor(Math.random() * 10) + 1;
   const products = await fetchProductByOwner();
   // console.log(id);
 

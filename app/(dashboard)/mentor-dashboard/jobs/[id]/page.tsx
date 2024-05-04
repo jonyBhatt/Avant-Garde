@@ -69,7 +69,9 @@ const JobDescriptionPage = ({ params }: { params: { id: string } }) => {
 
             <div className="py-4 px-8 max-w-[250px] w-full bg-dark-pastel-blue rounded-[8px] text-center flex flex-col">
               <p className="sm:text-sm md:text-base">No of Applicants</p>
-              <h3 className="font-bold text-sm font-inter">120</h3>
+              <h3 className="font-bold text-sm font-inter">
+                {data.job._count.applications}
+              </h3>
             </div>
 
             <div className="py-4 px-8 max-w-[250px] w-full bg-emerald-500 rounded-[8px] text-center flex flex-col">
@@ -90,7 +92,7 @@ const JobDescriptionPage = ({ params }: { params: { id: string } }) => {
           {/** Applications for this job */}
           <div className="mt-4 w-full">
             <h2 className="font-rubik text-lg font-semibold">Applications</h2>
-            <AllApplications  id={data.job.id}/>
+            <AllApplications id={data.job.id} />
           </div>
         </div>
         <div className="flex flex-col gap-4">

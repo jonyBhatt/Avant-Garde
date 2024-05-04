@@ -19,7 +19,7 @@ const AllApplications = ({id}:{id:string}) => {
   const router = useRouter()
   const { data, error, isLoading } = useQuery({
     queryKey: ["application"],
-    queryFn: async () => await FetchApplication(id),
+    queryFn: async () => await FetchApplication(),
   });
 
   if (error) return "Error..." + error;
