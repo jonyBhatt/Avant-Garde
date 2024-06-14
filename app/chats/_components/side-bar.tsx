@@ -11,6 +11,7 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 
 import { getChatUser } from "@/lib/actions/chat/get-chat-current-user";
 import { ContactDelete } from "./contact-delete-dialoge";
+import Link from "next/link";
 
 export default async function Sidebar() {
   const { currentUserPrisma } = await getChatUser();
@@ -20,7 +21,10 @@ export default async function Sidebar() {
     <aside className="w-full overflow-y-auto p-4 border-2 shadow-md shadow-muted rounded-xl h-dvh ">
       {currentUserPrisma.following.map((user) => (
         <div key={user.id} className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
+          <Link
+            href={`/chats/${user.conversationId}`}
+            className="flex items-center w-full gap-2"
+          >
             <Avatar>
               <AvatarImage src={user.photo!} />
               <AvatarFallback>{user.firstName.slice(0, 1)}</AvatarFallback>
@@ -28,7 +32,7 @@ export default async function Sidebar() {
             <h3 className="font-rubik font-semibold text-base">
               {user.firstName}
             </h3>
-          </div>
+          </Link>
           <Dialog>
             <DialogTrigger>
               <BsThreeDotsVertical className="w-5 h-5" />
