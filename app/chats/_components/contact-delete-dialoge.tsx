@@ -6,7 +6,15 @@ import { handleError } from "@/lib/utils";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import toast from "react-hot-toast";
 
-export const ContactDelete = ({ id }: { id: string }) => {
+export const ContactDelete = ({
+  id,
+  convoId,
+}: {
+  id: string;
+  convoId?: string[];
+}) => {
+  console.log(convoId);
+
   const Contact = async (value: string, id: string) => {
     console.log(value, id);
     try {

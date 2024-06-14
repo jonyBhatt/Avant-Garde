@@ -75,7 +75,7 @@ export async function getSearchUser(query: string) {
   }
 }
 
-export async function Contacts(value: string, id: string) {
+export async function Contacts(value: string, id: string, convoId?: string) {
   const { currentUserPrisma } = await getChatUser();
   if (!currentUserPrisma.id) {
     return {
@@ -98,6 +98,16 @@ export async function Contacts(value: string, id: string) {
         },
         include: {
           following: true,
+        },
+      });
+      await prisma.conversation.create({
+        data: {
+          ownerId: currentUserPrisma.id,
+          users: {
+            connect: user.following.map((followingUser) => ({
+              id: followingUser.id,
+            })),
+          },
         },
       });
       revalidatePath("/chats");
@@ -125,6 +135,14 @@ export async function Contacts(value: string, id: string) {
         },
         include: {
           following: true,
+        },
+      });
+      await prisma.conversation.delete({
+        where: {
+          id: convoId,
+        },
+        include: {
+          users: true,
         },
       });
       revalidatePath("/chats");
