@@ -22,7 +22,7 @@ export default async function ChatHeader() {
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-2">
           <Avatar>
-            <AvatarImage src={user.currentUserPrisma.photo} />
+            <AvatarImage src={user.currentUserPrisma.photo!} />
             <AvatarFallback>
               {user.currentUserPrisma.firstName.slice(0, 1)}
             </AvatarFallback>
