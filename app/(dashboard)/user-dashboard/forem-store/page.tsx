@@ -5,20 +5,16 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 import { FaOpencart } from "react-icons/fa";
+import TitleCart from "./_components/title-cart";
 
 const ForemShop = () => {
   return (
     <div className="py-6">
       <div className=" flex justify-between items-center pr-4">
-        <div className="flex items-center gap-2 justify-center">
-          <Store className="w-10 h-10 text-primary" />
-          <h2 className="font-bold text-3xl font-inter tracking-wider">
-            Forem Shop
-          </h2>
+        <div className="flex items-center w-full gap-2 justify-center">
+          <Store className="text-primary w-8 h-8" />
+          <TitleCart title="Forem Shop" />
         </div>
-        <Link href={"/user-dashboard/forem-store/cart"}>
-          <FaOpencart className="w-8 h-8" />
-        </Link>
       </div>
       <div className="flex w-full flex-col items-start mt-14 ">
         <h3 className="font-semibold font-rubik">Featured Product</h3>

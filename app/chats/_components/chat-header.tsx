@@ -7,11 +7,13 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { BiDotsVerticalRounded } from "react-icons/bi";
+import { AddContactsSection } from "./add-contacts/add-contact-sction";
 export default function ChatHeader() {
   return (
     <div className="p-4 bg-muted w-full">
       <div className="flex justify-between items-center">
         <div>User Head</div>
+        {/** Mobile */}
         <div className="md:hidden sm:block">
           <Sheet>
             <SheetTrigger>
@@ -32,7 +34,9 @@ export default function ChatHeader() {
                     variant={"ghost"}
                     className="rounded-[8px]"
                   >
-                    <h2 className="uppercase tracking-wider text-primary-foreground">Add Contacts</h2>
+                    <h2 className="uppercase tracking-wider text-primary-foreground">
+                      Add Contacts
+                    </h2>
                   </Button>
                 </div>
               </SheetHeader>
@@ -43,7 +47,7 @@ export default function ChatHeader() {
           </Sheet>
         </div>
         <div className="hidden md:flex items-center gap-4">
-          <span>Add Contacts</span>
+          <AddContactsSection />
           <span>Dashboard Link</span>
         </div>
       </div>

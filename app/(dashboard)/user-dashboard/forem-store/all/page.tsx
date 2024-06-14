@@ -1,15 +1,14 @@
 import prisma from "@/lib/prisma";
 import Image from "next/image";
 import Link from "next/link";
+import AllProductsWithCart from "../_components/title-cart";
 async function AllProducts() {
   const products = await prisma.product.findMany();
   // console.log(products);
 
   return (
     <div className="py-6">
-      <h2 className="font-semibold font-rubik text-3xl tracking-wide leading-7 capitalize">
-        All products
-      </h2>
+      <AllProductsWithCart title="All products" />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 py-9 pr-4">
         {products.map((item) => (
           <>

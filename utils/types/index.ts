@@ -54,4 +54,6 @@ export type ProductType = {
   name: string;
   description: string;
   priceInCents: number;
+  size:string;
+  image?:string
 };

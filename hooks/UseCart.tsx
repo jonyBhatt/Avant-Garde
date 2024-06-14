@@ -2,13 +2,13 @@ import { create } from "zustand";
 import { toast } from "react-hot-toast";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { ProductType } from "@/utils/types";
-
-
+import { it } from "node:test";
 
 interface CartItem {
   item: ProductType;
   quantity: number;
-  size?: number;
+  size: string;
+  image?: string;
 }
 interface CartStore {
   cartItems: CartItem[];
@@ -24,7 +24,7 @@ const useCart = create(
     (set, get) => ({
       cartItems: [],
       addItem: (data: CartItem) => {
-        const { item, quantity, size } = data;
+        const { item, quantity, size, image } = data;
         const currentItems = get().cartItems;
 
         const isExist = currentItems.find(
@@ -33,7 +33,7 @@ const useCart = create(
         if (isExist) {
           return toast(`${isExist.item.name} already in Cart`, { icon: "🛒" });
         }
-        set({ cartItems: [...currentItems, { item, quantity, size }] });
+        set({ cartItems: [...currentItems, { item, quantity, size, image }] });
         toast.success(`${item.name} added to cart`, { icon: "🧺" });
       },
       removeItem: (id: string) => {
@@ -81,4 +81,4 @@ const useCart = create(
   )
 );
 
-export default useCart
+export default useCart;

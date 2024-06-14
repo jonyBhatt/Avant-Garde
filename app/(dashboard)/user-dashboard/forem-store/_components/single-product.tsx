@@ -1,10 +1,8 @@
 "use client";
 
-import LoadingSkeleton from "@/components/shared/LoadingSkeleton";
 import { Button } from "@/components/ui/button";
-import { fetchProductById } from "@/lib/actions/mentor/shop/crud-product";
+import useCart from "@/hooks/UseCart";
 import { Product } from "@prisma/client";
-import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -13,8 +11,10 @@ function SingleProductComponent({
 }: {
   product: Product | null | undefined;
 }) {
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(1);
   const [size, setSize] = useState("S");
+
+  const cart = useCart();
 
   return (
     <div className="py-6 pr-4 mt-20 container mx-auto">
@@ -125,7 +125,24 @@ function SingleProductComponent({
               3XL
             </Button>
           </div>
-          <Button size={"lg"} className="rounded w-full">
+          <Button
+            size={"lg"}
+            className="rounded w-full"
+            onClick={() => {
+              cart.addItem({
+                item: {
+                  id: product?.id!,
+                  name: product?.name!,
+                  priceInCents: product?.priceInCents!,
+                  description: product?.description!,
+                  size: product?.size!,
+                  image: product?.image,
+                },
+                quantity,
+                size,
+              });
+            }}
+          >
             Add to cart
           </Button>
         </div>

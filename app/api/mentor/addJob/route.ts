@@ -1,8 +1,6 @@
-import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { JobSchema } from "@/utils/types";
 import { auth } from "@clerk/nextjs";
-import { handleError } from "@/lib/utils";
+import { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest): Promise<any> {
   const body = await req.json();
