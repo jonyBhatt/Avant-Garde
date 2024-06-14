@@ -11,24 +11,25 @@ import AddContact from "./add-contact";
 export const AddContactsSection = async () => {
   const { currentUserPrisma } = await getChatUser();
 
-  return <div>
+  return (
+    <div>
       <Sheet>
-            <SheetTrigger asChild className="cursor-pointer">
-              <Button className="bg-transparent hover:bg-transparent">
-                Add Contacts
-              </Button>
-            </SheetTrigger>
-            <SheetContent side={"top"} className="p-0 ">
-              <SheetHeader className="bg-primary text-left">
-                <div className="mt-14 mb-3 ml-4">
-                  <SheetTitle className="font-rubik font-bold text-lg text-white sm:text-start">
-                    New Contact
-                  </SheetTitle>
-                </div>
-              </SheetHeader>
-              <AddContact currentUser={currentUserPrisma} />
-              Add 
-            </SheetContent>
-          </Sheet>
-  </div>;
+        <SheetTrigger asChild className="cursor-pointer">
+          <Button className="bg-transparent hover:bg-transparent">
+            Add Contacts
+          </Button>
+        </SheetTrigger>
+        <SheetContent side={"top"} className="p-0 ">
+          <SheetHeader className="bg-primary text-left">
+            <div className="mt-14 mb-3 ml-4">
+              <SheetTitle className="font-rubik font-bold text-lg text-white sm:text-start">
+                New Contact
+              </SheetTitle>
+            </div>
+          </SheetHeader>
+          <AddContact currentUser={currentUserPrisma} />
+        </SheetContent>
+      </Sheet>
+    </div>
+  );
 };

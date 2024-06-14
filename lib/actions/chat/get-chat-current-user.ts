@@ -10,6 +10,7 @@ interface CurrentUser {
   currentUserClerk: ClerkUser;
   currentUserPrisma: PrismaUser & {
     following: PrismaUser[];
+    followedBy: PrismaUser[];
   };
 }
 
@@ -25,6 +26,7 @@ export const getChatUser = async (): Promise<CurrentUser> => {
     },
     include: {
       following: true,
+      followedBy: true,
     },
   });
 
@@ -100,13 +102,41 @@ export async function Contacts(value: string, id: string, convoId?: string) {
           following: true,
         },
       });
+
+      // Check if conversation exist
+      const existConversation = await prisma.conversation.findMany({
+        where: {
+          OR: [
+            {
+              userId: {
+                equals: [currentUserPrisma.id, id],
+              },
+            },
+            {
+              userId: {
+                equals: [id, currentUserPrisma.id],
+              },
+            },
+          ],
+        },
+      });
+
+      const singleConversation = await existConversation[0];
+      if (singleConversation) {
+        return singleConversation;
+      }
       await prisma.conversation.create({
         data: {
           ownerId: currentUserPrisma.id,
           users: {
-            connect: user.following.map((followingUser) => ({
-              id: followingUser.id,
-            })),
+            connect: [
+              {
+                id: currentUserPrisma.id,
+              },
+              {
+                id: id,
+              },
+            ],
           },
         },
       });
@@ -137,14 +167,14 @@ export async function Contacts(value: string, id: string, convoId?: string) {
           following: true,
         },
       });
-      await prisma.conversation.delete({
-        where: {
-          id: convoId,
-        },
-        include: {
-          users: true,
-        },
-      });
+      // await prisma.conversation.delete({
+      //   where: {
+      //     id: convoId,
+      //   },
+      //   include: {
+      //     users: true,
+      //   },
+      // });
       revalidatePath("/chats");
 
       return user;
