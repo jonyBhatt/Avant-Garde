@@ -16,6 +16,9 @@ export const metadata: Metadata = {
     default: "Avant-Garde Mentorship hub",
     template: "%s | Avant-Garde",
   },
+  icons: {
+    icon: "/logo/logo.png",
+  },
   description: "Become a pro programmer",
 };
 

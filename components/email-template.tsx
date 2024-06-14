@@ -28,7 +28,7 @@ export const EmailTemplate = ({ to, subject, message }: EmailTemplateProps) => {
       <Body className="bg-primary font-inter">
         <Container>
           <Section>
-            <Img src={`/svg/logo.svg`} width="96" height="30" alt="Airbnb" />
+            <Img src={`/logo/logo.png`} width="96" height="30" alt="Airbnb" />
           </Section>
           <Section style={{ paddingBottom: "20px" }}>
             <Row>

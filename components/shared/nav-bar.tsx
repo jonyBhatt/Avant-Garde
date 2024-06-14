@@ -8,7 +8,7 @@ const Navbar = () => {
     <nav className="p-4 container">
       <div className="flex justify-between items-center gap-8">
         <div className="logo">
-          <Image src="/svg/logo.svg" alt="logo" width={50} height={50} />
+          <Image src="/logo/logo.png" alt="logo" width={50} height={50} />
         </div>
         <div className="navbar-menu hidden md:block bg-transparent ring-1 ring-secondary shadow-sm shadow-primary rounded-full px-8 py-1.5">
           <ul className="flex justify-between items-center gap-8">
