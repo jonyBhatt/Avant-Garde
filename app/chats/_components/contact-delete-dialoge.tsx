@@ -13,14 +13,18 @@ export const ContactDelete = ({
   id: string;
   convoId?: string[];
 }) => {
-  console.log(convoId);
+  let conversationId = "";
+  if (convoId) {
+    conversationId = convoId[0];
+  }
+  console.log(conversationId);
 
   const Contact = async (value: string, id: string) => {
     console.log(value, id);
     try {
-      await Contacts(value, id);
-      if (value === "add") {
-        toast.success("Added Contact");
+      await Contacts(value, id, conversationId);
+      if (value === "delete") {
+        toast.success("Delete Contact");
       }
     } catch (error) {
       handleError(error);

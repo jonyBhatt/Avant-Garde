@@ -134,7 +134,7 @@ export async function Contacts(value: string, id: string, convoId?: string) {
                 id: currentUserPrisma.id,
               },
               {
-                id
+                id,
               },
             ],
           },
@@ -172,14 +172,14 @@ export async function Contacts(value: string, id: string, convoId?: string) {
           following: true,
         },
       });
-      // await prisma.conversation.delete({
-      //   where: {
-      //     id: convoId,
-      //   },
-      //   include: {
-      //     users: true,
-      //   },
-      // });
+      await prisma.conversation.delete({
+        where: {
+          id: convoId,
+        },
+        include: {
+          users: true,
+        },
+      });
       revalidatePath("/chats");
 
       return user;
