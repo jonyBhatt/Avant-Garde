@@ -162,6 +162,11 @@ export async function Contacts(value: string, id: string, convoId?: string) {
               id,
             },
           },
+          followedBy: {
+            disconnect: {
+              id: currentUserPrisma.id,
+            },
+          },
         },
         include: {
           following: true,

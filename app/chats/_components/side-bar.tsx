@@ -19,14 +19,14 @@ export default async function Sidebar() {
   if (!currentUserPrisma.id) return null;
   return (
     <aside className="w-full overflow-y-auto p-4 border-2 shadow-md shadow-muted rounded-xl h-dvh flex flex-col gap-8 ">
-      {currentUserPrisma.following.length === 0 ||
-        (currentUserPrisma.followedBy.length === 0 && (
+      {currentUserPrisma.following.length === 0 &&
+        currentUserPrisma.followedBy.length === 0 && (
           <div className="flex items-center justify-center ">
             <h3 className="font-rubik font-semibold text-base">
               You don&apos;t have any user to chat
             </h3>
           </div>
-        ))}
+        )}
       {currentUserPrisma.following.map((user) => (
         <div key={user.id} className="flex items-center justify-between">
           <Link
