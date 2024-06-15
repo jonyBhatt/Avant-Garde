@@ -134,7 +134,7 @@ export async function Contacts(value: string, id: string, convoId?: string) {
                 id: currentUserPrisma.id,
               },
               {
-                id: id,
+                id
               },
             ],
           },
@@ -164,7 +164,7 @@ export async function Contacts(value: string, id: string, convoId?: string) {
           },
           followedBy: {
             disconnect: {
-              id: currentUserPrisma.id,
+              id,
             },
           },
         },
