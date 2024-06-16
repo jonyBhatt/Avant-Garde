@@ -12,13 +12,15 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { getChatUser } from "@/lib/actions/chat/get-chat-current-user";
 import { ContactDelete } from "./contact-delete-dialoge";
 import Link from "next/link";
+import { ChatLink } from "./ChatLink";
 
 export default async function Sidebar() {
   const { currentUserPrisma } = await getChatUser();
   console.log(currentUserPrisma.conversationId);
   if (!currentUserPrisma.id) return null;
   return (
-    <aside className="w-full overflow-y-auto p-4 border-2 shadow-md shadow-muted rounded-xl h-dvh flex flex-col gap-8 ">
+    <aside className="w-full overflow-y-auto  border-2 shadow-md shadow-muted rounded-xl h-dvh flex flex-col gap-8 ">
+      <h2 className="tracking-wide mx-4 mt-2 text-lg font-semibold font-inter">Contacts</h2>
       {currentUserPrisma.following.length === 0 &&
         currentUserPrisma.followedBy.length === 0 && (
           <div className="flex items-center justify-center ">
@@ -28,52 +30,10 @@ export default async function Sidebar() {
           </div>
         )}
       {currentUserPrisma.following.map((user) => (
-        <div key={user.id} className="flex items-center justify-between">
-          <Link
-            href={`/chats/${user.conversationId}`}
-            className="flex items-center w-full gap-2"
-          >
-            <Avatar>
-              <AvatarImage src={user.photo!} />
-              <AvatarFallback>{user.firstName.slice(0, 1)}</AvatarFallback>
-            </Avatar>
-            <h3 className="font-rubik font-semibold text-base">
-              {user.firstName}
-            </h3>
-          </Link>
-          <Dialog>
-            <DialogTrigger>
-              <BsThreeDotsVertical className="w-5 h-5" />
-            </DialogTrigger>
-            <DialogContent>
-              <ContactDelete id={user.id} convoId={user.conversationId} />
-            </DialogContent>
-          </Dialog>
-        </div>
+        <ChatLink key={user.id} user={user} />
       ))}
       {currentUserPrisma.followedBy.map((user) => (
-        <div key={user.id} className="flex items-center justify-between">
-          <Link
-            href={`/chats/${user.conversationId}`}
-            className="flex items-center w-full gap-2"
-          >
-            <Avatar>
-              <AvatarImage src={user.photo!} />
-              <AvatarFallback>{user.firstName.slice(0, 1)}</AvatarFallback>
-            </Avatar>
-            <h3 className="font-rubik font-semibold text-base">
-              {user.firstName}
-            </h3>
-          </Link>
-          <Dialog>
-            <DialogTrigger>
-              <BsThreeDotsVertical className="w-5 h-5" />
-            </DialogTrigger>
-            <DialogContent>
-              <ContactDelete id={user.id} convoId={user.conversationId} />
-            </DialogContent>
-          </Dialog>
-        </div>
+        <ChatLink key={user.id} user={user} />
       ))}
     </aside>
   );

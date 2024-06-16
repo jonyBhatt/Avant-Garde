@@ -121,7 +121,7 @@ export async function Contacts(value: string, id: string, convoId?: string) {
         },
       });
 
-      const singleConversation = await existConversation[0];
+      const singleConversation = existConversation[0];
       if (singleConversation) {
         return singleConversation;
       }
@@ -152,6 +152,7 @@ export async function Contacts(value: string, id: string, convoId?: string) {
 
   if (value === "delete") {
     try {
+      // Update the user by disconnecting from the following and followedBy
       const user = await prisma.user.update({
         where: {
           id: currentUserPrisma.id,
@@ -170,9 +171,12 @@ export async function Contacts(value: string, id: string, convoId?: string) {
         },
         include: {
           following: true,
+          followedBy: true,
         },
       });
-      await prisma.conversation.delete({
+
+      // Fetch the conversation to check the number of users
+      const conversation = await prisma.conversation.findUnique({
         where: {
           id: convoId,
         },
@@ -180,6 +184,40 @@ export async function Contacts(value: string, id: string, convoId?: string) {
           users: true,
         },
       });
+
+      if (conversation) {
+        // Check if the current user is the last one in the conversation
+        if (
+          conversation.users.length >= 1 &&
+          conversation.users[0].id === currentUserPrisma.id &&
+          conversation.users[1].id === id
+        ) {
+          // If the current user is the last one, delete the conversation
+          await prisma.conversation.delete({
+            where: {
+              id: convoId,
+            },
+          });
+        } else {
+          // If other users are still part of the conversation, just disconnect the current user
+          await prisma.conversation.update({
+            where: {
+              id: convoId,
+            },
+            data: {
+              users: {
+                disconnect: {
+                  id: currentUserPrisma.id,
+                },
+              },
+            },
+          });
+        }
+      } else {
+        throw new Error("Conversation not found");
+      }
+
+      // Revalidate the path to refresh the chats
       revalidatePath("/chats");
 
       return user;
