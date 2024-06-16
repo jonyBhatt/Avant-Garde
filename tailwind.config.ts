@@ -36,6 +36,10 @@ const config = {
         inter: ["var(--inter)"],
         rubik: ["var(--rubik)"],
       },
+      backgroundImage: {
+        "nav-focus":
+          "linear-gradient(270deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.00) 100%)",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
