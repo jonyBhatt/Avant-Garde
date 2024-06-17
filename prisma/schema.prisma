@@ -225,7 +225,7 @@ model Conversation {
   messageIds String[]  @db.ObjectId
   message    Message[]
 
-  ownerId String @unique @db.ObjectId
+  ownerId String @db.ObjectId
 
   userId String[] @db.ObjectId
   users  User[]   @relation(fields: [userId], references: [id])

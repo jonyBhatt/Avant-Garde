@@ -3,7 +3,7 @@ import prisma from "@/lib/prisma";
 import { handleError } from "@/lib/utils";
 import { auth, currentUser } from "@clerk/nextjs";
 import { User as ClerkUser } from "@clerk/nextjs/server";
-import { User as PrismaUser } from "@prisma/client";
+import  {User as PrismaUser } from '@prisma/client'
 import { unstable_noStore as noStore, revalidatePath } from "next/cache";
 
 interface CurrentUser {

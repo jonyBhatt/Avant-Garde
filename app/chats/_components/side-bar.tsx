@@ -16,11 +16,13 @@ import { ChatLink } from "./ChatLink";
 
 export default async function Sidebar() {
   const { currentUserPrisma } = await getChatUser();
-  console.log(currentUserPrisma.conversationId);
+  // console.log(currentUserPrisma.conversationId);
   if (!currentUserPrisma.id) return null;
   return (
     <aside className="w-full overflow-y-auto  border-2 shadow-md shadow-muted rounded-xl h-dvh flex flex-col gap-8 ">
-      <h2 className="tracking-wide mx-4 mt-2 text-lg font-semibold font-inter">Contacts</h2>
+      <h2 className="tracking-wide mx-4 mt-2 text-lg font-semibold font-inter">
+        Contacts
+      </h2>
       {currentUserPrisma.following.length === 0 &&
         currentUserPrisma.followedBy.length === 0 && (
           <div className="flex items-center justify-center ">

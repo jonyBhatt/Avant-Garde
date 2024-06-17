@@ -6,7 +6,7 @@ import { useEffect } from "react";
 
 function Chat({ searchParams }: { searchParams?: { query?: string } }) {
   const query = searchParams?.query || "";
-  console.log(query);
+  // console.log(query);
   const { setQuery } = useQueryContext();
 
   useEffect(() => {

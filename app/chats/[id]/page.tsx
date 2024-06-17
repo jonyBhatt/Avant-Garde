@@ -6,6 +6,7 @@ import {
 export default async function ChatRoom({ params }: { params: { id: string } }) {
   const conversations = await getConversationById(params.id);
   const messages = await getMessages(params.id);
+  console.log(conversations);
 
   if (!conversations) {
     return (
