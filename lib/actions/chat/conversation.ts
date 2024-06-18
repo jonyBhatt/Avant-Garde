@@ -2,6 +2,8 @@
 import prisma from "@/lib/prisma";
 import { handleError } from "@/lib/utils";
 import { getChatUser } from "./get-chat-current-user";
+import * as z from "zod";
+import { messageSchema } from "@/utils/validation";
 
 export const getConversation = async () => {
   const { currentUserPrisma } = await getChatUser();
@@ -40,15 +42,6 @@ export const getConversationById = async (id: string) => {
       where: {
         id,
       },
-      include: {
-        users: true,
-        message: {
-          include: {
-            seen: true,
-            sender: true,
-          },
-        },
-      },
     });
     return conversation;
   } catch (error) {
@@ -74,6 +67,68 @@ export const getMessages = async (id: string) => {
       },
     });
     return messages;
+  } catch (error) {
+    return {
+      error: handleError(error),
+    };
+  }
+};
+
+export const createMessage = async (
+  value: z.infer<typeof messageSchema>,
+  conversationId: string
+) => {
+  const { currentUserPrisma } = await getChatUser();
+  try {
+    const message = await prisma.message.create({
+      data: {
+        body: value.body,
+        image: value.image,
+        conversation: {
+          connect: {
+            id: conversationId,
+          },
+        },
+        sender: {
+          connect: {
+            id: currentUserPrisma.id,
+          },
+        },
+        seen: {
+          connect: {
+            id: currentUserPrisma.id,
+          },
+        },
+      },
+      include: {
+        sender: true,
+        seen: true,
+      },
+    });
+
+    const updateConversation = await prisma.conversation.update({
+      where: {
+        id: conversationId,
+      },
+      data: {
+        lastMessageAt: new Date(),
+        message: {
+          connect: {
+            id: message.id,
+          },
+        },
+      },
+      include: {
+        users: true,
+        message: {
+          include: {
+            seen: true,
+          },
+        },
+      },
+    });
+
+    return message;
   } catch (error) {
     return {
       error: handleError(error),

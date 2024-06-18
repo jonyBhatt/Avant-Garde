@@ -113,3 +113,11 @@ export const addProductShopSchema = z.object({
 });
 
 export type productShopSchema = z.infer<typeof addProductShopSchema>;
+
+/**
+ * * Send Message
+ */
+export const messageSchema = z.object({
+  body: z.string(),
+  image: z.string().optional(),
+});

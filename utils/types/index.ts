@@ -57,3 +57,4 @@ export type ProductType = {
   size:string;
   image?:string
 };
+
