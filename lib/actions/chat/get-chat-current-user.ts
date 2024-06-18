@@ -3,8 +3,9 @@ import prisma from "@/lib/prisma";
 import { handleError } from "@/lib/utils";
 import { auth, currentUser } from "@clerk/nextjs";
 import { User as ClerkUser } from "@clerk/nextjs/server";
-import  {User as PrismaUser } from '@prisma/client'
+import { User as PrismaUser } from "@prisma/client";
 import { unstable_noStore as noStore, revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 interface CurrentUser {
   currentUserClerk: ClerkUser;
@@ -193,6 +194,22 @@ export async function Contacts(value: string, id: string, convoId?: string) {
           conversation.users[1].id === id
         ) {
           // If the current user is the last one, delete the conversation
+
+          // First, update users to remove the conversation ID
+          await prisma.user.updateMany({
+            where: {
+              conversationId: { has: convoId },
+            },
+            data: {
+              conversationId: {
+                set: conversation.users.flatMap((user) =>
+                  user.conversationId.filter((cId) => cId !== convoId)
+                ),
+              },
+            },
+          });
+
+          // Then, delete the conversation
           await prisma.conversation.delete({
             where: {
               id: convoId,
@@ -212,6 +229,20 @@ export async function Contacts(value: string, id: string, convoId?: string) {
               },
             },
           });
+
+          // Update the current user's conversationId
+          await prisma.user.update({
+            where: {
+              id: currentUserPrisma.id,
+            },
+            data: {
+              conversationId: {
+                set: currentUserPrisma.conversationId.filter(
+                  (cId) => cId !== convoId
+                ),
+              },
+            },
+          });
         }
       } else {
         throw new Error("Conversation not found");
@@ -219,7 +250,6 @@ export async function Contacts(value: string, id: string, convoId?: string) {
 
       // Revalidate the path to refresh the chats
       revalidatePath("/chats");
-
       return user;
     } catch (error) {
       return {

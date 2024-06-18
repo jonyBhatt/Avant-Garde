@@ -49,10 +49,14 @@ const AddContact = ({ currentUser }: CurrentUserProps) => {
   const Contact = async (value: string, id: string) => {
     console.log(value, id);
     try {
-      await Contacts(value, id);
-      if (value === "add") {
-        toast.success("Added Contact");
-      }
+      // await Contacts(value, id);
+      toast.promise(Contacts(value, id), {
+        loading: "Adding to contact...",
+        success: (data) => {
+          return `Added to contact successfully`;
+        },
+        error: "Error",
+      });
     } catch (error) {
       handleError(error);
       toast.error("Something Wrong!");
