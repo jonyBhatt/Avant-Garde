@@ -1,6 +1,7 @@
 "use client";
 import { FullConversationType, FullMessageType } from "@/utils/types";
 import { useEffect, useState } from "react";
+import { MessageBox } from "./meeage-box";
 
 interface ConversationProps {
   initialMessage: FullMessageType[];
@@ -29,5 +30,13 @@ export const Conversation = ({
   //   };
   //   seen();
   // }, [conversationId]);
-  return <div>Conversation</div>;
+  return (
+    <div>
+      {messages.map((message,i) => (
+        <div key={message.id}>
+            <MessageBox messages={message} isLast={i === messages.length-1}  />
+        </div>
+      ))}
+    </div>
+  );
 };

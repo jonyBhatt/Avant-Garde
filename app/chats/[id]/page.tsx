@@ -33,7 +33,7 @@ export default async function ChatRoom({ params }: { params: { id: string } }) {
   }
 
   const messages = await getMessages(params.id);
-  console.log(conversations);
+  // console.log(conversations);
 
   if (!conversations || !conversations.id) {
     // Check if conversations and conversations.id exist
