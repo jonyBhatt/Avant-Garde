@@ -53,6 +53,7 @@ export default async function ChatRoom({ params }: { params: { id: string } }) {
       <Conversation
         initialMessage={fixedMessages}
         conversationId={conversations.id}
+        currentUser={currentUserPrisma}
       />
       <Separator className="my-8" />
       {conversations.ownerId === currentUserPrisma.id && (

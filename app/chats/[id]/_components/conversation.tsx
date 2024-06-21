@@ -1,18 +1,21 @@
 "use client";
 import { FullConversationType, FullMessageType } from "@/utils/types";
+import { User } from "@prisma/client";
 import { useEffect, useState } from "react";
 import { MessageBox } from "./meeage-box";
+// import { MessageBox } from "./meeage-box";
 
 interface ConversationProps {
   initialMessage: FullMessageType[];
   conversationId: string;
+  currentUser: User;
 }
 export const Conversation = ({
   initialMessage,
   conversationId,
+  currentUser,
 }: ConversationProps) => {
   const [messages, setMessages] = useState(initialMessage);
-  console.log(messages);
 
   {
     /** On load page message will be seen  */
@@ -32,9 +35,13 @@ export const Conversation = ({
   // }, [conversationId]);
   return (
     <div>
-      {messages.map((message,i) => (
+      {messages.map((message, i) => (
         <div key={message.id}>
-            <MessageBox messages={message} isLast={i === messages.length-1}  />
+          <MessageBox
+            messages={message}
+            isLast={i === messages.length - 1}
+            currentUser={currentUser}
+          />
         </div>
       ))}
     </div>
