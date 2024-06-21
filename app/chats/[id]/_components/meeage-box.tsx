@@ -38,17 +38,11 @@ export const MessageBox = ({
 
   return (
     <div
-      className={clsx("flex mb-[2px]", ownChat && "justify-end items-start")}
-    >
-      {!ownChat && (
-        <div className="ml-16 flex items-start">
-          <img
-            src="/svg/MessageBubbleTriangleWhite.svg"
-            alt="message"
-            className="transform scale-x-[-1] items-start"
-          />
-        </div>
+      className={clsx(
+        "flex mb-[2px]",
+        ownChat && "justify-end items-start relative"
       )}
+    >
       <div className={clsx("flex flex-col", ownChat && "items-end")}>
         <div
           className={clsx(
@@ -82,6 +76,11 @@ export const MessageBox = ({
                     alt="seen"
                     className="mr-[2px] ml-[2px] w-[16px] h-[11px]"
                   />
+                )}
+                {isLast && ownChat && seenList.length > 0 && (
+                  <div className="text-xs font-light text-gray-500">
+                    {`Seen by ${seenList}`}
+                  </div>
                 )}
               </div>
             </div>
