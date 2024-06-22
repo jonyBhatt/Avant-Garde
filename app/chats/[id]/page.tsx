@@ -49,15 +49,19 @@ export default async function ChatRoom({ params }: { params: { id: string } }) {
   const fixedMessages = Array.isArray(messages) ? messages : [];
 
   return (
-    <div className="w-full h-full">
-      <Conversation
-        initialMessage={fixedMessages}
-        conversationId={conversations.id}
-        currentUser={currentUserPrisma}
-      />
+    <div className="w-full h-full flex flex-col">
+      <div className="flex-grow">
+        <Conversation
+          initialMessage={fixedMessages}
+          conversationId={conversations.id}
+          currentUser={currentUserPrisma}
+        />
+      </div>
       <Separator className="my-8" />
       {conversations.ownerId === currentUserPrisma.id && (
-        <SendMessageForm conversationId={conversations.id} />
+        <div className="flex-shrink-0">
+          <SendMessageForm conversationId={conversations.id} />
+        </div>
       )}
     </div>
   );
