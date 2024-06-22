@@ -31,7 +31,7 @@ interface SendMessageFormProps {
   conversationId: string;
 }
 export const SendMessageForm = ({ conversationId }: SendMessageFormProps) => {
-  const [isPending, startTransition] = useTransition()
+  const [isPending, startTransition] = useTransition();
   const form = useForm<z.infer<typeof messageSchema>>({
     resolver: zodResolver(messageSchema),
     defaultValues: {
@@ -45,9 +45,9 @@ export const SendMessageForm = ({ conversationId }: SendMessageFormProps) => {
 
   async function onSubmit(values: z.infer<typeof messageSchema>) {
     console.log(values);
-    startTransition(async ()=>{
-      await createMessage(values, conversationId)
-    })
+    startTransition(async () => {
+      await createMessage(values, conversationId);
+    });
     form.reset();
   }
   return (
@@ -77,7 +77,7 @@ export const SendMessageForm = ({ conversationId }: SendMessageFormProps) => {
               control={form.control}
               name="body"
               render={({ field }) => (
-                <FormItem className="w-3/4">
+                <FormItem className="w-full">
                   <FormControl>
                     <Input
                       placeholder="type here "
