@@ -47,7 +47,7 @@ export const MessageBox = ({
         <div
           className={clsx(
             "text-sm w-fit overflow-hidden",
-            ownChat ? "bg-muted " : "bg-gray-100 text-black",
+            ownChat ? "bg-muted " : "bg-secondary",
             messages.image
               ? "rounded-[3px]"
               : "rounded-[7px] py-2 px-3 shadow-sm shadow-purple-500 "
