@@ -3,6 +3,7 @@ import { FullConversationType, FullMessageType } from "@/utils/types";
 import { User } from "@prisma/client";
 import { useEffect, useState } from "react";
 import { MessageBox } from "./meeage-box";
+import { ChatBoxHeader } from "./chatBox-header";
 // import { MessageBox } from "./meeage-box";
 
 interface ConversationProps {
@@ -34,7 +35,8 @@ export const Conversation = ({
   //   seen();
   // }, [conversationId]);
   return (
-    <div>
+    <div className="flex flex-col gap-16">
+      <ChatBoxHeader />
       {messages.map((message, i) => (
         <div key={message.id}>
           <MessageBox
