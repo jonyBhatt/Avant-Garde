@@ -10,14 +10,14 @@ const Navbar = () => {
         <div className="logo">
           <Image src="/logo/logo.png" alt="logo" width={50} height={50} />
         </div>
-        <div className="navbar-menu hidden md:block bg-transparent ring-1 ring-secondary shadow-sm shadow-primary rounded-full px-8 py-1.5">
+        {/* <div className="navbar-menu hidden md:block bg-transparent ring-1 ring-secondary shadow-sm shadow-primary rounded-full px-8 py-1.5">
           <ul className="flex justify-between items-center gap-8">
             <li className="cursor-pointer">Home</li>
             <li className="cursor-pointer">About</li>
             <li className="cursor-pointer">Contact</li>
             <li className="cursor-pointer">Blog</li>
           </ul>
-        </div>
+        </div> */}
         <SignedIn>
           <UserButton afterSignOutUrl="/sign-in" />
         </SignedIn>

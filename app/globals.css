@@ -2,13 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+html,
+body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+#root {
+  height: 100%;
+}
+
 @layer base {
   :root {
-    /* Name: custom color palette
-       Author: Ilias Ism
-       URL: https://gradient.page */
-
-    /* CSS: .bg-gradient { background: var(--gradient) } */
     --gradient: linear-gradient(to top left, #671ea7, #4389a2);
 
     --background: 289 37.699999999999996% 1%;
@@ -52,6 +58,7 @@
 }
 
 @layer utilities {
+
   .custom-card-background {
     @apply border border-white/[.1]  rounded-[8px] bg-[radial-gradient(164.75%_100%_at_50%_0%,#334155_0%,#0F172A_48.73%)];
   }

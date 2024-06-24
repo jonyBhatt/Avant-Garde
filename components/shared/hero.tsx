@@ -1,38 +1,42 @@
-import Image from "next/image";
-import { Button } from "../ui/button";
-import styles from "@/components/css/hero.module.css";
-import { cn } from "@/lib/utils";
-
+"use client";
+import { motion } from "framer-motion";
 const Hero = () => {
   return (
-    <section className="py-20 px-24 container relative">
-      <div className={cn(styles.gradientBg)}></div>
-      <div className="flex items-center justify-around my-8 ">
-        <div className="title">
-          <h2 className="text-2xl md:text-5xl font-bold font-rubik">
-            <span className="text-white">Hire anyone</span>, <br />
-            <span className="text-gray-400">anywhere</span>
-          </h2>
-        </div>
-        <div className="flex items-start flex-col gap-4">
-          <span className="text-sm font-inter leading-5">
-            Payroll benefits and complains for remote teams, in one secure
-            platform. <br /> Easily onboard and pay employees and contraction
-            worldwide.
-          </span>
-          <Button className="rounded-full px-8">Get Started</Button>
-        </div>
-      </div>
-      <div className="mt-14">
-        <Image
-          src="/images/hero.jpg"
-          alt="hero image"
-          width="2000"
-          height="100"
-          className="rounded-lg h-[500px] shadow-md shadow-accent"
-        />
-      </div>
-    </section>
+    <div className="flex flex-col items-center pt-24 h-svh  overflow-hidden">
+      <motion.p
+        className="shadow-[inset_0_0_0_2px_#616467] text-black px-8 py-1 rounded-full tracking-widest uppercase font-bold bg-slate-800  hover:text-white dark:text-neutral-200 transition duration-200 my-4 font-inter"
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+      >
+        AG
+      </motion.p>
+      <motion.div
+        className="text-center "
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1 }}
+      >
+        <h1 className="text-5xl md:text-7xl lg:text-9xl font-extrabold text-white drop-shadow-lg font-rubik">
+          Avant Garde
+        </h1>
+        <p className="mt-4 text-2xl font-inter tracking-wide text-muted-foreground  font-semibold">
+          Your Ultimate Platform to Connect with Expert Mentors
+        </p>
+        <motion.button
+          className="mt-8 shadow-[inset_0_0_0_2px_#616467] text-black px-12 py-4 rounded-full tracking-widest uppercase font-bold bg-transparent hover:bg-primary hover:text-white dark:text-neutral-200 transition duration-200"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+        >
+          Get Started
+        </motion.button>
+      </motion.div>
+    </div>
   );
 };
 export default Hero;
+
+{
+  /* <button className="shadow-[inset_0_0_0_2px_#616467] text-black px-12 py-4 rounded-full tracking-widest uppercase font-bold bg-transparent hover:bg-[#616467] hover:text-white dark:text-neutral-200 transition duration-200">
+        Playlist
+      </button> */
+}
