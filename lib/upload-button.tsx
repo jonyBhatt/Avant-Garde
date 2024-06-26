@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import "@uploadthing/react/styles.css";
 
 interface IUploadButton {
-  endpoint: "imageUploader" | "pdfUploader";
+  endpoint: "imageUploader" | "pdfUploader" | "multiUpload";
   value?: string;
   onChange: (url?: string) => void;
   className?: string;

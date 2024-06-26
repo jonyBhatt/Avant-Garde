@@ -26,6 +26,7 @@ import {
 import { messageSchema } from "@/utils/validation";
 import { useTransition } from "react";
 import { createMessage } from "@/lib/actions/chat/conversation";
+import UploadButton from "@/lib/upload-button";
 
 interface SendMessageFormProps {
   conversationId: string;
@@ -36,6 +37,7 @@ export const SendMessageForm = ({ conversationId }: SendMessageFormProps) => {
     resolver: zodResolver(messageSchema),
     defaultValues: {
       body: "",
+      image: "",
     },
   });
 
@@ -58,20 +60,33 @@ export const SendMessageForm = ({ conversationId }: SendMessageFormProps) => {
           className="space-y-8 flex w-full items-center justify-between"
         >
           <div className="flex items-center gap-8">
-            <Dialog>
-              <DialogTrigger>
-                <Paperclip className="w-5 h-5" />
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Hello</DialogTitle>
-                  <DialogDescription>
-                    This action cannot be undone. This will permanently delete
-                    your account and remove your data from our servers.
-                  </DialogDescription>
-                </DialogHeader>
-              </DialogContent>
-            </Dialog>
+            <FormField
+              control={form.control}
+              name="image"
+              render={({ field }) => (
+                <FormItem className="">
+                  <Dialog>
+                    <DialogTrigger>
+                      <Paperclip className="w-5 h-5" />
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>Send File</DialogTitle>
+                      </DialogHeader>
+                      <FormControl>
+                        <UploadButton
+                          endpoint="multiUpload"
+                          onChange={field.onChange}
+                          value={field.value}
+                        />
+                      </FormControl>
+                    </DialogContent>
+                  </Dialog>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
             <FormField
               control={form.control}

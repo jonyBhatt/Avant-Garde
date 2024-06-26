@@ -66,6 +66,15 @@ export const MessageBox = ({
               <p className="mb-2 break-words mr-20 font-inter">
                 {messages.body}
               </p>
+              {messages.image && (
+                <Image
+                  src={messages.image}
+                  alt="message image"
+                  width={50}
+                  height={50}
+                  className="object-cover"
+                />
+              )}
               <div className="flex justify-end items-center absolute bottom-0 right-0">
                 <p className="text-[11px h-[15px] text-gray-500 font-rubik">
                   {format(new Date(messages.createdAt), "p")}
