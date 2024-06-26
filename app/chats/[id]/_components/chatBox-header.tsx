@@ -1,5 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import useActiveList from "@/hooks/useActiveUser";
 import { Conversation, User } from "@prisma/client";
+import Image from "next/image";
 import React, { useMemo } from "react";
 
 interface ChatBoxHeaderProps {
@@ -16,7 +18,7 @@ export const ChatBoxHeader = ({
   isInCall,
   setIsInCall,
 }: ChatBoxHeaderProps) => {
-  // console.log(conversation);
+  const { members } = useActiveList();
   const chatOwner = conversation.ownerId === currentUserPrisma.id;
   const otherUser = useMemo(() => {
     const user = conversation.users.filter(
@@ -34,6 +36,12 @@ export const ChatBoxHeader = ({
     ? otherUser.firstName
     : currentUserPrisma.firstName;
 
+  const isActive = members.indexOf(otherUser.id) !== -1;
+  const statusCheck = useMemo(
+    () => (isActive ? "/svg/online.svg" : "/svg/offline.svg"),
+    [isActive]
+  );
+
   return (
     <div className="w-full flex items-center justify-between py-4">
       <div className="flex items-center gap-2">
@@ -41,9 +49,16 @@ export const ChatBoxHeader = ({
           <AvatarImage src={imageUrl!} />
           <AvatarFallback>{userName}</AvatarFallback>
         </Avatar>
-        <h2 className="font-rubik text-lg tracking-tight font-bold">
-          {fullName}
-        </h2>
+        <div className="relative">
+          <h2 className="font-rubik text-lg tracking-tight font-bold">
+            {fullName}
+          </h2>
+          <img
+            src={statusCheck}
+            alt="status"
+            className="text-sm text-muted-foreground font-inter tracking-wide absolute -top-3 left-5"
+          />
+        </div>
       </div>
       <div className="flex items-center gap-4">TODO: Call</div>
     </div>
