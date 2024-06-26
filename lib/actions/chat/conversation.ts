@@ -42,6 +42,9 @@ export const getConversationById = async (id: string) => {
       where: {
         id,
       },
+      include: {
+        users: true,
+      },
     });
     return conversation;
   } catch (error) {

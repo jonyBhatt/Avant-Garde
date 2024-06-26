@@ -2,7 +2,7 @@ import {
   getConversationById,
   getMessages,
 } from "@/lib/actions/chat/conversation";
-import { Conversation } from "./_components/conversation";
+import {ConversationComponent } from "./_components/conversation";
 import { SendMessageForm } from "./_components/send-message-form";
 import { getChatUser } from "@/lib/actions/chat/get-chat-current-user";
 import { Separator } from "@/components/ui/separator";
@@ -51,9 +51,9 @@ export default async function ChatRoom({ params }: { params: { id: string } }) {
   return (
     <div className="w-full h-full flex flex-col">
       <div className="flex-grow">
-        <Conversation
+        <ConversationComponent
           initialMessage={fixedMessages}
-          conversationId={conversations.id}
+          conversation={conversations}
           currentUser={currentUserPrisma}
         />
       </div>

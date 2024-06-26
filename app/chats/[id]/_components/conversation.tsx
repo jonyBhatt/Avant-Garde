@@ -1,6 +1,6 @@
 "use client";
 import { FullConversationType, FullMessageType } from "@/utils/types";
-import { User } from "@prisma/client";
+import { Conversation, User } from "@prisma/client";
 import { useEffect, useState } from "react";
 import { MessageBox } from "./meeage-box";
 import { ChatBoxHeader } from "./chatBox-header";
@@ -8,14 +8,17 @@ import { ChatBoxHeader } from "./chatBox-header";
 
 interface ConversationProps {
   initialMessage: FullMessageType[];
-  conversationId: string;
+  conversation: Conversation & {
+    users: User[];
+  };
   currentUser: User;
 }
-export const Conversation = ({
+export const ConversationComponent = ({
   initialMessage,
-  conversationId,
+  conversation,
   currentUser,
 }: ConversationProps) => {
+  const [isInCall, setIsInCall] = useState(false);
   const [messages, setMessages] = useState(initialMessage);
 
   {
@@ -36,7 +39,12 @@ export const Conversation = ({
   // }, [conversationId]);
   return (
     <div className="flex flex-col gap-16">
-      <ChatBoxHeader />
+      <ChatBoxHeader
+        conversation={conversation}
+        currentUserPrisma={currentUser}
+        isInCall={isInCall}
+        setIsInCall={setIsInCall}
+      />
       {messages.map((message, i) => (
         <div key={message.id}>
           <MessageBox
