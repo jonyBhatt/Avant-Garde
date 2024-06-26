@@ -1,8 +1,9 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import useActiveList from "@/hooks/useActiveUser";
 import { Conversation, User } from "@prisma/client";
+import { Phone, PhoneOff } from "lucide-react";
 import Image from "next/image";
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 
 interface ChatBoxHeaderProps {
   conversation: Conversation & {
@@ -60,7 +61,16 @@ export const ChatBoxHeader = ({
           />
         </div>
       </div>
-      <div className="flex items-center gap-4">TODO: Call</div>
+      <div className="flex items-center gap-4">
+        <button
+          onClick={() => setIsInCall(!isInCall)}
+          className={`rounded-xl border border-primary flex items-center justify-center  w-10 h-10 ${
+            isInCall ? "bg-destructive-foreground" : ""
+          }  `}
+        >
+          {isInCall ? <PhoneOff className="text-destructive" /> : <Phone />}
+        </button>
+      </div>
     </div>
   );
 };

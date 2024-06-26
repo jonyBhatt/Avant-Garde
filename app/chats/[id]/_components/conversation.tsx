@@ -4,6 +4,7 @@ import { Conversation, User } from "@prisma/client";
 import { useEffect, useState } from "react";
 import { MessageBox } from "./meeage-box";
 import { ChatBoxHeader } from "./chatBox-header";
+import { MediaRoom } from "./MediaRoom";
 // import { MessageBox } from "./meeage-box";
 
 interface ConversationProps {
@@ -45,15 +46,28 @@ export const ConversationComponent = ({
         isInCall={isInCall}
         setIsInCall={setIsInCall}
       />
-      {messages.map((message, i) => (
-        <div key={message.id}>
-          <MessageBox
-            messages={message}
-            isLast={i === messages.length - 1}
-            currentUser={currentUser}
-          />
-        </div>
-      ))}
+      {!isInCall && (
+        <>
+          {messages.map((message, i) => (
+            <div key={message.id}>
+              <MessageBox
+                messages={message}
+                isLast={i === messages.length - 1}
+                currentUser={currentUser}
+              />
+            </div>
+          ))}
+        </>
+      )}
+
+      {isInCall && (
+        <MediaRoom
+          chatId={conversation.id}
+          audio={true}
+          video={true}
+          currentUser={currentUser}
+        />
+      )}
     </div>
   );
 };
