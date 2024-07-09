@@ -24,9 +24,11 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { messageSchema } from "@/utils/validation";
-import { useTransition } from "react";
+import { useEffect, useTransition } from "react";
 import { createMessage } from "@/lib/actions/chat/conversation";
 import UploadButton from "@/lib/upload-button";
+import { pusherClient } from "@/lib/pusher";
+import { toPusherKey } from "@/lib/utils";
 
 interface SendMessageFormProps {
   conversationId: string;
@@ -52,6 +54,8 @@ export const SendMessageForm = ({ conversationId }: SendMessageFormProps) => {
     });
     form.reset();
   }
+
+
   return (
     <div className="w-full">
       <Form {...form}>

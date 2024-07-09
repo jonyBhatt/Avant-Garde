@@ -1,23 +1,19 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { BsThreeDotsVertical } from "react-icons/bs";
+//@ts-ignore
 
 import { getChatUser } from "@/lib/actions/chat/get-chat-current-user";
-import { ContactDelete } from "./contact-delete-dialoge";
-import Link from "next/link";
 import { ChatLink } from "./ChatLink";
+import { getConversation } from "@/lib/actions/chat/conversation";
+import { FullConversationType } from "@/utils/types";
 
 export default async function Sidebar() {
   const { currentUserPrisma } = await getChatUser();
-  // console.log(currentUserPrisma.conversationId);
+  const conversation = await getConversation();
+  // Check if conversation is of type FullConversationType[]
+
   if (!currentUserPrisma.id) return null;
+  if (!conversation) return null;
+  // console.log(conversation);
+
   return (
     <aside className="w-full overflow-y-auto  border-2 shadow-md shadow-muted rounded-xl h-dvh flex flex-col gap-8 ">
       <h2 className="tracking-wide mx-4 mt-2 text-lg font-semibold font-inter">

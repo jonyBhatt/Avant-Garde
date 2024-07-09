@@ -86,12 +86,15 @@ const ForemShop = async () => {
           </>
         )}
       </div>
-      <div className="flex w-full justify-center items-center">
-        <h2 className="text-center text-4xl font-inter">
-          No product add by you yet! <br />
-          Please add product
-        </h2>
-      </div>
+
+      {products?.product && products.product.length <= 0 && (
+        <div className="flex w-full justify-center items-center">
+          <h2 className="text-center text-4xl font-inter">
+            No product add by you yet! <br />
+            Please add product
+          </h2>
+        </div>
+      )}
 
       <Link
         href={"/mentor-dashboard/forem-store/add"}

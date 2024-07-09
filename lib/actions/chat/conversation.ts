@@ -1,9 +1,11 @@
 "use server";
 import prisma from "@/lib/prisma";
-import { handleError } from "@/lib/utils";
+import { handleError, toPusherKey } from "@/lib/utils";
 import { getChatUser } from "./get-chat-current-user";
 import * as z from "zod";
 import { messageSchema } from "@/utils/validation";
+import { revalidatePath } from "next/cache";
+import { pusherServer } from "@/lib/pusher";
 
 export const getConversation = async () => {
   const { currentUserPrisma } = await getChatUser();
@@ -19,12 +21,7 @@ export const getConversation = async () => {
       },
       include: {
         users: true,
-        message: {
-          include: {
-            seen: true,
-            sender: true,
-          },
-        },
+        message: true,
       },
     });
     return conversation;
@@ -108,6 +105,10 @@ export const createMessage = async (
         seen: true,
       },
     });
+    console.log("pusher triggering");
+
+    pusherServer.trigger(conversationId, "incoming_message", message);
+    // revalidatePath(`/chats/${conversationId}`);
 
     const updateConversation = await prisma.conversation.update({
       where: {

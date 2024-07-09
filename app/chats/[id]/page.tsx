@@ -2,7 +2,7 @@ import {
   getConversationById,
   getMessages,
 } from "@/lib/actions/chat/conversation";
-import {ConversationComponent } from "./_components/conversation";
+import { ConversationComponent } from "./_components/conversation";
 import { SendMessageForm } from "./_components/send-message-form";
 import { getChatUser } from "@/lib/actions/chat/get-chat-current-user";
 import { Separator } from "@/components/ui/separator";
@@ -10,6 +10,7 @@ import { Separator } from "@/components/ui/separator";
 export default async function ChatRoom({ params }: { params: { id: string } }) {
   const { currentUserPrisma } = await getChatUser();
   const conversations = await getConversationById(params.id);
+
   if (conversations === null) {
     // Check if conversations is null
     return (
@@ -47,6 +48,7 @@ export default async function ChatRoom({ params }: { params: { id: string } }) {
   }
 
   const fixedMessages = Array.isArray(messages) ? messages : [];
+  const ownChat = conversations.ownerId === currentUserPrisma.id;
 
   return (
     <div className="w-full h-full flex flex-col">
@@ -55,14 +57,13 @@ export default async function ChatRoom({ params }: { params: { id: string } }) {
           initialMessage={fixedMessages}
           conversation={conversations}
           currentUser={currentUserPrisma}
+          ownChat={ownChat}
         />
       </div>
       <Separator className="my-8" />
-      {conversations.ownerId === currentUserPrisma.id && (
-        <div className="flex-shrink-0">
-          <SendMessageForm conversationId={conversations.id} />
-        </div>
-      )}
+      <div className="flex-shrink-0">
+        <SendMessageForm conversationId={conversations.id} />
+      </div>
     </div>
   );
 }

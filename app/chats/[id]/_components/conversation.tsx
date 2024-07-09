@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { MessageBox } from "./meeage-box";
 import { ChatBoxHeader } from "./chatBox-header";
 import { MediaRoom } from "./MediaRoom";
+import { pusherClient } from "@/lib/pusher";
 // import { MessageBox } from "./meeage-box";
 
 interface ConversationProps {
@@ -13,15 +14,17 @@ interface ConversationProps {
     users: User[];
   };
   currentUser: User;
+  ownChat: boolean;
 }
 export const ConversationComponent = ({
   initialMessage,
   conversation,
   currentUser,
+  ownChat,
 }: ConversationProps) => {
   const [isInCall, setIsInCall] = useState(false);
   const [messages, setMessages] = useState(initialMessage);
-
+  const [items, setItems] = useState(conversation);
   {
     /** On load page message will be seen  */
   }
@@ -38,6 +41,7 @@ export const ConversationComponent = ({
   //   };
   //   seen();
   // }, [conversationId]);
+
   return (
     <div className="flex flex-col gap-16">
       <ChatBoxHeader

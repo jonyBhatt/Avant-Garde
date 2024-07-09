@@ -21,17 +21,28 @@ export const ChatBoxHeader = ({
 }: ChatBoxHeaderProps) => {
   const { members } = useActiveList();
   const chatOwner = conversation.ownerId === currentUserPrisma.id;
+  console.log(chatOwner);
+
   const otherUser = useMemo(() => {
     const user = conversation.users.filter(
       (user) => user.id !== conversation.ownerId
     );
+
     return user[0];
   }, [conversation.users, conversation.ownerId]);
-  // console.log(otherUser[0]);
-  const imageUrl = chatOwner ? otherUser.photo : currentUserPrisma.photo;
+  console.log(otherUser);
+  const imageUrl =
+    currentUserPrisma.followedByIds[0] === currentUserPrisma.id
+      ? otherUser.photo
+      : currentUserPrisma.followingIds[0] === otherUser.id
+      ? currentUserPrisma.photo
+      : null;
+
+  console.log(currentUserPrisma.followedByIds[0]);
+
   const userName = chatOwner
-    ? otherUser.firstName.slice(0, 1).toUpperCase()
-    : currentUserPrisma.firstName.slice(0, 1).toUpperCase();
+    ? currentUserPrisma.firstName.slice(0, 1).toUpperCase()
+    :  otherUser.firstName.slice(0, 1).toUpperCase()
 
   const fullName = chatOwner
     ? otherUser.firstName

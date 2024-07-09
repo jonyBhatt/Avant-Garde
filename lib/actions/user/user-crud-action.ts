@@ -28,7 +28,7 @@ export async function getUserById(clerkId: string) {
         clerkId,
       },
     });
-    console.log(user);
+    // console.log(user);
 
     return { user };
   } catch (error) {
@@ -41,7 +41,7 @@ export async function getUserById(clerkId: string) {
 export async function getStudentById(clerkId: string) {
   try {
     const user = await getUserById(clerkId);
-    console.log(user);
+    // console.log(user);
 
     if (!user.user)
       return {

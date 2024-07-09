@@ -1,5 +1,6 @@
 "use server";
 import prisma from "@/lib/prisma";
+import { pusherServer } from "@/lib/pusher";
 import { handleError } from "@/lib/utils";
 import { auth, currentUser } from "@clerk/nextjs";
 import { User as ClerkUser } from "@clerk/nextjs/server";
@@ -140,7 +141,11 @@ export async function Contacts(value: string, id: string, convoId?: string) {
             ],
           },
         },
+        include: {
+          users: true,
+        },
       });
+
       revalidatePath("/chats");
 
       return user;

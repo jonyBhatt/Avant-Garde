@@ -2,11 +2,15 @@
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import useCart from "@/hooks/UseCart";
+import { customerOrder } from "@/lib/actions/user/order";
 import { Minus, Plus, Trash } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 export default function CartComponent() {
+  const router = useRouter();
   const {
     cartItems,
     clearCart,
@@ -15,9 +19,32 @@ export default function CartComponent() {
     removeItem,
   } = useCart();
 
+  const handleCheckout = async () => {
+    try {
+      const cartData = cartItems.map((cartItem) => ({
+        productId: cartItem.item.id,
+        totalPrice: cartItem.item.priceInCents * cartItem.quantity,
+      }));
+
+      // const res = await customerOrder(cartData);
+      toast.promise(customerOrder(cartData), {
+        loading: "Placing...",
+        success: "Order place successfully",
+        error: "Something went wrong",
+      });
+      router.push("/user-dashboard/forem-store/checkout");
+    } catch (error) {
+      console.error("Error sending cart data to server", error);
+    }
+  };
+
   const grandTotal = cartItems.reduce((acc, cartItem) => {
+    // console.log(typeof cartItem.quantity);
+
     return acc + cartItem.item.priceInCents * cartItem.quantity;
   }, 0);
+  // console.log(typeof grandTotal);
+
   return (
     <div>
       {cartItems.map((cartItem) => (
@@ -76,14 +103,11 @@ export default function CartComponent() {
         <p className="font-semibold text-xl">Estimate total</p>
         <span>Tk {grandTotal}</span>
       </div>
-      <Link
-        href={"/user-dashboard/forem-store/checkout"}
-        className="flex mt-8 items-end justify-end"
-      >
-        <Button size="lg" className=" rounded-full">
+      <div className="flex mt-8 items-end justify-end">
+        <Button size="lg" className=" rounded-full" onClick={handleCheckout}>
           Checkout
         </Button>
-      </Link>
+      </div>
     </div>
   );
 }

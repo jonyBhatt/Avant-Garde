@@ -4,8 +4,10 @@ import { FullMessageType } from "@/utils/types";
 import { User } from "@prisma/client";
 import clsx from "clsx";
 import Image from "next/image";
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { format } from "date-fns";
+import { pusherClient } from "@/lib/pusher";
+import { toPusherKey } from "@/lib/utils";
 
 interface MessageBoxProps {
   messages: FullMessageType;
@@ -17,11 +19,11 @@ export const MessageBox = ({
   isLast,
   currentUser,
 }: MessageBoxProps) => {
-  const ownChat = messages.senderId === currentUser?.id;
+  const [chat, setChat] = useState<FullMessageType[]>();
   // console.log(currentUser?.id);
-
+  const ownChat = messages.senderId === currentUser.id;
   // console.log(ownChat);
-  console.log(messages.seen);
+  // console.log(messages.seen);
 
   const seenList = (messages.seen || []).filter(
     (user) => messages.seen && user.id !== messages.sender.id
@@ -36,12 +38,42 @@ export const MessageBox = ({
     seenInfo = "/svg/sent.svg";
   }
 
+  useEffect(() => {
+    console.log(messages.conversationId);
+
+    pusherClient.subscribe(
+      toPusherKey(`message:${messages.conversationId}:incoming_message`)
+    );
+    console.log(`message:${messages.conversationId}:incoming_message`);
+
+    const newMessages = () => {
+      console.log("Incoming message");
+    };
+    pusherClient.bind("incoming_message", newMessages);
+
+    return () => {
+      pusherClient.unsubscribe(
+        toPusherKey(`message:${messages.conversationId}:incoming_message`)
+      );
+      pusherClient.unbind("incoming_message", newMessages);
+    };
+  }, [messages.conversationId]);
+
+  const bottomRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({
+      behavior: "smooth",
+    });
+  }, []);
+
   return (
     <div
       className={clsx(
         "flex mb-[2px]",
         ownChat && "justify-end items-start relative"
       )}
+      ref={bottomRef}
     >
       <div className={clsx("flex flex-col", ownChat && "items-end")}>
         <div

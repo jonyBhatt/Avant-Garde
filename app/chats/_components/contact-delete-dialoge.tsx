@@ -24,7 +24,7 @@ export const ContactDelete = ({
   console.log(conversationId);
 
   const Contact = async (value: string, id: string) => {
-    console.log(value, id);
+    // console.log(value, id);
 
     try {
       if (value === "delete") {

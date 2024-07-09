@@ -6,13 +6,20 @@ import Link from "next/link";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { ContactDelete } from "./contact-delete-dialoge";
 import { usePathname } from "next/navigation";
+import { FullConversationType } from "@/utils/types";
+import { useEffect, useState } from "react";
+import { find } from "lodash";
+import { pusherClient } from "@/lib/pusher";
 
 interface ChatLinkProps {
   key: string;
   user: User;
 }
 export const ChatLink = ({ user }: ChatLinkProps) => {
+  // console.log(conversation);
+
   const pathname = usePathname();
+
   return (
     <div
       key={user.id}
