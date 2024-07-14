@@ -18,10 +18,12 @@ const JobCompanyDescription = ({
   job_desc,
   com_desc,
   id,
+  role,
 }: {
   job_desc: string;
   com_desc?: string;
   id: string;
+  role?: string; // "mentor" or "admin"
 }) => {
   const pathname = usePathname();
   const modifyPath = pathname.slice(0, 15);
@@ -82,7 +84,7 @@ const JobCompanyDescription = ({
                   <Dialog>
                     <DialogTrigger asChild>
                       <Button size={"lg"} className="rounded-[8px]">
-                        Update
+                        {role === "ADMIN" ? "Publish" : "Update"}
                       </Button>
                     </DialogTrigger>
                     <DialogContent>

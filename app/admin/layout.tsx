@@ -13,9 +13,9 @@ export default async function AdminLayout({
     return redirect("/");
   }
   return (
-    <div className="flex   bg-[#161616]">
+    <div className="flex bg-[#161616]">
       <Sidebar user={currentUserPrisma} />
-      {children}
+      <div className="flex-1 h-svh overflow-y-auto  p-6">{children}</div>
     </div>
   );
 }

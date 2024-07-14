@@ -14,7 +14,7 @@ const Onboard = async () => {
       ? redirect("/user-dashboard")
       : user.user.role === "MENTOR"
       ? redirect("/mentor-dashboard")
-      : redirect("/admin-dashboard");
+      : redirect("/admin");
   }
 
   return (
